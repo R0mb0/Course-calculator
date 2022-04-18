@@ -3,7 +3,7 @@ import GHC.Float
 import GHC.Num
 
 {-****Defining the Functions to work with detection****-}
-
+            
 {- Split the longitude string part-}
 spl :: String -> String 
 spl = drop 17 
@@ -19,12 +19,14 @@ getLongitude st = (head (spl st), read(take 2 (drop 2 (spl st))) :: Int, read(dr
 {-Verify if the latitude & the longitude are real-}
 verify :: (Char, Int, Int, Float) -> Bool 
 verify (s, x, y, z) 
-                    | x < 0 && x > 90 && y < 0 && y > 59 && z < 0 && z > 59 = False 
+                    | x < 0 && x > 90 && y < 0 && y > 59 && z < 0 && z > 59 = error ("Wrong Degrees or Prime or Latter in: " ++ pt ) 
                     | s == 'N' = True
                     | s == 'S' = True 
                     | s == 'E' = True
                     | s == 'W' = True 
-                    | otherwise = False 
+                    | otherwise = error ("Wrong Sign in: " ++ pt) 
+                    where 
+                        pt = show s ++ show x ++ show y ++ show z
      
 {-Convert the coordinate in decimal format-}
 convertToDecimal :: (Char, Int, Int , Float ) -> Double  
