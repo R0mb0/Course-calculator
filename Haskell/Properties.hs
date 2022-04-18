@@ -21,6 +21,8 @@ distance detA detB = eartRadius * acos(sin lat1 * sin lat2 + cos lat1 * cos lat2
  - Δlon = abs( lonA - lonB ) 
  - direction :  θ = atan2( Δlon ,  Δφ )-}
 
+{-**Directions**-}
+
 {-Defining the first part of formula-}
 phi :: [Double] -> [Double] -> Double 
 phi detA detB = log(tan(lat2 / 2 + pi / 4) / tan(lat1 / 2 + pi / 4))

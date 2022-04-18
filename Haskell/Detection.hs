@@ -16,8 +16,9 @@ getLatitude st = (head st, read(take 2 (drop 2 st)) :: Int, read(drop 5 (take 7 
 getLongitude :: String -> (Char, Int, Int, Float)
 getLongitude st = (head (spl st), read(take 2 (drop 2 (spl st))) :: Int, read(drop 5 (take 7 (spl st))) :: Int, read(drop 8 (take 14 (spl st))) :: Float)
 
-{-Verify if the latitude & the longitude are real-}
+{-**Verify if the latitude & the longitude are real**-}
 
+{-Verify the coordinates body-}
 verDetBody :: (Char, Int, Int, Float) -> Bool
 verDetBody (s, x, y, z)
                      | x < 0 && x > 90 = error ("Wrong Degrees or Prime or Latter in: " ++ pt )
@@ -27,6 +28,7 @@ verDetBody (s, x, y, z)
                      where
                           pt = show s ++ show x ++ show y ++ show z
 
+{-Verify Latitude-}
 verifyLat :: (Char, Int, Int, Float) -> Bool 
 verifyLat (s, x, y, z)  
                     | verDetBody (s,x,y,z) && s == 'N' = True
@@ -35,6 +37,7 @@ verifyLat (s, x, y, z)
                     where 
                         pt = show s ++ show x ++ show y ++ show z
 
+{-Verify Longitude-}
 verifyLon :: (Char, Int, Int, Float) -> Bool 
 verifyLon (s, x, y, z)  
                     | verDetBody (s,x,y,z) && s == 'E' = True
