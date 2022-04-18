@@ -17,12 +17,27 @@ getLongitude :: String -> (Char, Int, Int, Float)
 getLongitude st = (head (spl st), read(take 2 (drop 2 (spl st))) :: Int, read(drop 5 (take 7 (spl st))) :: Int, read(drop 8 (take 14 (spl st))) :: Float)
 
 {-Verify if the latitude & the longitude are real-}
-verify :: (Char, Int, Int, Float) -> Bool 
-verify (s, x, y, z) 
-                    | x < 0 && x > 90 && y < 0 && y > 59 && z < 0 && z > 59 = error ("Wrong Degrees or Prime or Latter in: " ++ pt ) 
-                    | s == 'N' = True
+
+verDetBody :: (Char, Int, Int, Float) -> Bool
+verDetBody (s, x, y, z)
+                     | x < 0 && x > 90 = error ("Wrong Degrees or Prime or Latter in: " ++ pt )
+                     | y < 0 && y > 59 = error ("Wrong Degrees or Prime or Latter in: " ++ pt )
+                     | z < 0 && z > 59 = error ("Wrong Degrees or Prime or Latter in: " ++ pt )
+                     | otherwise = True 
+                     where
+                          pt = show s ++ show x ++ show y ++ show z
+
+verifyLat :: (Char, Int, Int, Float) -> Bool 
+verifyLat (s, x, y, z)  
+                    | verDetBody (s,x,y,z) && s == 'N' = True
                     | s == 'S' = True 
-                    | s == 'E' = True
+                    | otherwise = error ("Wrong Sign in: " ++ pt) 
+                    where 
+                        pt = show s ++ show x ++ show y ++ show z
+
+verifyLon :: (Char, Int, Int, Float) -> Bool 
+verifyLon (s, x, y, z)  
+                    | verDetBody (s,x,y,z) && s == 'E' = True
                     | s == 'W' = True 
                     | otherwise = error ("Wrong Sign in: " ++ pt) 
                     where 
@@ -41,6 +56,6 @@ merge lat long = [lat, long]
 {-Functions to get from the input string the decimal point-}
 getPoint :: String -> [Double]
 getPoint st = 
-    if verify (getLatitude st) && verify (getLongitude st) 
+    if verifyLat (getLatitude st) && verifyLon (getLongitude st) 
         then merge (convertToDecimal(getLatitude st)) (convertToDecimal(getLongitude st))
         else []
