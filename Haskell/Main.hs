@@ -5,15 +5,15 @@ import Tools
 printInfo :: String -> String -> IO ()
 printInfo det1 det2 = do
     putStr "First Detection in Decimal Format ---> "
-    putStrLn (show (round6dp (head (getPoint det1)))++ "," ++ show (round6dp (getPoint det1 !! 1)))
+    putStrLn (show (round5dp (head (getPoint det1)))++ "," ++ show (round5dp (getPoint det1 !! 1)))
     putStr "Second Detection in Decimal Format ---> "
-    putStrLn (show (round6dp (head (getPoint det2)))++ "," ++ show (round6dp (getPoint det2 !! 1)))
+    putStrLn (show (round5dp (head (getPoint det2)))++ "," ++ show (round5dp (getPoint det2 !! 1)))
     putStr "Distance between First & Second Detections ---> "
-    putStrLn (show (round (distance (getPoint det1) (getPoint det2)) :: Integer) ++ "Km")
+    putStrLn (show (round2dp (distance (getPoint det1) (getPoint det2))) ++ "Km")
     putStr "Positive direction between First & Second Detections ---> "
-    putStrLn (show (round (direction (getPoint det1) (getPoint det2)) :: Integer) ++ "°")
+    putStrLn (show (round2dp(direction (getPoint det1) (getPoint det2))) ++ "°")
     putStr "Negative direction between First & Second Detections ---> "
-    putStrLn (show (round (invDirection (getPoint det1) (getPoint det2)) :: Integer) ++ "°")
+    putStrLn (show (round2dp(invDirection (getPoint det1) (getPoint det2))) ++ "°")
     
 main :: IO ()
 main = do

@@ -21,12 +21,12 @@ getLongitude st = (head (spl st), read(take 2 (drop 2 (spl st))) :: Int, read(dr
 {-Verify the coordinates body-}
 verDetBody :: (Char, Int, Int, Float) -> Bool
 verDetBody (s, x, y, z)
-                     | x < 0 && x > 90 = error ("Wrong Degrees or Prime or Latter in: " ++ pt )
-                     | y < 0 && y > 59 = error ("Wrong Degrees or Prime or Latter in: " ++ pt )
-                     | z < 0 && z > 59 = error ("Wrong Degrees or Prime or Latter in: " ++ pt )
+                     | x < 0 || x > 89 = error ("Wrong Degrees in: " ++ pt)
+                     | y < 0 || y > 59 = error ("Wrong Prime in: " ++ pt)
+                     | z < 0 || z > 59 = error ("Wrong Latter in: " ++ pt)
                      | otherwise = True 
                      where
-                          pt = show s ++ show x ++ show y ++ show z
+                          pt = " " ++ show s ++ " " ++ show x ++ " " ++ show y++ " " ++ show z
 
 {-Verify Latitude-}
 verifyLat :: (Char, Int, Int, Float) -> Bool 
@@ -35,7 +35,7 @@ verifyLat (s, x, y, z)
                     | s == 'S' = True 
                     | otherwise = error ("Wrong Sign in: " ++ pt) 
                     where 
-                        pt = show s ++ show x ++ show y ++ show z
+                        pt = " " ++ show s ++ " " ++ show x ++ " " ++ show y++ " " ++ show z
 
 {-Verify Longitude-}
 verifyLon :: (Char, Int, Int, Float) -> Bool 
@@ -44,7 +44,7 @@ verifyLon (s, x, y, z)
                     | s == 'W' = True 
                     | otherwise = error ("Wrong Sign in: " ++ pt) 
                     where 
-                        pt = show s ++ show x ++ show y ++ show z
+                        pt = " " ++ show s ++ " " ++ show x ++ " " ++ show y++ " " ++ show z
      
 {-Convert the coordinate in decimal format-}
 convertToDecimal :: (Char, Int, Int , Float ) -> Double  

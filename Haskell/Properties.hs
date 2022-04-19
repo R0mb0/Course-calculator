@@ -10,10 +10,12 @@ eartRadius = 6372.795477598
  -Formula implemented:
  -distance (A,B) = R * arccos(sin(latA) * sin(latB) + cos(latA) * cos(latB) * cos(lonA-lonB))-}
 distance :: [Double] -> [Double] -> Double 
-distance detA detB = eartRadius * acos(sin lat1 * sin lat2 + cos lat1 * cos lat2 * cos(lat1 * pi / 180)) 
+distance detA detB = eartRadius * acos (sin latA * sin latB + cos latA * cos latB * cos((lonA - lonB) * pi / 180))
     where
-    lat1 = head detA * pi / 180
-    lat2 = head detB * pi / 180
+    latA = head detA * pi / 180
+    latB = head detB * pi / 180
+    lonA = detA !! 1
+    lonB = detB !! 1
 
 {-Calculate the directions between two detections
  - Formula Implemented: 
@@ -25,10 +27,12 @@ distance detA detB = eartRadius * acos(sin lat1 * sin lat2 + cos lat1 * cos lat2
 
 {-Defining the first part of formula-}
 phi :: [Double] -> [Double] -> Double 
-phi detA detB = log(tan(lat2 / 2 + pi / 4) / tan(lat1 / 2 + pi / 4))
+phi detA detB 
+             |head detA == head detB = pi / 180 * 0.000000001
+             |otherwise = log(tan(latB / 2 + pi / 4) / tan(latA / 2 + pi / 4))
     where
-        lat1 = head detA * pi / 180
-        lat2 = head detB * pi / 180
+        latA = head detA * pi / 180
+        latB = head detB * pi / 180
 
 {-Defining a lon nomralizer-}
 verLon :: Double -> Double 
@@ -38,7 +42,9 @@ verLon val
 
 {-Defining the second part of formula-}
 lon :: [Double] -> [Double] -> Double
-lon detA detB = verLon(abs(detA !! 1 - detB !! 1)) 
+lon detA detB
+             | detA !! 1 == detB !! 1 = pi / 180 * 0.000000001
+             | otherwise = verLon(abs(detA !! 1 - detB !! 1)) 
 
 {-Defining directions calculator-}
 direction :: [Double] -> [Double] -> Double 
