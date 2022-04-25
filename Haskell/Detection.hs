@@ -5,8 +5,8 @@ import GHC.Num
 {-****Defining the Functions to work with detection****-}
             
 {- Split the longitude string part-}
-spl :: String -> String 
-spl = drop 17 
+split :: String -> String 
+split = drop 17 
 
 {-Get the latitude tupla from the string-}
 getLatitude :: String -> (Char, Int, Int, Float)
@@ -14,7 +14,7 @@ getLatitude st = (head st, read(take 2 (drop 2 st)) :: Int, read(drop 5 (take 7 
 
 {-Get the longitude tupla from the string-}
 getLongitude :: String -> (Char, Int, Int, Float)
-getLongitude st = (head (spl st), read(take 2 (drop 2 (spl st))) :: Int, read(drop 5 (take 7 (spl st))) :: Int, read(drop 8 (take 14 (spl st))) :: Float)
+getLongitude st = (head (split st), read(take 2 (drop 2 (split st))) :: Int, read(drop 5 (take 7 (split st))) :: Int, read(drop 8 (take 14 (split st))) :: Float)
 
 {-**Verify if the latitude & the longitude are real**-}
 
