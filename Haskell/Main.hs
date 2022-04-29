@@ -27,8 +27,7 @@ main = do
     verStr det2
     putStrLn "Proceed [Y/n] ?"
     answ <- getChar 
-    {-In way to press enter-}
-    getLine 
+    getLine {-In way to press enter-}
     if answ  == 'Y'
         then printInfo det1 det2
         else putStrLn "Aborted..."
