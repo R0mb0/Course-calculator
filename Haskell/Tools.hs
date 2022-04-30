@@ -10,6 +10,7 @@ round2dp x = fromIntegral (round $ x * 1e2) / 1e2
 
 {-A function to verify if the string had the correct length-}
 verStr :: String -> IO ( ) 
+verStr [] = error "Null Argument"
 verStr str
           | length str == 31 = putStr ""
           | otherwise = error "Bad Detection"
