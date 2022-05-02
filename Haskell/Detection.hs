@@ -12,14 +12,14 @@ split = drop 17
 getLatitude :: String -> (Char, Int, Int, Float)
 getLatitude [] = error "Null Argument"
 getLatitude st
-              | length st < 31 || length st > 31 = error "Invalid Argument"
+              | length st < 31 || length st > 31 = error ("Invalid Argument: " ++ st)
               | otherwise = (head st, read(take 2 (drop 2 st)) :: Int, read(drop 5 (take 7 st)) :: Int, read(drop 8 (take 14 st)) :: Float)
 
 {-Get the longitude tupla from the string-}
 getLongitude :: String -> (Char, Int, Int, Float)
 getLongitude [] = error "Null Argument"
 getLongitude st
-               | length st < 31 || length st > 31 = error "Invalid Argument"
+               | length st < 31 || length st > 31 = error ("Invalid Argument: " ++ st)
                | otherwise = (head (split st), read(take 2 (drop 2 (split st))) :: Int, read(drop 5 (take 7 (split st))) :: Int, read(drop 8 (take 14 (split st))) :: Float)
 
 {-**Verify if the latitude & the longitude are real**-}
@@ -66,7 +66,7 @@ merge lat long = [lat, long]
 getPoint :: String -> [Double]
 getPoint [] = error "Null Argument"
 getPoint st
-           | length st < 31 || length st > 31 = error "Invalid Argument"
+           | length st < 31 || length st > 31 = error ("Invalid Argument: " ++ st)
            | otherwise = 
                          if verifyLat (getLatitude st) && verifyLon (getLongitude st) 
                          then merge (convertToDecimal(getLatitude st)) (convertToDecimal(getLongitude st))

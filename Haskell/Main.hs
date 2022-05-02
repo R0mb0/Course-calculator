@@ -6,8 +6,8 @@ printInfo :: String -> String -> IO ()
 printInfo [] [_] = error "The First Argument Is Null"
 printInfo [_] [] = error "The Second Argument Is Null"
 printInfo detA detB
-                   | length detA < 31 || length detA > 31 = error "The First Argument Is Invalid"
-                   | length detB < 31 || length detB > 31 = error "The Second Argument Is Invalid"
+                   | length detA < 31 || length detA > 31 = error ("Invalid Argument: " ++ detA)
+                   | length detB < 31 || length detB > 31 = error ("Invalid Argument: " ++ detB)
                    |otherwise = do
     putStr "First Detection in Decimal Format ---> "
     putStrLn (show (round5dp (head (getPoint detA)))++ "," ++ show (round5dp (getPoint detA !! 1)))
@@ -22,14 +22,12 @@ printInfo detA detB
     
 main :: IO ()
 main = do
-    putStrLn "Detections Properties Calculator V1.0 \n Waring: The Detections must be in D.M.G \
+    putStrLn "Detections Properties Calculator V1.0 \nWaring: The Detections must be in D.M.G \
     \format and inserted into the program like: N 40 45 36.000 - E 73 59 2.400"
     putStrLn "Insert the First Detection..."
     detA <- getLine
-    verStr detA
     putStrLn "Insert the Second Detection..."
     detB <- getLine 
-    verStr detB
     putStrLn "Proceed [Y/n] ?"
     answ <- getChar 
     getLine {-In way to press enter-}
