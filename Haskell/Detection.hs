@@ -28,8 +28,8 @@ getLongitude st
 verDetBody :: (Char, Int, Int, Float) -> Bool
 verDetBody (s, x, y, z)
                        | x < 0 || x > 89 = error ("Wrong Degrees in: " ++ pt)
-                       | y < 0 || y > 59 = error ("Wrong Prime in: " ++ pt)
-                       | z < 0 || z > 59 = error ("Wrong Latter in: " ++ pt)
+                       | y < 0 || y > 59 = error ("Wrong Primes in: " ++ pt)
+                       | z < 0 || z > 59 = error ("Wrong Latters in: " ++ pt)
                        | otherwise = True 
                        where
                            pt = " " ++ show s ++ " " ++ show x ++ " " ++ show y++ " " ++ show z
