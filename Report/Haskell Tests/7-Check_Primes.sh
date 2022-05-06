@@ -7,6 +7,6 @@ N 43 -4 16.000 - E 12 54 30.000
 Proceed [Y/n] ?
 Y
 First Detection in Decimal Format ---> 43.90472,12.91111
-Second Detection in Decimal Format ---> *** Exception: Wrong Prime in:  'N' 43 -4 16.0
+Second Detection in Decimal Format ---> *** Exception: Wrong Primes in:  'N' 43 -4 16.0
 CallStack (from HasCallStack):
   error, called at ./Detection.hs:25:42 in main:Detection

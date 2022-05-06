@@ -5,11 +5,6 @@
 
 /***** List Tools Module *****/
 
-test(A, B, R) :-
-    write(A),nl,
-    write(B),nl,
-    R is 1.
-
 /** Like the index Function in Haskell **/
 index(0, [X], X).
 index(0, [H|_], H).
@@ -117,10 +112,21 @@ verify_primes(Num, Rb) :-
         )
     ).
 
+check_sign(Lt, Rn) :-
+    (Lt == 'S' ->
+        Rn = (-1)
+    ; 
+        (Lt == 'W' -> 
+            Rn = (-1)
+        ;
+            Rn = 1
+        )
+    ).
+
 split(Lst, Flst) :-
     drop(17, Lst, Flst).
 
-getLatitude(Lst, Flst) :-
+get_latitude(Lst, Flst) :-
     verify_lenght(Lst, N),
     ( N == 0 ->
         throw(error(invalid_argument, getLatitude/2))
@@ -138,7 +144,7 @@ getLatitude(Lst, Flst) :-
         Flst = [Sign, Degrees, Primes, Latters]
     ).
 
-getLongitude(Lst, Flst) :-
+get_longitude(Lst, Flst) :-
     verify_lenght(Lst, N),
     ( N == 0 ->
         throw(error(invalid_argument, getLongitude/2))
@@ -186,7 +192,8 @@ verify_latitude(Lst, Rb) :-
         (A == 'S' -> 
             Rb = 1
         ;
-        throw(error(wrong_sign, verify_latitude/2))
+        /*throw(error(wrong_sign, verify_latitude/2))*/
+        Rb = 0
         )
     ).
 
@@ -198,13 +205,119 @@ verify_longitude(Lst, Rb) :-
         (A == 'W' -> 
             Rb = 1
         ;
-        throw(error(wrong_sign, verify_longitude/2))
+        /*throw(error(wrong_sign, verify_longitude/2))*/
+        Rb = 0
         )
     ).
+
+convert_to_decimal(Lst, Num) :-
+    index(0, Lst, Sign),
+    check_sign(Sign, Sign1),
+    index(1, Lst, Degrees),
+    index(2, Lst, Primes),
+    index(3, Lst, Latters),
+    A is Latters / 60,
+    B is Primes + A,
+    C is B / 60,
+    D is C + Degrees,
+    Num is D * Sign1.
+
+merge_coordinates(Num1, Num2, Flst) :-
+    Flst = [Num1, Num2].
+
+get_point(Lst, Flst) :-
+    get_latitude(Lst, Latitude),
+    verify_latitude(Latitude, B1),
+    get_longitude(Lst, Longitude),
+    verify_longitude(Longitude, B2),
+    (B1 == 0 ->
+        throw(error(wrong_latitude, get_point/2))
+    ;
+        (B2 == 0 ->
+            throw(error(wrong_longitude, get_point/2))
+        ;
+            convert_to_decimal(Latitude, Dlatitude),
+            convert_to_decimal(Longitude, Dlongitude),
+            merge_coordinates(Dlatitude, Dlongitude, Flst)
+        )
+    ).
+    
+/***** End *****/
+
+/***** Properties Module *****/
+
+distance(Lst1, Lst2, Rn) :-
+    index(0,Lst1,Lat1),
+    index(1,Lst1,Long1),
+    index(0,Lst2,Lat2),
+    index(1,Lst2,Long2),
+    A is Long1 - Long2,
+    B is cos(A),
+    C is cos(Lat2),
+    D is cos(Lat1),
+    E is B * C * D,
+    F is sin(Lat2),
+    G is sin(Lat1),
+    H is F * G,
+    I is H + E,
+    L is acos(I),
+    Rn is L * 6372.795477598.
+    
+
+
+direction(Lst1, Lst2, Rn) :-
+    index(0,Lst1,Lat1),
+    index(1,Lst1,Long1),
+    index(0,Lst2,Lat2),
+    index(1,Lst2,Long2),
+    (Lat2 == Lat1 ->
+        A is pi / 180,
+        Phi is A * 0.000000001
+    ;
+        
+        B is pi / 4,
+        C is Lat1 / 2,
+        D is B + C,
+        E is tan(D),
+        F is Lat2 / 2,
+        G is B + F,
+        H is tan(G),
+        I is H / E,
+        Z is abs(I),/*<---- Issues*/
+        Phi is log10(Z)
+    ),
+    (Long2 == Long1 ->
+        Lon is Phi
+    ;
+        L is Long1 - Long2,
+        M is abs(L),
+        O is pi / 180,
+        N is O * M, /*<---- Issues*/
+        (N > 180 ->
+            Lon is N mod 180
+        ;
+        Lon = N
+        )
+    ),
+    Rn is atan2(Lon, Phi).
+    
+inverse_direction(Lst1, Lst2, Rn) :-
+    direction(Lst1, Lst2, A),
+    Rn is A + 180.
+/***** End *****/
+
+/***** Tools Module *****/
+/*round_n(D,Num,Rnum) :- 
+
+    Num1 is Num * 10^D, <----- Issues
+    Num2 is round(Num1), 
+    nl, write('chiamata da round'), nl,
+    write(Num2), nl,
+    Rnum is Num2 / 10^D.*/
 /***** End *****/
 
 /***** Main & Main Util *****/
-/*main :-
+main :-
     write('Detections Properties Calculator V1.0'), nl,
     write('Waring: The Detections must be in D.M.G format and inserted into the program like: N 40 45 36.000 - E 73 59 2.400'), nl,
     write('Insert the First Detection...'), nl,
@@ -213,21 +326,34 @@ verify_longitude(Lst, Rb) :-
     write('Insert the Second Detection...'), nl,
     read(B),
     atom_chars(B, Det2),
-    write('---> First Detection Inserted:'), nl,
-    write(Det1), nl,
-    write('---> Second Detection Inserted:'), nl,
-    write(Det2).*/
-
-main :- 
-    write('Insert a string...'), nl,
-    read(A), nl,
-    atom_chars(A, Lst),
-    /*write('Insert index...'), nl,
-    read(Index), nl,*/
-    getLatitude(Lst, Remain),
-    getLongitude(Lst, Remain1),
-    write(Remain),
-    write(Remain1).
-
+    write('Proceed [yes./n.]?'), nl,
+    read(C),
+    (C == 'yes' ->
+        write('First Detection in Decimal Format ---> '),
+        get_point(Det1, P1),
+        index(0, P1, Dlat1),
+        index(1, P1, Dlong1),
+        /*round_n(3, Dlat1, Rdlat1), <----- Issues
+        round_n(3, Dlong1, Rdlong1),*/
+        write(Dlat1), write(','), write(Dlong1), nl,
+        write('Second Detection in Decimal Format ---> '),
+        get_point(Det2, P2),
+        index(0, P2, Dlat2),
+        index(1, P2, Dlong2),
+      /*round_n(3, Dlat2, Rdlat2), <----- Issues
+        round_n(3, Dlong2, Rdlong2),*/
+        write(Dlat2), write(','), write(Dlong2), nl,
+        write('Distance between First & Second Detections ---> '),
+        distance(P1, P2, Distance),
+        write(Distance), write('Km'), nl,
+        write('Positive direction between First & Second Detections ---> '),
+        direction(P1, P2, Direction),
+        write(Direction), write('°'), nl,
+        write('Negative direction between First & Second Detections ---> '),
+        inverse_direction(P1, P2, InverseDir),
+        write(InverseDir), write('°')
+    ;
+        write('Aborted...')
+    ).
 
 /***** End *****/
