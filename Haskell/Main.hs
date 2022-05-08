@@ -28,7 +28,7 @@ main = do
     detA <- getLine
     putStrLn "Insert the Second Detection..."
     detB <- getLine 
-    putStrLn "Proceed [Y/n]?"
+    putStrLn "Proceed [Y/n] ?"
     answ <- getChar 
     getLine {-In way to press enter-}
     if answ  == 'Y'

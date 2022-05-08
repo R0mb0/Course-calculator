@@ -251,17 +251,21 @@ distance(Lst1, Lst2, Rn) :-
     index(1,Lst1,Long1),
     index(0,Lst2,Lat2),
     index(1,Lst2,Long2),
-    A is Long1 - Long2,
-    B is cos(A),
-    C is cos(Lat2),
-    D is cos(Lat1),
-    E is B * C * D,
-    F is sin(Lat2),
-    G is sin(Lat1),
-    H is F * G,
-    I is H + E,
-    L is acos(I),
-    Rn is L * 6372.795477598.
+    A is pi / 180,
+    B is Long1 - Long2,
+    C is B * A,
+    D is cos(C),
+    Lat1n is Lat1 * A,
+    Lat2n is Lat2 * A,
+    E is cos(Lat2n),
+    F is cos(Lat1n),
+    G is D * E * F,
+    H is sin(Lat2n),
+    I is sin(Lat1n),
+    L is H * I,
+    M is L + G,
+    N is acos(M),
+    Rn is 6372.795477598 * N.
     
 
 
@@ -270,50 +274,42 @@ direction(Lst1, Lst2, Rn) :-
     index(1,Lst1,Long1),
     index(0,Lst2,Lat2),
     index(1,Lst2,Long2),
-    (Lat2 == Lat1 ->
-        A is pi / 180,
-        Phi is A * 0.000000001
+    A is pi / 180,
+    Lat1n is Lat1 * A,
+    Lat2n is Lat2 * A,
+    (Lat2 == Lat1 -> 
+        Phi is pi / 180 * 0.000000001
     ;
-        
         B is pi / 4,
-        C is Lat1 / 2,
-        D is B + C,
+        C is Lat1n / 2,
+        D is C + B,
         E is tan(D),
-        F is Lat2 / 2,
-        G is B + F,
+        F is Lat2n / 2,
+        G is F + B,
         H is tan(G),
         I is H / E,
-        Z is abs(I),/*<---- Issues*/
-        Phi is log10(Z)
+        Phi is log(I)
+        
     ),
     (Long2 == Long1 ->
-        Lon is Phi
+        Lon is pi / 180 * 0.000000001
     ;
         L is Long1 - Long2,
-        M is abs(L),
-        O is pi / 180,
-        N is O * M, /*<---- Issues*/
-        (N > 180 ->
+        M is abs(L), 
+        N is M * A,
+        (N > 180 -> 
             Lon is N mod 180
         ;
-        Lon = N
+            Lon = N
         )
     ),
-    Rn is atan2(Lon, Phi).
+    O is abs(Phi),
+    P is atan2(Lon, O),
+    Rn is P / pi * 180.
     
 inverse_direction(Lst1, Lst2, Rn) :-
     direction(Lst1, Lst2, A),
     Rn is A + 180.
-/***** End *****/
-
-/***** Tools Module *****/
-/*round_n(D,Num,Rnum) :- 
-
-    Num1 is Num * 10^D, <----- Issues
-    Num2 is round(Num1), 
-    nl, write('chiamata da round'), nl,
-    write(Num2), nl,
-    Rnum is Num2 / 10^D.*/
 /***** End *****/
 
 /***** Main & Main Util *****/
@@ -333,25 +329,21 @@ main :-
         get_point(Det1, P1),
         index(0, P1, Dlat1),
         index(1, P1, Dlong1),
-        /*round_n(3, Dlat1, Rdlat1), <----- Issues
-        round_n(3, Dlong1, Rdlong1),*/
-        write(Dlat1), write(','), write(Dlong1), nl,
+        format('~3f', [Dlat1]), write(','), format('~3f', [Dlong1]), nl,
         write('Second Detection in Decimal Format ---> '),
         get_point(Det2, P2),
         index(0, P2, Dlat2),
         index(1, P2, Dlong2),
-      /*round_n(3, Dlat2, Rdlat2), <----- Issues
-        round_n(3, Dlong2, Rdlong2),*/
-        write(Dlat2), write(','), write(Dlong2), nl,
+        format('~3f', [Dlat2]), write(','), format('~3f', [Dlong2]), nl,
         write('Distance between First & Second Detections ---> '),
         distance(P1, P2, Distance),
-        write(Distance), write('Km'), nl,
+        format('~2f', [Distance]), write('Km'), nl,
         write('Positive direction between First & Second Detections ---> '),
         direction(P1, P2, Direction),
-        write(Direction), write('°'), nl,
+        format('~2f', [Direction]), write('°'), nl,
         write('Negative direction between First & Second Detections ---> '),
         inverse_direction(P1, P2, InverseDir),
-        write(InverseDir), write('°')
+        format('~2f', [InverseDir]), write('°')
     ;
         write('Aborted...')
     ).
