@@ -1,6 +1,3 @@
-/*****  *****/
-/**  **/
-
 /*Modules aren't officially poirtate*/
 
 /***** List Tools Module *****/
@@ -66,7 +63,7 @@ take(N, Lst, Flst):-
         remove_from_tail(N1, Lst, Flst)
     ).
     
-/** Like the last Function in Haskell, but in this case returns N elements from the end of list **/
+/** Like the "last" Function in Haskell, but in this case returns N elements from the end of list **/
 lastN(N, Lst, Flst):-
     (N < 0 ->
         throw(error(negative_parameter, lastN/3))
@@ -78,6 +75,8 @@ lastN(N, Lst, Flst):-
 /***** End *****/
 
 /***** Detection Module *****/
+
+/** Verifing the Lenght of the Detections String **/
 verify_lenght(Lst, Rb) :-
     length(Lst, N),
     (N < 31 -> 
@@ -90,6 +89,7 @@ verify_lenght(Lst, Rb) :-
         )
     ).
 
+/** Verifing if the Degrees of detections are Real **/
 verify_degrees(Num, Rb) :-
     (Num < 0 -> 
         Rb = 0
@@ -101,6 +101,7 @@ verify_degrees(Num, Rb) :-
         )
     ).
 
+/** Verifing if the Primes & Latters of detections are Real **/
 verify_primes(Num, Rb) :-
     (Num < 0 -> 
         Rb = 0
@@ -112,6 +113,7 @@ verify_primes(Num, Rb) :-
         )
     ).
 
+/** Verifing if the Sign of detections is Valid **/
 check_sign(Lt, Rn) :-
     (Lt == 'S' ->
         Rn = (-1)
@@ -123,6 +125,7 @@ check_sign(Lt, Rn) :-
         )
     ).
 
+/** Get the Longite part from the Detections string **/
 split(Lst, Flst) :-
     drop(17, Lst, Flst).
 
@@ -322,7 +325,7 @@ main :-
     write('Insert the Second Detection...'), nl,
     read(B),
     atom_chars(B, Det2),
-    write('Proceed [yes./n.]?'), nl,
+    write('Proceed [yes./no.]?'), nl,
     read(C),
     (C == 'yes' ->
         write('First Detection in Decimal Format ---> '),

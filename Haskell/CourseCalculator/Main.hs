@@ -2,6 +2,9 @@ import Detection
 import Properties
 import Tools
 
+{- A Function to Print the Course properties.
+-> Input: The Strings of the two Detections Required from the Main.
+-> Output: Print the Course properties.-}
 printInfo :: String -> String -> IO ()
 printInfo [] [_] = error "The First Argument Is Null"
 printInfo [_] [] = error "The Second Argument Is Null"
@@ -16,9 +19,9 @@ printInfo detA detB
     putStr "Distance between First & Second Detections ---> "
     putStrLn (show (round2dp (distance (getPoint detA) (getPoint detB))) ++ "Km")
     putStr "Positive direction between First & Second Detections ---> "
-    putStrLn (show (round2dp(direction (getPoint detA) (getPoint detB))) ++ "°")
+    putStrLn (show (round2dp (direction (getPoint detA) (getPoint detB))) ++ "°")
     putStr "Negative direction between First & Second Detections ---> "
-    putStrLn (show (round2dp(invDirection (getPoint detA) (getPoint detB))) ++ "°")
+    putStrLn (show (round2dp (invDirection (getPoint detA) (getPoint detB))) ++ "°")
     
 main :: IO ()
 main = do
@@ -28,9 +31,8 @@ main = do
     detA <- getLine
     putStrLn "Insert the Second Detection..."
     detB <- getLine 
-    putStrLn "Proceed [Y/n] ?"
-    answ <- getChar 
-    getLine {-In way to press enter-}
-    if answ  == 'Y'
+    putStrLn "Proceed [yes/no]?"
+    answ <- getLine 
+    if answ  == "yes"
         then printInfo detA detB
         else putStrLn "Aborted..."
