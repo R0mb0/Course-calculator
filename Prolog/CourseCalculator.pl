@@ -167,202 +167,282 @@ lastN(N, List, Final_list) :-
 /** Verifing the Lenght of the Detections String **/
 verify_lenght([], _) :-
     throw(error(empty_input_list, verify_lenght/2)).
-verify_lenght(Lst, Rb) :-
-    length(Lst, N),
-    (N < 31 -> 
-        Rb = 0
-    ;
-        (N > 31 -> 
-            Rb = 0
+verify_lenght(List, Return_bool) :-
+    (list(List) -> 
+        length(List, N),
+        (N < 31 -> 
+            Return_bool = 0
         ;
-            Rb = 1
-        )
+            (N > 31 -> 
+                Return_bool = 0
+            ;
+                Return_bool = 1
+            )
+        )  
+    ;
+        throw(error(wrong_input_list, verify_lenght/2))
     ).
 
 /** Verifing if the Degrees of detections are Real **/
-verify_degrees(Num, Rb) :-
-    (Num < 0 -> 
-        Rb = 0
-    ;
-        (Num > 89 -> 
-            Rb = 0
+verify_degrees(Num, Return_bool) :-
+   (integer(Num) ->
+        (Num < 0 -> 
+            Return_bool = 0
         ;
-            Rb = 1
+            (Num > 89 -> 
+                Return_bool = 0
+            ;
+                Return_bool = 1
+            )
         )
+    ;
+        throw(error(wrong_input_number, verify_degrees/2))
     ).
 
 /** Verifing if the Primes & Latters of detections are Real **/
-verify_primes(Num, Rb) :-
-    (Num < 0 -> 
-        Rb = 0
-    ;
-        (Num > 59 -> 
-            Rb = 0
+verify_primes(Num, Return_bool) :-
+    (integer(Num) -> 
+        (Num < 0 -> 
+            Return_bool = 0
         ;
-            Rb = 1
+            (Num > 59 -> 
+                Return_bool = 0
+            ;
+                Return_bool = 1
+            )
+        )  
+    ;
+        throw(error(wrong_input_number, verify_primes/2))
+    ).
+
+verify_latters(Num, Return_bool) :-
+    (number(Num) ->
+        (Num < 0 -> 
+            Return_bool = 0
+        ;
+            (Num > 59 -> 
+                Return_bool = 0
+            ;
+                Return_bool = 1
+            )
         )
+    ;
+        throw(error(wrong_input_number, verify_primes/2))
     ).
 
 verify_latitude([], _) :-
     throw(error(empty_input_list, verify_latitude/2)).
-verify_latitude(Lst, Rb) :-
-    index(0, Lst, A),
-    (A == 'N' -> 
-        Rb = 1
-    ;
-        (A == 'S' -> 
-            Rb = 1
+verify_latitude(List, Return_bool) :-
+    (list(List) -> 
+        index(0, List, Sign),
+        (Sign == 'N' -> 
+            Return_bool = 1
         ;
-            Rb = 0
+            (Sign == 'S' -> 
+                Return_bool = 1
+            ;
+                Return_bool = 0
+            )
         )
+    ;
+        throw(error(wrong_input_list, verify_latitude/2))
     ).
 
 verify_longitude([], _) :-
     throw(error(empty_input_list, verify_longitude/2)).
-verify_longitude(Lst, Rb) :-
-    index(0, Lst, A),
-    (A == 'E' -> 
-        Rb = 1
-    ;
-        (A == 'W' -> 
-            Rb = 1
+verify_longitude(List, Return_bool) :-
+    (list(List) -> 
+        index(0, List, Sign),
+        (Sign == 'E' -> 
+            Return_bool = 1
         ;
-            Rb = 0
+            (Sign == 'W' -> 
+                Return_bool = 1
+            ;
+                Return_bool = 0
+            )
         )
+    ;
+        throw(error(wrong_input_list, verify_longitude/2))
     ).
-
 
 /** Get the Longite part from the Detections string **/
 split([], _) :-
     throw(error(empty_input_list, split/2)).
-split(Lst, Flst) :-
-    length(Lst, Len),
-    (Len >= 17 ->
-        drop(17, Lst, Flst)
+split(List, Final_list) :-
+    (list(List) -> 
+        length(List, Len),
+        (Len >= 17 ->
+            drop(17, List, Final_list)
+        ;
+            throw(error(input_list_has_not_enought_elements, split/2))
+        )
     ;
-        throw(error(input_list_has_not_enought_elements, split/2))
-    ).
-    
+        throw(error(wrong_input_list, split/2))
+    ).    
 
 get_latitude([], _) :-
     throw(error(empty_input_list, get_latitude/2)).
-get_latitude(Lst, Flst) :-
-    verify_lenght(Lst, N),
-    ( N == 0 ->
-        throw(error(invalid_argument, getLatitude/2))
+get_latitude(List, Final_list) :-
+    (list(List) -> 
+        verify_lenght(List, N),
+        ( N == 0 ->
+            throw(error(invalid_argument, getLatitude/2))
+        ;
+            head(List, Sign),
+            drop(2, List, A),
+            take(2, A, B), 
+            number_chars(Degrees, B),
+            take(7, List, C),
+            drop(5, C, D),
+            number_chars(Primes, D),
+            take(14, List, E),
+            drop(8, E, F),
+            number_chars(Latters, F),
+            Final_list = [Sign, Degrees, Primes, Latters]
+        )
     ;
-        head(Lst, Sign),
-        drop(2, Lst, A),
-        take(2, A, B), 
-        number_chars(Degrees, B),
-        take(7, Lst, C),
-        drop(5, C, D),
-        number_chars(Primes, D),
-        take(14, Lst, E),
-        drop(8, E, F),
-        number_chars(Latters, F),
-        Flst = [Sign, Degrees, Primes, Latters]
+        throw(error(wrong_input_list, get_latitude/2))
     ).
 
 get_longitude([], _) :-
     throw(error(empty_input_list, get_longitude/2)).
-get_longitude(Lst, Flst) :-
-    verify_lenght(Lst, N),
-    ( N == 0 ->
-        throw(error(invalid_argument, getLongitude/2))
+get_longitude(List, Final_list) :-
+    (list(List) -> 
+        verify_lenght(List, N),
+        ( N == 0 ->
+            throw(error(invalid_argument, getLongitude/2))
+        ;
+            split(List, List1),
+            head(List1, Sign),
+            drop(2, List1, A),
+            take(2, A, B), 
+            number_chars(Degrees, B),
+            take(7, List1, C),
+            drop(5, C, D),
+            number_chars(Primes, D),
+            take(14, List1, E),
+            drop(8, E, F),
+            number_chars(Latters, F),
+            Final_list = [Sign, Degrees, Primes, Latters]
+        )
     ;
-        split(Lst, Lst1),
-        head(Lst1, Sign),
-        drop(2, Lst1, A),
-        take(2, A, B), 
-        number_chars(Degrees, B),
-        take(7, Lst1, C),
-        drop(5, C, D),
-        number_chars(Primes, D),
-        take(14, Lst1, E),
-        drop(8, E, F),
-        number_chars(Latters, F),
-        Flst = [Sign, Degrees, Primes, Latters]
+        throw(error(wrong_input_list, get_longitude/2))
     ).
 
 verify_detection_body([], _) :-
     throw(error(empty_input_list, verify_detection_body/2)).
-verify_detection_body(Lst, Rb) :-
-    index(1, Lst, A),
-    verify_degrees(A, B),
-    (B == 0 -> 
-        throw(error(wrong_degrees, verify_detection_body/2))
-    ;
-        index(2, Lst, C),
-        verify_primes(C, D),
-        (D == 0 ->
-            throw(error(wrong_primes, verify_detection_body/2))
+verify_detection_body(List, Return_bool) :-
+    (list(List) -> 
+        index(1, List, Degrees),
+        verify_degrees(Degrees, B),
+        (B == 0 -> 
+            throw(error(wrong_degrees, verify_detection_body/2))
         ;
-            index(3, Lst, E),
-            verify_primes(E, F),
-            (F == 0 -> 
-                throw(error(wrong_latters, verify_detection_body/2))
+            index(2, List, Primes),
+            verify_primes(Primes, B1),
+            (B1 == 0 ->
+                throw(error(wrong_primes, verify_detection_body/2))
             ;
-                Rb = 1
+                index(3, List, Latters),
+                verify_latters(Latters, B2),
+                (B2 == 0 -> 
+                    throw(error(wrong_latters, verify_detection_body/2))
+                ;
+                    Return_bool = 1
+                )
             )
         )
+    ;
+        throw(error(wrong_input_list, verify_detection_body/2))
     ).
 
 /** Verifing if the Sign of detections is Valid **/
-check_sign(Lt, Rn) :-
-    (Lt == 'S' ->
-        Rn = (-1)
-    ; 
-        (Lt == 'W' -> 
-            Rn = (-1)
-        ;
-            Rn = 1
+check_sign(Letter, Return_num) :-
+    (nonvar(Letter) ->
+       (Letter == 'S' ->
+            Return_num = (-1)
+        ; 
+            (Letter == 'W' -> 
+                Return_num = (-1)
+            ;
+                Return_num = 1
+            )
         )
+    ;
+        throw(error(no_input_letter, check_sign/2))
     ).
 
 convert_to_decimal([], _) :-
     throw(error(empty_input_list, convert_to_decimal/2)).
-convert_to_decimal(Lst, Num) :-
-    index(0, Lst, Sign),
-    check_sign(Sign, Sign1),
-    index(1, Lst, Degrees),
-    index(2, Lst, Primes),
-    index(3, Lst, Latters),
-    A is Latters / 60,
-    B is Primes + A,
-    C is B / 60,
-    D is C + Degrees,
-    Num is D * Sign1.
+convert_to_decimal(List, Return_num) :-
+    (list(List) -> 
+        index(0, List, Sign),
+        check_sign(Sign, Sign1),
+        index(1, List, Degrees),
+        index(2, List, Primes),
+        index(3, List, Latters),
+        A is Latters / 60,
+        B is Primes + A,
+        C is B / 60,
+        D is C + Degrees,
+        Return_num is D * Sign1
+    ;
+        throw(error(wrong_input_list, convert_to_decimal/2))
+    ).
+    
 
-merge_coordinates(Num1, Num2, Flst) :-
-    Flst = [Num1, Num2].
+merge_coordinates(Num1, Num2, Final_list) :-
+    (number(Num1) -> 
+        (number(Num2) -> 
+            Final_list = [Num1, Num2]
+        ;
+            throw(error(wrong_input_second_number, merge_coordinates/3))
+        )
+    ;
+        throw(error(wrong_input_first_number, merge_coordinates/3))
+    ).
 
 get_point([], _) :-
     throw(error(empty_input_list, get_point/2)).
-get_point(Lst, Flst) :-
-    get_latitude(Lst, Latitude),
-    verify_latitude(Latitude, B1),
-    get_longitude(Lst, Longitude),
-    verify_longitude(Longitude, B2),
-    (B1 == 0 ->
-        throw(error(wrong_latitude, get_point/2))
-    ;
-        (B2 == 0 ->
-            throw(error(wrong_longitude, get_point/2))
+get_point(List, Final_list) :-
+    (list(List) -> 
+        get_latitude(List, Latitude),
+        verify_latitude(Latitude, B1),
+        verify_detection_body(Latitude, B2),
+        get_longitude(List, Longitude),
+        verify_longitude(Longitude, B3),
+        verify_detection_body(Longitude, B4),
+        (B1 == 0 ->
+            throw(error(wrong_latitude, get_point/2))
         ;
-            convert_to_decimal(Latitude, Dlatitude),
-            convert_to_decimal(Longitude, Dlongitude),
-            merge_coordinates(Dlatitude, Dlongitude, Flst)
+            (B2 == 0 ->
+                throw(error(wrong_latitude_body, get_point/2))
+            ;
+                (B3 == 0 ->
+                    throw(error(wrong_longitude, get_point/2))
+                ;
+                    (B4 == 0 -> 
+                        throw(error(wrong_longitude_body, get_point/2))
+                    ;
+                        convert_to_decimal(Latitude, Dlatitude),
+                        convert_to_decimal(Longitude, Dlongitude),
+                        merge_coordinates(Dlatitude, Dlongitude, Final_list)
+                    )
+                )
+            )
         )
+    ;
+        throw(error(wrong_input_list, get_point/2))
     ).
     
 /***** End *****/
 
 /***** Properties Module *****/
 distance([], _, _) :-
-    throw(error(empty_first_input_list, distance/2)).
+    throw(error(empty_first_input_list, distance/3)).
 distance(_, [], _) :-
-    throw(error(empty_second_input_list, distance/2)).
+    throw(error(empty_second_input_list, distance/3)).
 distance(Lst1, Lst2, Rn) :-
     index(0,Lst1,Lat1),
     index(1,Lst1,Long1),
@@ -386,9 +466,9 @@ distance(Lst1, Lst2, Rn) :-
     
 
 direction([], _, _) :-
-    throw(error(empty_first_input_list, direction/2)).
+    throw(error(empty_first_input_list, direction/3)).
 direction(_, [], _) :-
-    throw(error(empty_second_input_list, direction/2)).
+    throw(error(empty_second_input_list, direction/3)).
 direction(Lst1, Lst2, Rn) :-
     index(0,Lst1,Lat1),
     index(1,Lst1,Long1),
@@ -428,9 +508,9 @@ direction(Lst1, Lst2, Rn) :-
     Rn is P / pi * 180.
     
 inverse_direction([], _, _) :-
-    throw(error(empty_first_input_list, inverse_direction/2)).
+    throw(error(empty_first_input_list, inverse_direction/3)).
 inverse_direction(_, [], _) :-
-    throw(error(empty_second_input_list, inverse_direction/2)).
+    throw(error(empty_second_input_list, inverse_direction/3)).
 inverse_direction(Lst1, Lst2, Rn) :-
     direction(Lst1, Lst2, A),
     Rn is A + 180.
