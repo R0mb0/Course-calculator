@@ -13,7 +13,7 @@ index(N, [_|T], E) :-
     (N < 0 ->
         throw(error(negative_index, index/3))
     ;
-        N1 is N-1, 
+        N1 is N - 1, 
         index(N1, T, E)
     ).
 
@@ -45,7 +45,7 @@ drop(N, Lst, Flst) :-
     (N < 0 ->
         throw(error(negative_parameter, drop/3))
     ;
-        N1 is N -1,
+        N1 is N - 1,
         tail(Lst, Rlst),
         drop(N1, Rlst, Flst)
     ).
@@ -70,17 +70,17 @@ remove_from_tail(N, Lst, Flst) :-
     (N < 0 -> 
         throw(error(negative_parameter, remove_from_tail/3))
     ;
-        N1 is N -1,
+        N1 is N - 1,
         init(Lst, Rlst),
         remove_from_tail(N1, Rlst, Flst)
     ).
 
 
 /** Like the take Function in Haskell **/
-take(_, [], _):-
+take(_, [], _) :-
     throw(error(empty_input_list, take/3)).
 take(_, [X], X).
-take(N, Lst, Flst):-
+take(N, Lst, Flst) :-
     (N < 0 ->
         throw(error(negative_parameter, take_list/3))
     ;
@@ -90,10 +90,10 @@ take(N, Lst, Flst):-
     ).
     
 /** Like the "last" Function in Haskell, but in this case returns N elements from the end of list **/
-lastN(_, [], _):-
+lastN(_, [], _) :-
     throw(error(empty_input_list, lastN/3)).
 lastN(_, [X], X).
-lastN(N, Lst, Flst):-
+lastN(N, Lst, Flst) :-
     (N < 0 ->
         throw(error(negative_parameter, lastN/3))
     ;
@@ -106,7 +106,7 @@ lastN(N, Lst, Flst):-
 /***** Detection Module *****/
 
 /** Verifing the Lenght of the Detections String **/
-verify_lenght([], _):-
+verify_lenght([], _) :-
     throw(error(empty_input_list, verify_lenght/2)).
 verify_lenght(Lst, Rb) :-
     length(Lst, N),
@@ -144,7 +144,7 @@ verify_primes(Num, Rb) :-
         )
     ).
 
-verify_latitude([], _):-
+verify_latitude([], _) :-
     throw(error(empty_input_list, verify_latitude/2)).
 verify_latitude(Lst, Rb) :-
     index(0, Lst, A),
@@ -158,7 +158,7 @@ verify_latitude(Lst, Rb) :-
         )
     ).
 
-verify_longitude([], _):-
+verify_longitude([], _) :-
     throw(error(empty_input_list, verify_longitude/2)).
 verify_longitude(Lst, Rb) :-
     index(0, Lst, A),
@@ -174,7 +174,7 @@ verify_longitude(Lst, Rb) :-
 
 
 /** Get the Longite part from the Detections string **/
-split([], _):-
+split([], _) :-
     throw(error(empty_input_list, split/2)).
 split(Lst, Flst) :-
     length(Lst, Len),
@@ -185,7 +185,7 @@ split(Lst, Flst) :-
     ).
     
 
-get_latitude([], _):-
+get_latitude([], _) :-
     throw(error(empty_input_list, get_latitude/2)).
 get_latitude(Lst, Flst) :-
     verify_lenght(Lst, N),
@@ -205,7 +205,7 @@ get_latitude(Lst, Flst) :-
         Flst = [Sign, Degrees, Primes, Latters]
     ).
 
-get_longitude([], _):-
+get_longitude([], _) :-
     throw(error(empty_input_list, get_longitude/2)).
 get_longitude(Lst, Flst) :-
     verify_lenght(Lst, N),
@@ -226,7 +226,7 @@ get_longitude(Lst, Flst) :-
         Flst = [Sign, Degrees, Primes, Latters]
     ).
 
-verify_detection_body([], _):-
+verify_detection_body([], _) :-
     throw(error(empty_input_list, verify_detection_body/2)).
 verify_detection_body(Lst, Rb) :-
     index(1, Lst, A),
@@ -261,7 +261,7 @@ check_sign(Lt, Rn) :-
         )
     ).
 
-convert_to_decimal([], _):-
+convert_to_decimal([], _) :-
     throw(error(empty_input_list, convert_to_decimal/2)).
 convert_to_decimal(Lst, Num) :-
     index(0, Lst, Sign),
@@ -278,7 +278,7 @@ convert_to_decimal(Lst, Num) :-
 merge_coordinates(Num1, Num2, Flst) :-
     Flst = [Num1, Num2].
 
-get_point([], _):-
+get_point([], _) :-
     throw(error(empty_input_list, get_point/2)).
 get_point(Lst, Flst) :-
     get_latitude(Lst, Latitude),
@@ -300,9 +300,9 @@ get_point(Lst, Flst) :-
 /***** End *****/
 
 /***** Properties Module *****/
-distance([], _, _):-
+distance([], _, _) :-
     throw(error(empty_first_input_list, distance/2)).
-distance(_, [], _):-
+distance(_, [], _) :-
     throw(error(empty_second_input_list, distance/2)).
 distance(Lst1, Lst2, Rn) :-
     index(0,Lst1,Lat1),
@@ -326,9 +326,9 @@ distance(Lst1, Lst2, Rn) :-
     Rn is 6372.795477598 * N.
     
 
-direction([], _, _):-
+direction([], _, _) :-
     throw(error(empty_first_input_list, direction/2)).
-direction(_, [], _):-
+direction(_, [], _) :-
     throw(error(empty_second_input_list, direction/2)).
 direction(Lst1, Lst2, Rn) :-
     index(0,Lst1,Lat1),
@@ -368,9 +368,9 @@ direction(Lst1, Lst2, Rn) :-
     P is atan2(Lon, O),
     Rn is P / pi * 180.
     
-inverse_direction([], _, _):-
+inverse_direction([], _, _) :-
     throw(error(empty_first_input_list, inverse_direction/2)).
-inverse_direction(_, [], _):-
+inverse_direction(_, [], _) :-
     throw(error(empty_second_input_list, inverse_direction/2)).
 inverse_direction(Lst1, Lst2, Rn) :-
     direction(Lst1, Lst2, A),
@@ -378,6 +378,8 @@ inverse_direction(Lst1, Lst2, Rn) :-
 /***** End *****/
 
 /***** Main & Main Util *****/
+
+/* Main. */
 main :-
     write('Detections Properties Calculator V1.0'), nl,
     write('Waring: The Detections must be in D.M.G format and inserted into the program like: N 40 45 36.000 - E 73 59 2.400'), nl,
@@ -414,3 +416,10 @@ main :-
     ).
 
 /***** End *****/
+
+add_test(X, Y, Z) :-
+    ( integer(X) == integer(Y) ->
+        Z is X + Y
+    ;
+        throw(error(not_a_integer, add_test/2))
+    ).
