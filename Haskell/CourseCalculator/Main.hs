@@ -3,8 +3,8 @@ import Properties
 import Tools
 
 {- A Function to Print the Course properties.
--> Input: The Strings of the two Detections Required from the Main.
--> Output: Print the Course properties.-}
+* Input: The Strings of the two Detections Required from the Main.
+* Output: Print the Course properties.-}
 printInfo :: String -> String -> IO ()
 printInfo [] [_] = error "The First Argument Is Null"
 printInfo [_] [] = error "The Second Argument Is Null"
@@ -23,6 +23,7 @@ printInfo detA detB
     putStr "Negative direction between First & Second Detections ---> "
     putStrLn (show (round2dp (invDirection (getPoint detA) (getPoint detB))) ++ "°")
     
+{- Main. -}
 main :: IO ()
 main = do
     putStrLn "Detections Properties Calculator V1.0 \nWaring: The Detections must be in D.M.G \

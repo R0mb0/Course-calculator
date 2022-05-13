@@ -62,7 +62,7 @@ init(Lst, Flst):-
 /** Tool to  Remove Tail's Elements of a List from an Index **/
 remove_from_tail(_, [], _) :-
     throw(error(empty_input_list, remove_from_tail/3)).
-/*remove_from_tail(_, [X], []).*/
+remove_from_tail(_, [_], []).
 remove_from_tail(0, Lst, Lst).
 remove_from_tail(1, Lst, Flst) :-
     init(Lst, Flst).
