@@ -10,12 +10,19 @@ index(_, [], _) :-
 index(0, [X], X).
 index(0, [H|_], H).
 index(N, [_|T], E) :- 
-    (N < 0 ->
-        throw(error(negative_index, index/3))
+    (integer(N) ->
+        (N < 0 ->
+            throw(error(negative_index, index/3))
+        ;
+            N1 is N - 1, 
+            index(N1, T, E)
+        )
     ;
-        N1 is N - 1, 
-        index(N1, T, E)
+        throw(error(not_integer_index, index/3))
     ).
+
+
+    
 
 /* Like the head Function in Haskell. 
  * Input: A List.
@@ -38,70 +45,122 @@ tail([_|T], T).
  * Output: A List Without */
 drop(_, [], _) :-
     throw(error(empty_input_list, drop/3)).
-drop(0, Lst, Lst).
-drop(1, Lst, Flst) :-
-    tail(Lst, Flst).
-drop(N, Lst, Flst) :-
-    (N < 0 ->
-        throw(error(negative_parameter, drop/3))
+drop(0, List, Final_list) :-
+    (list(List) -> 
+        Final_list = List
     ;
-        N1 is N - 1,
-        tail(Lst, Rlst),
-        drop(N1, Rlst, Flst)
+        throw(error(wrong_input_list, drop/3))
     ).
-
+drop(1, List, Final_list) :-
+    (list(List) -> 
+        tail(List, Final_list)
+    ;
+        throw(error(wrong_input_list, drop/3))
+    ).
+drop(N, List, Final_list) :-
+    (integer(N) -> 
+        (list(List) ->
+            (N < 0 ->
+                throw(error(negative_parameter, drop/3))
+            ;
+                N1 is N - 1,
+                tail(List, Rlist),
+                drop(N1, Rlist, Final_list)
+            )
+        ;
+            throw(error(wrong_input_list, drop/3))
+        )
+    ;
+        throw(error(wrong_input_number, drop/3))
+    ).
 
 /** Like the init Function in Haskell **/
 init([], _) :-
     throw(error(empty_input_list, init/2)).
 init([X], X).
-init(Lst, Flst):-
-    reverse(Lst, [_|Lst1]), 
-    reverse(Lst1, Flst).
-
+init(List, Final_list) :-
+    (list(List) -> 
+        reverse(List, [_|List1]), 
+        reverse(List1, Final_list)
+    ;
+        throw(error(wrong_input_list, init/2))
+    ).
+    
 /** Tool to  Remove Tail's Elements of a List from an Index **/
 remove_from_tail(_, [], _) :-
     throw(error(empty_input_list, remove_from_tail/3)).
 remove_from_tail(_, [_], []).
-remove_from_tail(0, Lst, Lst).
-remove_from_tail(1, Lst, Flst) :-
-    init(Lst, Flst).
-remove_from_tail(N, Lst, Flst) :-
-    (N < 0 -> 
-        throw(error(negative_parameter, remove_from_tail/3))
+remove_from_tail(0, List, Final_list) :-
+    (list(List) -> 
+        Final_list = List
     ;
-        N1 is N - 1,
-        init(Lst, Rlst),
-        remove_from_tail(N1, Rlst, Flst)
+        throw(error(wrong_input_list, remove_from_tail/3))
     ).
-
+remove_from_tail(1, List, Final_list) :-
+    (list(List) -> 
+        init(List, Final_list)
+    ;
+        throw(error(wrong_input_list, remove_from_tail/3))
+    ).
+remove_from_tail(N, List, Final_list) :-
+    (integer(N) -> 
+        (list(List) ->
+            (N < 0 -> 
+                throw(error(negative_parameter, remove_from_tail/3))
+            ;
+                N1 is N - 1,
+                init(List, List1),
+                remove_from_tail(N1, List1, Final_list)
+            )
+        ;
+            throw(error(wrong_input_list, remove_from_tail/3))
+        )
+    ;
+        throw(error(wrong_input_number, remove_from_tail/3))
+    ).
 
 /** Like the take Function in Haskell **/
 take(_, [], _) :-
     throw(error(empty_input_list, take/3)).
 take(_, [X], X).
-take(N, Lst, Flst) :-
-    (N < 0 ->
-        throw(error(negative_parameter, take_list/3))
+take(N, List, Final_list) :-
+    (integer(N) ->
+        (list(List) -> 
+            (N < 0 ->
+                throw(error(negative_parameter, take_list/3))
+            ;
+                length(List, Len),
+                N1 is Len - N,
+                remove_from_tail(N1, List, Final_list)
+            )
+        ;
+            throw(error(wrong_input_list, take/3))
+        )
     ;
-        length(Lst, Len),
-        N1 is Len - N,
-        remove_from_tail(N1, Lst, Flst)
+        throw(error(wrong_input_number, take/3))
     ).
     
 /** Like the "last" Function in Haskell, but in this case returns N elements from the end of list **/
 lastN(_, [], _) :-
     throw(error(empty_input_list, lastN/3)).
 lastN(_, [X], X).
-lastN(N, Lst, Flst) :-
-    (N < 0 ->
-        throw(error(negative_parameter, lastN/3))
+lastN(N, List, Final_list) :-
+    (integer(N) -> 
+        (list(List) -> 
+            (N < 0 ->
+                throw(error(negative_parameter, lastN/3))
+            ;
+                length(List, Len),
+                N1 is Len - N,
+                drop(N1, List, Final_list)
+            )
+        ;
+            throw(error(wrong_input_list, lastN/3))
+        )
     ;
-        length(Lst, Len),
-        N1 is Len - N,
-        drop(N1, Lst, Flst)
+        throw(error(wrong_input_number, lastN/3))
     ).
-/***** End *****/
+/***** End Module *****/
 
 /***** Detection Module *****/
 
@@ -416,10 +475,3 @@ main :-
     ).
 
 /***** End *****/
-
-add_test(X, Y, Z) :-
-    ( integer(X) == integer(Y) ->
-        Z is X + Y
-    ;
-        throw(error(not_a_integer, add_test/2))
-    ).
