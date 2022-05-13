@@ -21,9 +21,6 @@ index(N, [_|T], E) :-
         throw(error(not_integer_index, index/3))
     ).
 
-
-    
-
 /* Like the head Function in Haskell. 
  * Input: A List.
  * Output: The First Element of List.*/
@@ -436,85 +433,108 @@ get_point(List, Final_list) :-
         throw(error(wrong_input_list, get_point/2))
     ).
     
-/***** End *****/
+/***** End Module *****/
 
 /***** Properties Module *****/
 distance([], _, _) :-
     throw(error(empty_first_input_list, distance/3)).
 distance(_, [], _) :-
     throw(error(empty_second_input_list, distance/3)).
-distance(Lst1, Lst2, Rn) :-
-    index(0,Lst1,Lat1),
-    index(1,Lst1,Long1),
-    index(0,Lst2,Lat2),
-    index(1,Lst2,Long2),
-    A is pi / 180,
-    B is Long1 - Long2,
-    C is B * A,
-    D is cos(C),
-    Lat1n is Lat1 * A,
-    Lat2n is Lat2 * A,
-    E is cos(Lat2n),
-    F is cos(Lat1n),
-    G is D * E * F,
-    H is sin(Lat2n),
-    I is sin(Lat1n),
-    L is H * I,
-    M is L + G,
-    N is acos(M),
-    Rn is 6372.795477598 * N.
-    
+distance(List1, List2, Rn) :-
+    (list(List1) -> 
+        (list(List2) ->
+            index(0,List1,Lat1),
+            index(1,List1,Long1),
+            index(0,List2,Lat2),
+            index(1,List2,Long2),
+            A is pi / 180,
+            B is Long1 - Long2,
+            C is B * A,
+            D is cos(C),
+            Lat1n is Lat1 * A,
+            Lat2n is Lat2 * A,
+            E is cos(Lat2n),
+            F is cos(Lat1n),
+            G is D * E * F,
+            H is sin(Lat2n),
+            I is sin(Lat1n),
+            L is H * I,
+            M is L + G,
+            N is acos(M),
+            Rn is 6372.795477598 * N
+        ;
+            throw(error(wrong_second_input_list, distance/3))
+        )
+    ;
+        throw(error(wrong_first_input_list, distance/3))
+    ).
 
 direction([], _, _) :-
     throw(error(empty_first_input_list, direction/3)).
 direction(_, [], _) :-
     throw(error(empty_second_input_list, direction/3)).
-direction(Lst1, Lst2, Rn) :-
-    index(0,Lst1,Lat1),
-    index(1,Lst1,Long1),
-    index(0,Lst2,Lat2),
-    index(1,Lst2,Long2),
-    A is pi / 180,
-    Lat1n is Lat1 * A,
-    Lat2n is Lat2 * A,
-    (Lat2 == Lat1 -> 
-        Phi is pi / 180 * 0.000000001
-    ;
-        B is pi / 4,
-        C is Lat1n / 2,
-        D is C + B,
-        E is tan(D),
-        F is Lat2n / 2,
-        G is F + B,
-        H is tan(G),
-        I is H / E,
-        Phi is log(I)
-        
-    ),
-    (Long2 == Long1 ->
-        Lon is pi / 180 * 0.000000001
-    ;
-        L is Long1 - Long2,
-        M is abs(L), 
-        N is M * A,
-        (N > 180 -> 
-            Lon is N mod 180
+direction(List1, List2, Return_num) :-
+    (list(List1) -> 
+        (list(List2) -> 
+            index(0,List1,Lat1),
+            index(1,List1,Long1),
+            index(0,List2,Lat2),
+            index(1,List2,Long2),
+            A is pi / 180,
+            Lat1n is Lat1 * A,
+            Lat2n is Lat2 * A,
+            (Lat2 == Lat1 -> 
+                Phi is pi / 180 * 0.000000001
+            ;
+                B is pi / 4,
+                C is Lat1n / 2,
+                D is C + B,
+                E is tan(D),
+                F is Lat2n / 2,
+                G is F + B,
+                H is tan(G),
+                I is H / E,
+                Phi is log(I)
+            ),
+            (Long2 == Long1 ->
+                Lon is pi / 180 * 0.000000001
+            ;
+                L is Long1 - Long2,
+                M is abs(L), 
+                N is M * A,
+                (N > 180 -> 
+                    Lon is N mod 180
+                ;
+                    Lon = N
+                )
+            ),
+            O is abs(Phi),
+            P is atan2(Lon, O),
+            Return_num is P / pi * 180
         ;
-            Lon = N
+            throw(error(wrong_second_input_list, direction/3))
         )
-    ),
-    O is abs(Phi),
-    P is atan2(Lon, O),
-    Rn is P / pi * 180.
+    ;
+        throw(error(wrong_first_input_list, direction/3))
+    ).
     
 inverse_direction([], _, _) :-
     throw(error(empty_first_input_list, inverse_direction/3)).
 inverse_direction(_, [], _) :-
     throw(error(empty_second_input_list, inverse_direction/3)).
-inverse_direction(Lst1, Lst2, Rn) :-
-    direction(Lst1, Lst2, A),
-    Rn is A + 180.
-/***** End *****/
+inverse_direction(List1, List2, Return_num) :-
+    (list(List1) -> 
+        (list(List2) -> 
+            direction(List1, List2, Dir),
+            Return_num is Dir + 180
+        ;
+            throw(error(wrong_second_input_list, inverse_direction/3))
+        )
+    ;
+        throw(error(wrong_first_input_list, inverse_direction/3))
+    ).
+    
+/***** End Module *****/
 
 /***** Main & Main Util *****/
 
