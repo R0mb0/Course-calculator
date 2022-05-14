@@ -31,15 +31,15 @@ head([H|_], H).
 
 /* Like the tail Function in Haskell. 
  * Input: A List.
- * Output: A List Without the First Element.*/
+ * Output: A List without the first element.*/
 tail([],_) :-
     throw(error(empty_input_list, tail/2)).
 tail([T], T).
 tail([_|T], T).
 
-/* Like the drop Function in Haskell 
- * Input: A Index, a List.
- * Output: A List Without */
+/* Like the drop Function in Haskell. 
+ * Input: A Integer number, a List.
+ * Output: A List without the number of elements specified from the head.*/
 drop(_, [], _) :-
     throw(error(empty_input_list, drop/3)).
 drop(0, List, Final_list) :-
@@ -71,7 +71,9 @@ drop(N, List, Final_list) :-
         throw(error(wrong_input_number, N, drop/3))
     ).
 
-/** Like the init Function in Haskell **/
+/* Like the init Function in Haskell. 
+ * Input: A List.
+ * Output: A List without the last element.*/
 init([], _) :-
     throw(error(empty_input_list, init/2)).
 init([X], X).
@@ -83,7 +85,9 @@ init(List, Final_list) :-
         throw(error(wrong_input_list, List, init/2))
     ).
     
-/** Tool to  Remove Tail's Elements of a List from an Index **/
+/* Remove Ns Elements From the Input List.
+ * Input: A Integer number, a List.
+ * Output: A List without the number of elements specified from the tail.*/
 remove_from_tail(_, [], _) :-
     throw(error(empty_input_list, remove_from_tail/3)).
 remove_from_tail(_, [_], []).
@@ -116,7 +120,9 @@ remove_from_tail(N, List, Final_list) :-
         throw(error(wrong_input_number, N, remove_from_tail/3))
     ).
 
-/** Like the take Function in Haskell **/
+/* Like the take Function in Haskell. 
+ * Input: A Integer number, a List.
+ * Output: A List with only the number of elements specified from the head.*/
 take(_, [], _) :-
     throw(error(empty_input_list, take/3)).
 take(_, [X], X).
@@ -137,7 +143,9 @@ take(N, List, Final_list) :-
         throw(error(wrong_input_number, N, take/3))
     ).
     
-/** Like the "last" Function in Haskell, but in this case returns N elements from the end of list **/
+/* Mantaing Only the Specified Number of Elements From the Tail.
+ * Input: A Integer number, a List.
+ * Output: A List with only the number of elements specified from the tail.*/
 lastN(_, [], _) :-
     throw(error(empty_input_list, lastN/3)).
 lastN(_, [X], X).
@@ -161,7 +169,9 @@ lastN(N, List, Final_list) :-
 
 /***** Detection Module *****/
 
-/** Verifing the Lenght of the Detections String **/
+/* Verify if the Input String Has the Right Lenght.
+ * Input: A List.
+ * Output: A Boolean that is 1 If the Input String Has the Right Lenght, 0 Otherwise.*/
 verify_lenght([], _) :-
     throw(error(empty_input_list, verify_lenght/2)).
 verify_lenght(List, Return_bool) :-
@@ -180,7 +190,9 @@ verify_lenght(List, Return_bool) :-
         throw(error(wrong_input_list, List, verify_lenght/2))
     ).
 
-/** Verifing if the Degrees of detections are Real **/
+/* Verify if the Degrees of Detection Are Real.
+ * Input: A Integer Number.
+ * Output: A Boolean that is 1 If the Degrees Are Real, 0 Otherwise.*/
 verify_degrees(Num, Return_bool) :-
    (integer(Num) ->
         (Num < 0 -> 
@@ -196,7 +208,9 @@ verify_degrees(Num, Return_bool) :-
         throw(error(wrong_input_number, Num, verify_degrees/2))
     ).
 
-/** Verifing if the Primes & Latters of detections are Real **/
+/* Verify if the Primes of Detection Are Real.
+ * Input: A Integer Number.
+ * Output: A Boolean that is 1 If the Primes Are Real, 0 Otherwise.*/
 verify_primes(Num, Return_bool) :-
     (integer(Num) -> 
         (Num < 0 -> 
@@ -212,6 +226,9 @@ verify_primes(Num, Return_bool) :-
         throw(error(wrong_input_number, Num, verify_primes/2))
     ).
 
+/* Verify if the Latters of Detection Are Real.
+ * Input: A Integer or Float Number.
+ * Output: A Boolean that is 1 If the Latters Are Real, 0 Otherwise.*/
 verify_latters(Num, Return_bool) :-
     (number(Num) ->
         (Num < 0 -> 
@@ -227,43 +244,45 @@ verify_latters(Num, Return_bool) :-
         throw(error(wrong_input_number, Num, verify_primes/2))
     ).
 
-verify_latitude([], _) :-
-    throw(error(empty_input_list, verify_latitude/2)).
-verify_latitude(List, Return_bool) :-
-    (list(List) -> 
-        index(0, List, Sign),
-        (Sign == 'N' -> 
+/* Verify if the Latitude Sign of Detection is Right.
+ * Input: A Letter.
+ * Output: A Boolean that is 1 If the Letter Is Right, 0 Otherwise.*/
+verify_latitude(Letter, Return_bool) :-
+    (nonvar(Letter) -> 
+        (Letter == 'N' -> 
             Return_bool = 1
         ;
-            (Sign == 'S' -> 
+            (Letter == 'S' -> 
                 Return_bool = 1
             ;
                 Return_bool = 0
             )
         )
     ;
-        throw(error(wrong_input_list, List, verify_latitude/2))
+        throw(error(no_input_letter, Letter, verify_latitude/2))
     ).
 
-verify_longitude([], _) :-
-    throw(error(empty_input_list, verify_longitude/2)).
-verify_longitude(List, Return_bool) :-
-    (list(List) -> 
-        index(0, List, Sign),
-        (Sign == 'E' -> 
+/* Verify if the Longitude Sign of Detection is Right.
+ * Input: A Letter.
+ * Output: A Boolean that is 1 If the Letter Is Right, 0 Otherwise.*/
+verify_longitude(Letter, Return_bool) :-
+    (nonvar(Letter) -> 
+        (Letter == 'E' -> 
             Return_bool = 1
         ;
-            (Sign == 'W' -> 
+            (Letter == 'W' -> 
                 Return_bool = 1
             ;
                 Return_bool = 0
             )
         )
     ;
-        throw(error(wrong_input_list, List, verify_longitude/2))
+        throw(error(wrong_input_list, Letter, verify_longitude/2))
     ).
 
-/** Get the Longite part from the Detections string **/
+/* Remove the Latitude string Part From the Detection string, Return the Longitude string Part.
+ * Input: A List.
+ * Output: A List containing the longitude string part.*/
 split([], _) :-
     throw(error(empty_input_list, split/2)).
 split(List, Final_list) :-
@@ -278,6 +297,9 @@ split(List, Final_list) :-
         throw(error(wrong_input_list, List, split/2))
     ).    
 
+/* Tranform the Input String Containign the Latitude part into a Latitude List, [Sign, Degrees, Primes, Latters].
+ * Input: A List.
+ * Output: A List containing the latide.*/
 get_latitude([], _) :-
     throw(error(empty_input_list, get_latitude/2)).
 get_latitude(List, Final_list) :-
@@ -302,6 +324,9 @@ get_latitude(List, Final_list) :-
         throw(error(wrong_input_list, List, get_latitude/2))
     ).
 
+/* Tranform the Input String Containign the Longitude part into a Longitude List, [Sign, Degrees, Primes, Latters].
+ * Input: A List.
+ * Output: A List containing the longitude.*/
 get_longitude([], _) :-
     throw(error(empty_input_list, get_longitude/2)).
 get_longitude(List, Final_list) :-
@@ -327,26 +352,27 @@ get_longitude(List, Final_list) :-
         throw(error(wrong_input_list, List, get_longitude/2))
     ).
 
-verify_detection_body([], _) :-
-    throw(error(empty_input_list, verify_detection_body/2)).
-verify_detection_body(List, Return_bool) :-
+/* Verify if the Coordinate Body is Right,
+   (E.g. in the latitude case the body is the entire coordinate without the sign).
+ * Input: A List containing a latitude/longitude.
+ * Output: A Boolean that is 1 If the Body is Right, 0 Otherwise.*/
+verify_coordinate_body([], _) :-
+    throw(error(empty_input_list, verify_coordinate_body/2)).
+verify_coordinate_body(List, Return_bool) :-
     (list(List) -> 
         index(1, List, Degrees),
         verify_degrees(Degrees, B),
         (B == 0 -> 
-            /*throw(error(wrong_degrees, verify_detection_body/2))*/
             Return_bool = 0
         ;
             index(2, List, Primes),
             verify_primes(Primes, B1),
             (B1 == 0 ->
-                /*throw(error(wrong_primes, verify_detection_body/2))*/
                 Return_bool = 0
             ;
                 index(3, List, Latters),
                 verify_latters(Latters, B2),
                 (B2 == 0 -> 
-                    /*throw(error(wrong_latters, verify_detection_body/2))*/
                     Return_bool = 0
                 ;
                     Return_bool = 1
@@ -354,10 +380,12 @@ verify_detection_body(List, Return_bool) :-
             )
         )
     ;
-        throw(error(wrong_input_list, List, verify_detection_body/2))
+        throw(error(wrong_input_list, List, verify_coordinate_body/2))
     ).
 
-/** Verifing if the Sign of detections is Valid **/
+/* Covert the Sign of the Coordinate Into a Number For the Decimal Conversion the Coordinate.
+ * Input: A Letter.
+ * Output: A Integer number.*/
 check_sign(Letter, Return_num) :-
     (nonvar(Letter) ->
        (Letter == 'S' ->
@@ -373,6 +401,9 @@ check_sign(Letter, Return_num) :-
         throw(error(no_input_letter, Letter, check_sign/2))
     ).
 
+/* Covert a Coordinate (in D.M.G form) into Decimal form.
+ * Input: A List containing a coordinate.
+ * Output: A Integer number containing the coordinate in decimal form.*/
 convert_to_decimal([], _) :-
     throw(error(empty_input_list, convert_to_decimal/2)).
 convert_to_decimal(List, Return_num) :-
@@ -391,7 +422,9 @@ convert_to_decimal(List, Return_num) :-
         throw(error(wrong_input_list, List, convert_to_decimal/2))
     ).
     
-
+/* Merge Two Numbers into a List that contain both.
+ * Input: Two Integer/Float numbers.
+ * Output: A List containing both the input numbers.*/
 merge_coordinates(Num1, Num2, Final_list) :-
     (number(Num1) -> 
         (number(Num2) -> 
@@ -403,16 +436,21 @@ merge_coordinates(Num1, Num2, Final_list) :-
         throw(error(wrong_input_first_number, Num1, merge_coordinates/3))
     ).
 
+/* Covert a Detection (in D.M.G form) into Decimal form.
+ * Input: A List containing a detection.
+ * Output: A List containing the detection in decimal form.*/
 get_point([], _) :-
     throw(error(empty_input_list, get_point/2)).
 get_point(List, Final_list) :-
     (list(List) -> 
         get_latitude(List, Latitude),
-        verify_latitude(Latitude, B1),
-        verify_detection_body(Latitude, B2),
+        index(0, Latitude, Sign1),
+        verify_latitude(Sign1, B1),
+        verify_coordinate_body(Latitude, B2),
         get_longitude(List, Longitude),
-        verify_longitude(Longitude, B3),
-        verify_detection_body(Longitude, B4),
+        index(0, Longitude, Sign2),
+        verify_longitude(Sign2, B3),
+        verify_coordinate_body(Longitude, B4),
         (B1 == 0 ->
             throw(error(wrong_latitude, Latitude, get_point/2))
         ;
@@ -439,6 +477,10 @@ get_point(List, Final_list) :-
 /***** End Module *****/
 
 /***** Properties Module *****/
+
+/* Calculate the Distance Between two Detections in Decimal form.
+ * Input: Two Lists containing detections in decimal form.
+ * Output: A Integer number that represent the distance (in Km) between the two detections.*/
 distance([], _, _) :-
     throw(error(empty_first_input_list, distance/3)).
 distance(_, [], _) :-
@@ -488,6 +530,9 @@ distance(List1, List2, Rn) :-
         throw(error(wrong_first_input_list, List1, distance/3))
     ).
 
+/* Calculate the Direction Between two Detections in Decimal form.
+ * Input: Two Lists containing detections in decimal form.
+ * Output: A Integer number that represent the direction (in degrees) between the two detections.*/
 direction([], _, _) :-
     throw(error(empty_first_input_list, direction/3)).
 direction(_, [], _) :-
@@ -553,6 +598,9 @@ direction(List1, List2, Return_num) :-
         throw(error(wrong_first_input_list, List1, direction/3))
     ).
     
+/* Calculate the Inverse Direction Between two Detections in Decimal form.
+ * Input: Two Lists containing detections in decimal form.
+ * Output: A Integer number that represent the inverse direction (in degrees) between the two detections.*/
 inverse_direction([], _, _) :-
     throw(error(empty_first_input_list, inverse_direction/3)).
 inverse_direction(_, [], _) :-
