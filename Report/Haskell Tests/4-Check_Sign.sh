@@ -4,8 +4,8 @@ Insert the First Detection...
 N 43 54 16.000 - T 12 54 30.000
 Insert the Second Detection...
 N 43 54 17.000 - E 12 54 40.000
-Proceed [Y/n] ?
-Y
+Proceed [yes/no]?
+yes
 First Detection in Decimal Format ---> *** Exception: Wrong Sign in:  'T' 12 54 30.0
 CallStack (from HasCallStack):
-  error, called at ./Detection.hs:45:35 in main:Detection
+  error, called at ./Detection.hs:65:37 in main:Detection

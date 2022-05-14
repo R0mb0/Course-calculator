@@ -4,9 +4,9 @@ Insert the First Detection...
 N 43 54 17.000 - E 12 54 40.000
 Insert the Second Detection...
 N 43 -4 16.000 - E 12 54 30.000
-Proceed [Y/n] ?
-Y
+Proceed [yes/no]?
+yes
 First Detection in Decimal Format ---> 43.90472,12.91111
-Second Detection in Decimal Format ---> *** Exception: Wrong Prime in:  'N' 43 -4 16.0
+Second Detection in Decimal Format ---> *** Exception: Wrong Primes in:  'N' 43 -4 16.0
 CallStack (from HasCallStack):
-  error, called at ./Detection.hs:25:42 in main:Detection
+  error, called at ./Detection.hs:41:44 in main:Detection

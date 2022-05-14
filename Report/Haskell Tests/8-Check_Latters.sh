@@ -4,8 +4,8 @@ Insert the First Detection...
 N 43 54 16.000 - E 12 54 60.000
 Insert the Second Detection...
 N 43 54 17.000 - E 12 54 40.000
-Proceed [Y/n] ?
-Y
-First Detection in Decimal Format ---> *** Exception: Wrong Latter in:  'E' 12 54 60.0
+Proceed [yes/no]?
+yes
+First Detection in Decimal Format ---> *** Exception: Wrong Latters in:  'E' 12 54 60.0
 CallStack (from HasCallStack):
-  error, called at ./Detection.hs:26:42 in main:Detection
+  error, called at ./Detection.hs:42:44 in main:Detection

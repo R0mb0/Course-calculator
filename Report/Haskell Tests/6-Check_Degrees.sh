@@ -4,8 +4,8 @@ Insert the First Detection...
 N 90 54 16.000 - E 12 54 30.000
 Insert the Second Detection...
 N 43 54 17.000 - E 12 54 40.000
-Proceed [Y/n] ?
-Y
+Proceed [yes/no]?
+yes
 First Detection in Decimal Format ---> *** Exception: Wrong Degrees in:  'N' 90 54 16.0
 CallStack (from HasCallStack):
-  error, called at ./Detection.hs:24:42 in main:Detection
+  error, called at ./Detection.hs:40:44 in main:Detection

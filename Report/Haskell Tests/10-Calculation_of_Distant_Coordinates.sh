@@ -4,8 +4,8 @@ Insert the First Detection...
 N 40 45 36.000 - W 73 59 02.400
 Insert the Second Detection...
 N 38 53 24.000 - W 77 01 55.200
-Proceed [Y/n] ?
-Y
+Proceed [yes/no]?
+yes
 First Detection in Decimal Format ---> 40.76,-73.984
 Second Detection in Decimal Format ---> 38.89,-77.032
 Distance between First & Second Detections ---> 333.21Km
