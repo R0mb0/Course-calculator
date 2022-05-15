@@ -163,7 +163,7 @@ lastN(N, List, Final_list) :-
             throw(error(wrong_input_list, List, lastN/3))
         )
     ;
-        throw(error(wrong_input_number, List, lastN/3))
+        throw(error(wrong_input_number, N, lastN/3))
     ).
 /***** End Module *****/
 
@@ -259,7 +259,7 @@ verify_latitude(Letter, Return_bool) :-
             )
         )
     ;
-        throw(error(no_input_letter, Letter, verify_latitude/2))
+        throw(error(no_input_letter, verify_latitude/2))
     ).
 
 /* Verify if the Longitude Sign of Detection is Right.
@@ -277,7 +277,7 @@ verify_longitude(Letter, Return_bool) :-
             )
         )
     ;
-        throw(error(wrong_input_list, Letter, verify_longitude/2))
+        throw(error(wrong_input_list, verify_longitude/2))
     ).
 
 /* Remove the Latitude string Part From the Detection string, Return the Longitude string Part.
@@ -291,7 +291,8 @@ split(List, Final_list) :-
         (Len >= 17 ->
             drop(17, List, Final_list)
         ;
-            throw(error(input_list_has_not_enought_elements, List, split/2))
+            atom_chars(Print, List),
+            throw(error(input_list_has_not_enought_elements, Print, split/2))
         )
     ;
         throw(error(wrong_input_list, List, split/2))
@@ -306,7 +307,8 @@ get_latitude(List, Final_list) :-
     (list(List) -> 
         verify_lenght(List, N),
         ( N == 0 ->
-            throw(error(invalid_argument, List, getLatitude/2))
+            atom_chars(Print, List),
+            throw(error(invalid_argument, Print, getLatitude/2))
         ;
             head(List, Sign),
             drop(2, List, A),
@@ -333,7 +335,8 @@ get_longitude(List, Final_list) :-
     (list(List) -> 
         verify_lenght(List, N),
         ( N == 0 ->
-            throw(error(invalid_argument, List, getLongitude/2))
+            atom_chars(Print, List),
+            throw(error(invalid_argument, Print, getLongitude/2))
         ;
             split(List, List1),
             head(List1, Sign),
@@ -353,7 +356,8 @@ get_longitude(List, Final_list) :-
     ).
 
 /* Verify if the Coordinate Body is Right,
-   (E.g. in the latitude case the body is the entire coordinate without the sign).
+   (E.g. in the latitude case the body is the entire coordinate without the sign),
+   This predicate is linked with get_point/2 in way to not write duplicate code.
  * Input: A List containing a latitude/longitude.
  * Output: A Boolean that is 1 If the Body is Right, 0 Otherwise.*/
 verify_coordinate_body([], _) :-
@@ -363,17 +367,20 @@ verify_coordinate_body(List, Return_bool) :-
         index(1, List, Degrees),
         verify_degrees(Degrees, B),
         (B == 0 -> 
-            Return_bool = 0
+            Return_bool = 0,
+            throw(error(wrong_degrees_in, List, verify_coordinate_body/2))
         ;
             index(2, List, Primes),
             verify_primes(Primes, B1),
             (B1 == 0 ->
-                Return_bool = 0
+                Return_bool = 0,
+                throw(error(wrong_primes_in, List, verify_coordinate_body/2))
             ;
                 index(3, List, Latters),
                 verify_latters(Latters, B2),
                 (B2 == 0 -> 
-                    Return_bool = 0
+                    Return_bool = 0,
+                    throw(error(wrong_latters_in, List, verify_coordinate_body/2))
                 ;
                     Return_bool = 1
                 )
@@ -398,7 +405,7 @@ check_sign(Letter, Return_num) :-
             )
         )
     ;
-        throw(error(no_input_letter, Letter, check_sign/2))
+        throw(error(no_input_letter, check_sign/2))
     ).
 
 /* Covert a Coordinate (in D.M.G form) into Decimal form.
@@ -446,28 +453,20 @@ get_point(List, Final_list) :-
         get_latitude(List, Latitude),
         index(0, Latitude, Sign1),
         verify_latitude(Sign1, B1),
-        verify_coordinate_body(Latitude, B2),
+        verify_coordinate_body(Latitude, _),
         get_longitude(List, Longitude),
         index(0, Longitude, Sign2),
-        verify_longitude(Sign2, B3),
-        verify_coordinate_body(Longitude, B4),
+        verify_longitude(Sign2, B2),
+        verify_coordinate_body(Longitude, _),
         (B1 == 0 ->
-            throw(error(wrong_latitude, Latitude, get_point/2))
+            throw(error(wrong_sign_in, Latitude, get_point/2))
         ;
             (B2 == 0 ->
-                throw(error(wrong_latitude_body, Latitude, get_point/2))
+                throw(error(wrong_sign_in, Longitude, get_point/2))
             ;
-                (B3 == 0 ->
-                    throw(error(wrong_longitude, Longitude, get_point/2))
-                ;
-                    (B4 == 0 -> 
-                        throw(error(wrong_longitude_body, Longitude, get_point/2))
-                    ;
-                        convert_to_decimal(Latitude, Dlatitude),
-                        convert_to_decimal(Longitude, Dlongitude),
-                        merge_coordinates(Dlatitude, Dlongitude, Final_list)
-                    )
-                )
+                convert_to_decimal(Latitude, Dlatitude),
+                convert_to_decimal(Longitude, Dlongitude),
+                merge_coordinates(Dlatitude, Dlongitude, Final_list)
             )
         )
     ;
