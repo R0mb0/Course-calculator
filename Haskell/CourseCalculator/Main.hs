@@ -13,9 +13,9 @@ printInfo detA detB
                    | length detB < 31 || length detB > 31 = error ("Invalid Argument: " ++ detB)
                    |otherwise = do
     putStr "First Detection in Decimal Format ---> "
-    putStrLn (show (round5dp (head (getPoint detA)))++ "," ++ show (round5dp (getPoint detA !! 1)))
+    putStrLn (show (round3dp (head (getPoint detA)))++ "," ++ show (round3dp (getPoint detA !! 1)))
     putStr "Second Detection in Decimal Format ---> "
-    putStrLn (show (round5dp (head (getPoint detB)))++ "," ++ show (round5dp (getPoint detB !! 1)))
+    putStrLn (show (round3dp (head (getPoint detB)))++ "," ++ show (round3dp (getPoint detB !! 1)))
     putStr "Distance between First & Second Detections ---> "
     putStrLn (show (round2dp (distance (getPoint detA) (getPoint detB))) ++ "Km")
     putStr "Positive direction between First & Second Detections ---> "

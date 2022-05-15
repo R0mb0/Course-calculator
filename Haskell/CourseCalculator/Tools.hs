@@ -3,8 +3,8 @@ module Tools where
 {-Function to Round a Number to 5 Decimals After the Comma.
 * Input: A Dobule Number.
 * Output: A Double Number Containing the Input Number Rounded.-}
-round5dp :: Double -> Double
-round5dp x = fromIntegral (round $ x * 1e5) / 1e5
+round3dp :: Double -> Double
+round3dp x = fromIntegral (round $ x * 1e3) / 1e3
 
 {-Function to Round a Number to 2 Decimals After the Comma.
 * Input: A Dobule Number.
