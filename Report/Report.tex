@@ -48,20 +48,51 @@
 	%\newpage
 
 \section{Specifica del Problema}
-Scrivere un programma Haskell e un programma Prolog che calcolino le proprietà di rotta formata da due punti satellitari in formato D.M.G.
+Scrivere un programma Haskell e un programma Prolog che, dato l'inserimento di due rilevamenti satellitari in formato di coordinata unica nella quale la latitudine e la longitudine sono rappresentate in formato D.M.G internazionale, effettuano le seguenti operazioni: controllo della validità dei rilevamenti inseriti dall'utente, calcolare e riportare (sempre in formato di coordinata unica) per ogni rilevamento la corrispettiva latitudine e longitudine in formato decimale, calcolare e riportare la distanza in chilometri compresa tra i due rilevamenti satellitari, calcolare e riportare l'angolo di rotta espresso in gradi (sia diretto che inverso) che unisce i due rilevamenti inseriti.
 \newline
 \newline
 \emph{[Confrontare lo svolgimento delle fasi successive con quanto riportato nelle prossime pagine.]}\\
 \newpage
 			
 \section{Analisi del Problema}
-\subsection{Dati di Ingresso del Problema}
-\subsection{Dati di Uscita del Problema}
+\subsection{Dati d' Ingresso del Problema}
+Per ciascuna delle quattro operazioni, i dati d'ingresso del problema sono rappresentati da due rilevamenti satellitari in formato di coordinata unica nella quale la latitudine e la longitudine sono rappresentate in formato D.M.G internazionale. \\
+Esempio di rilevamento accettato: N 40 45 36.000 - E 73 59 2.400.
+
+\subsection{Dati d' Uscita del Problema}
+Per ogni inserimento di una coppia di rilevamenti nel formato prima specificato i dati d' uscita del problema, rispettivamente alle ultime tre operazioni descritte all'interno della sezione di specifica del problema, sono: il risultato della conversione delle coordinate del primo rilevamento inserito dal formato D.M.G internazionale a quello decimale, il risultato della conversione delle coordinate del secondo rilevamento inserito dal formato D.M.G internazionale a quello decimale, il risultato del calcolo della distanza compresa tra i due rilevamenti inseriti, il risultato del calcolo dell'angolo di rotta diretto che unisce i due rilevamenti, il risultato del calcolo dell'angolo di rotta inverso che unisce i due rilevamenti. 
+L'operazione di controllo della validità dei rilevamenti immessi restituisce un messaggio d'errore nel caso in cui i rilevamenti inseriti non risultino validi. Il messaggio d'errore è composto da due parti, rispettivamente nella prima parte viene descritto il tipo d'errore commesso, mentre nella seconda, viene riportata la porzione di coordinata nella quale è stato rilevato l'errore. 
+
 \subsection{Relazioni Intercorrenti tra i Dati del Problema}
+Dato l'inserimento di due rilevamenti nel formato prima specificato, le operazioni in questione sono definite come segue:
+\begin{itemize}
+	\item Controllo della validità dei rilevamenti; per ogni rilevamento inserito, si verifica che la sua lunghezza sia di trentuno caratteri (considerando anche gli spazi), altrimenti viene restituito un messaggio d'errore. Successivamente si verifica se la latitudine e la longitudine siano corrette, in particolare si verifica se il "segno" della latitudine sia "N" oppure "S", in caso contrario viene restituito un messaggio d'errore, la stessa cosa vale pure per la longitudine, controllando che il "segno" sia "E" oppure "W". Il "corpo" della latitudine e della longitudine si verifica nello stesso modo, controllando se i "gradi" siano compresi tra il valore zero e il valore ottantanove (estremi compresi) e se i "primi" ed i "secondi" siano compresi tra il valore zero ed il valore cinquantanove, qualora i valori dei "gradi", dei "primi" o dei "secondi" dovessero risultare sbagliati, verrà restituito un messaggio d'errore.
+	
+	\item Conversione delle coordinate dalla forma D.M.G internazionale alla forma decimale; data una qualsiasi coordinata il passaggio dalla forma D.M.G internazionale alla forma decimale è definito come segue: \\
+	Decimali = (Gradi + ( ((Secondi / 60) + Primi) / 60 ) * (-1) se il Segno è  S o W).
+	
+	\item Calcolo della distanza compresa tra i due rilevamenti inseriti;  data una coppia di rilevamenti rispettivamente denominati "A" e "B" la distanza compresa è definita come: \\
+	$Distanza(A, B) = R * \arccos(\sin(latA * \pi / 180) * \sin(latB * \pi / 180) + \cos(latA * \pi / 180) * \cos(latB * \pi / 180) * \cos((lonA - lonB) * \pi / 180)). $\\
+	dove R rappresenta il raggio della Terra.
+	
+	\item Calcolo dell'angolo di rotta diretto e inverso tra i due rilevamenti inseriti; data una coppia di rilevamenti rispettivamente denominati "A" e "B" e data la condizione che la latitudine e la longitudine siano diverse l'angolo di rotta diretto e inverso compresa è definita come: \\
+	$\Delta\Phi = \ln( \tan(latB * \pi / 360 + \pi / 4 ) / \tan(latA * \pi / 360 + \pi / 4 )). $\\
+	$ \Delta Lon = abs(lonA - lonB). $ \\
+	$ Direzione Diretta = atan2((\Delta Lon * \pi / 180), (abs(\Delta\Phi))) / \pi * 180.$\\
+	$ Direzione Inversa = Direzione Diretta + 180.$\\
+	Nel caso in cui la latitudini dei due rilevamenti siano identiche:\\
+	$\Delta\Phi = \pi / 180 * 0.000000001.$\\
+	Nel caso in cui la longitudini dei due rilevamenti siano identiche:\\
+	$\Delta Lon = \pi / 180 * 0.000000001.$\\
+\end{itemize}
 \newpage
 
 \section{Progettazione dell'Algoritmo}
 \subsection{Scelte di Progetto}
+Il rilevamento inserito dall'utente viene inizialmente salvato all'interno di una "stringa", la quale viene poi considerata come una "lista di caratteri char" in modo da poter effettuare più agilmente le operazioni per l'estrazione della latitudine e della longitudine, in quanto le coordinate da estrarre saranno due sotto liste distinte della prima (per questo motivo si richiede che i rilevamenti siano composti precisamente da trentuno caratteri). Finita l'estrazione delle coordinate quest'ultime vengono convertite dal formato  "lista di caratteri char" al formato  "tupla" così definita : (Char, Integer, Integer, Float) ovvero (Segno, Gradi, Primi, Secondi). In modo da poter disporre di dati più semplici da gestire nelle operazioni successive.
+Nel caso specifico del linguaggio Prolog la latitudine e la longitudine non saranno convertite dal formato "lista di caratteri char" al formato "tupla", ma al posto del formato "tupla" si utilizzerà il formato "lista mista" così definita: [Segno, Gradi, Primi, Secondi].\\
+La gestione delle coordinate appena descritta vale anche per le coordinate in formato decimali le quali sono riunite all'interno di una "tupla" o di una "mista" a seconda dei casi.
+
 \subsection{Passi dell'Algoritmo}
 \newpage
 
