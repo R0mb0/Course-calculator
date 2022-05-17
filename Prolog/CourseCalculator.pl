@@ -143,28 +143,6 @@ take(N, List, Final_list) :-
         throw(error(wrong_input_number, N, take/3))
     ).
     
-/* Mantaing Only the Specified Number of Elements From the Tail.
- * Input: A Integer number, a List.
- * Output: A List with only the number of elements specified from the tail.*/
-lastN(_, [], _) :-
-    throw(error(empty_input_list, lastN/3)).
-lastN(_, [X], X).
-lastN(N, List, Final_list) :-
-    (integer(N) -> 
-        (list(List) -> 
-            (N < 0 ->
-                throw(error(negative_parameter, N, lastN/3))
-            ;
-                length(List, Len),
-                N1 is Len - N,
-                drop(N1, List, Final_list)
-            )
-        ;
-            throw(error(wrong_input_list, List, lastN/3))
-        )
-    ;
-        throw(error(wrong_input_number, N, lastN/3))
-    ).
 /***** End Module *****/
 
 /***** Detection Module *****/
