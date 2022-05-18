@@ -3,6 +3,8 @@
 \usepackage[utf8]{inputenc}
 \usepackage[margin=75pt]{geometry}
 \usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{spverbatim}
 
 %IMPORT CODE
 %\usepackage{minted}
@@ -152,26 +154,309 @@ I passi dell'algoritmo sono diversi a seconda del tipo d'operazione:
 
 \section{Testing del Programma}
 \subsection*{Test Haskell 1}
+	\begin{spverbatim}
+		Detections Properties Calculator V1.0 
+		Waring: The Detections must be in D.M.G format and inserted into the program like: N 40 45 36.000 - E 73 59 2.400
+		Insert the First Detection...
+		43 54 16.000  E 12 54 30.000
+		Insert the Second Detection...
+		N 43 54 17.000 - E 12 54 40.000
+		Proceed [yes/no]?
+		yes
+		*** Exception: Invalid Argument: 43 54 16.000  E 12 54 30.000
+		CallStack (from HasCallStack):
+		error, called at Main.hs:12:61 in main:Main
+	\end{spverbatim}
+
 \subsection*{Test Haskell 2}
+	\begin{spverbatim}
+		Detections Properties Calculator V1.0 
+		Waring: The Detections must be in D.M.G format and inserted into the program like: N 40 45 36.000 - E 73 59 2.400
+		Insert the First Detection...
+		N 43 54 16.000 - E 12 54 30
+		Insert the Second Detection...
+		N 43 54 17.000 - E 12 54 40.000
+		Proceed [yes/no]?
+		yes
+		*** Exception: Invalid Argument: N 43 54 16.000 - E 12 54 30
+		CallStack (from HasCallStack):
+		error, called at Main.hs:12:61 in main:Main
+	\end{spverbatim}
+
 \subsection*{Test Haskell 3}
+	\begin{spverbatim}
+		Detections Properties Calculator V1.0 
+		Waring: The Detections must be in D.M.G format and inserted into the program like: N 40 45 36.000 - E 73 59 2.400
+		Insert the First Detection...
+		T 43 54 16.000 - E 12 54 30.000
+		Insert the Second Detection...
+		N 43 54 17.000 - E 12 54 40.000
+		Proceed [yes/no]?
+		yes
+		First Detection in Decimal Format ---> *** Exception: Wrong Sign in:  'T' 43 54 16.0
+		CallStack (from HasCallStack):
+		error, called at ./Detection.hs:54:37 in main:Detection	
+	\end{spverbatim}
+
 \subsection*{Test Haskell 4}
+	\begin{spverbatim}
+		Detections Properties Calculator V1.0 
+		Waring: The Detections must be in D.M.G format and inserted into the program like: N 40 45 36.000 - E 73 59 2.400
+		Insert the First Detection...
+		N 43 54 16.000 - T 12 54 30.000
+		Insert the Second Detection...
+		N 43 54 17.000 - E 12 54 40.000
+		Proceed [yes/no]?
+		yes
+		First Detection in Decimal Format ---> *** Exception: Wrong Sign in:  'T' 12 54 30.0
+		CallStack (from HasCallStack):
+		error, called at ./Detection.hs:65:37 in main:Detection
+	\end{spverbatim}
+
 \subsection*{Test Haskell 5}
+	\begin{spverbatim}
+		Detections Properties Calculator V1.0 
+		Waring: The Detections must be in D.M.G format and inserted into the program like: N 40 45 36.000 - E 73 59 2.400
+		Insert the First Detection...
+		E 43 54 16.000 - N 12 54 30.000
+		Insert the Second Detection...
+		N 43 54 17.000 - E 12 54 40.000
+		Proceed [yes/no]?
+		yes
+		First Detection in Decimal Format ---> *** Exception: Wrong Sign in:  'E' 43 54 16.0
+		CallStack (from HasCallStack):
+		error, called at ./Detection.hs:54:37 in main:Detection
+	\end{spverbatim}
+
 \subsection*{Test Haskell 6}
+	\begin{spverbatim}
+		Detections Properties Calculator V1.0 
+		Waring: The Detections must be in D.M.G format and inserted into the program like: N 40 45 36.000 - E 73 59 2.400
+		Insert the First Detection...
+		N 90 54 16.000 - E 12 54 30.000
+		Insert the Second Detection...
+		N 43 54 17.000 - E 12 54 40.000
+		Proceed [yes/no]?
+		yes
+		First Detection in Decimal Format ---> *** Exception: Wrong Degrees in:  'N' 90 54 16.0
+		CallStack (from HasCallStack):
+		error, called at ./Detection.hs:40:44 in main:Detection
+	\end{spverbatim}
+
 \subsection*{Test Haskell 7}
+	\begin{spverbatim}
+		Detections Properties Calculator V1.0 
+		Waring: The Detections must be in D.M.G format and inserted into the program like: N 40 45 36.000 - E 73 59 2.400
+		Insert the First Detection...
+		N 43 54 17.000 - E 12 54 40.000
+		Insert the Second Detection...
+		N 43 -4 16.000 - E 12 54 30.000
+		Proceed [yes/no]?
+		yes
+		First Detection in Decimal Format ---> 43.905,12.911
+		Second Detection in Decimal Format ---> *** Exception: Wrong Primes in:  'N' 43 -4 16.0
+		CallStack (from HasCallStack):
+		error, called at ./Detection.hs:41:44 in main:Detection
+	\end{spverbatim}
+
 \subsection*{Test Haskell 8}
+	\begin{spverbatim}
+		Detections Properties Calculator V1.0 
+		Waring: The Detections must be in D.M.G format and inserted into the program like: N 40 45 36.000 - E 73 59 2.400
+		Insert the First Detection...
+		N 43 54 16.000 - E 12 54 60.000
+		Insert the Second Detection...
+		N 43 54 17.000 - E 12 54 40.000
+		Proceed [yes/no]?
+		yes
+		First Detection in Decimal Format ---> *** Exception: Wrong Latters in:  'E' 12 54 60.0
+		CallStack (from HasCallStack):
+		error, called at ./Detection.hs:42:44 in main:Detection
+	\end{spverbatim}
+
 \subsection*{Test Haskell 9}
+	\begin{spverbatim}
+		Detections Properties Calculator V1.0 
+		Waring: The Detections must be in D.M.G format and inserted into the program like: N 40 45 36.000 - E 73 59 2.400
+		Insert the First Detection...
+		N 43 54 16.000 - E 12 54 30.000
+		Insert the Second Detection...
+		N 43 54 16.000 - E 12 54 40.000
+		Proceed [yes/no]?
+		yes
+		First Detection in Decimal Format ---> 43.904,12.908
+		Second Detection in Decimal Format ---> 43.904,12.911
+		Distance between First & Second Detections ---> 0.22Km
+		Positive direction between First & Second Detections ---> 90.0°
+		Negative direction between First & Second Detections ---> 270.0°
+	\end{spverbatim}
+
 \subsection*{Test Haskell 10}
+	\begin{spverbatim}
+		Detections Properties Calculator V1.0 
+		Waring: The Detections must be in D.M.G format and inserted into the program like: N 40 45 36.000 - E 73 59 2.400
+		Insert the First Detection...
+		N 40 45 36.000 - W 73 59 02.400
+		Insert the Second Detection...
+		N 38 53 24.000 - W 77 01 55.200
+		Proceed [yes/no]?
+		yes
+		First Detection in Decimal Format ---> 40.76,-73.984
+		Second Detection in Decimal Format ---> 38.89,-77.032
+		Distance between First & Second Detections ---> 333.21Km
+		Positive direction between First & Second Detections ---> 51.38°
+		Negative direction between First & Second Detections ---> 231.38°
+	\end{spverbatim}
+	\includegraphics[width=0.9\textwidth]{Haskell_Tests/10-Calculation_of_Distant_Coordinates_Check}
+	
 \newpage
 \subsection*{Test Prolog 1}
+	\begin{spverbatim}
+		Detections Properties Calculator V1.0
+		Waring: The Detections must be in D.M.G format and inserted into the program like: `N 40 45 36.000 - E 73 59 2.400`.
+		Insert the First Detection...
+		`43 54 16.000  E 12 54 30.000`.
+		Insert the Second Detection...
+		`N 43 54 17.000 - E 12 54 40.000`.
+		Proceed [yes./no.]?
+		yes.
+		First Detection in Decimal Format ---> 
+		uncaught exception: error(invalid_argument,'43 54 16.000  E 12 54 30.000',getLatitude/2)
+	\end{spverbatim}
+
 \subsection*{Test Prolog 2}
+	\begin{spverbatim}
+		Detections Properties Calculator V1.0
+		Waring: The Detections must be in D.M.G format and inserted into the program like: `N 40 45 36.000 - E 73 59 2.400`.
+		Insert the First Detection...
+		`N 43 54 16.000 - E 12 54 30`.
+		Insert the Second Detection...
+		`N 43 54 17.000 - E 12 54 40.000`.
+		Proceed [yes./no.]?
+		yes.
+		First Detection in Decimal Format ---> 
+		uncaught exception: error(invalid_argument,'N 43 54 16.000 - E 12 54 30',getLatitude/2)
+	\end{spverbatim}
+
 \subsection*{Test Prolog 3}
+	\begin{spverbatim}
+		Detections Properties Calculator V1.0
+		Waring: The Detections must be in D.M.G format and inserted into the program like: `N 40 45 36.000 - E 73 59 2.400`.
+		Insert the First Detection...
+		`T 43 54 16.000 - E 12 54 30.000`.
+		Insert the Second Detection...
+		`N 43 54 17.000 - E 12 54 40.000`.
+		Proceed [yes./no.]?
+		yes.
+		First Detection in Decimal Format ---> 
+		uncaught exception: error(wrong_sign_in,['T',43,54,16.0],get_point/2)
+	\end{spverbatim}
+
 \subsection*{Test Prolog 4}
+	\begin{spverbatim}
+		Detections Properties Calculator V1.0
+		Waring: The Detections must be in D.M.G format and inserted into the program like: `N 40 45 36.000 - E 73 59 2.400`.
+		Insert the First Detection...
+		`N 43 54 16.000 - T 12 54 30.000`.
+		Insert the Second Detection...
+		`N 43 54 17.000 - E 12 54 40.000`.
+		Proceed [yes./no.]?
+		yes.
+		First Detection in Decimal Format ---> 
+		uncaught exception: error(wrong_sign_in,['T',12,54,30.0],get_point/2)
+	\end{spverbatim}
+
 \subsection*{Test Prolog 5}
+	\begin{spverbatim}
+		Detections Properties Calculator V1.0
+		Waring: The Detections must be in D.M.G format and inserted into the program like: `N 40 45 36.000 - E 73 59 2.400`.
+		Insert the First Detection...
+		`E 43 54 16.000 - N 12 54 30.000`.
+		Insert the Second Detection...
+		`N 43 54 17.000 - E 12 54 40.000`.
+		Proceed [yes./no.]?
+		yes.
+		First Detection in Decimal Format ---> 
+		uncaught exception: error(wrong_sign_in,['E',43,54,16.0],get_point/2)
+	\end{spverbatim}
+
 \subsection*{Test Prolog 6}
+	\begin{spverbatim}
+		Detections Properties Calculator V1.0
+		Waring: The Detections must be in D.M.G format and inserted into the program like: `N 40 45 36.000 - E 73 59 2.400`.
+		Insert the First Detection...
+		`N 90 54 16.000 - E 12 54 30.000`.
+		Insert the Second Detection...
+		`N 43 54 17.000 - E 12 54 40.000`.
+		Proceed [yes./no.]?
+		yes.
+		First Detection in Decimal Format ---> 
+		uncaught exception: error(wrong_degrees_in,['N',90,54,16.0],verify_coordinate_body/2)
+	\end{spverbatim}
+
 \subsection*{Test Prolog 7}
+	\begin{spverbatim}
+		Detections Properties Calculator V1.0
+		Waring: The Detections must be in D.M.G format and inserted into the program like: `N 40 45 36.000 - E 73 59 2.400`.
+		Insert the First Detection...
+		`N 43 54 17.000 - E 12 54 40.000`.
+		Insert the Second Detection...
+		`N 43 -4 16.000 - E 12 54 30.000`.
+		Proceed [yes./no.]?
+		yes.
+		First Detection in Decimal Format ---> 43.905,12.911
+		Second Detection in Decimal Format ---> 
+		uncaught exception: error(wrong_primes_in,['N',43,-4,16.0],verify_coordinate_body/2)
+	\end{spverbatim}
+
 \subsection*{Test Prolog 8}
+	\begin{spverbatim}
+		Detections Properties Calculator V1.0
+		Waring: The Detections must be in D.M.G format and inserted into the program like: `N 40 45 36.000 - E 73 59 2.400`.
+		Insert the First Detection...
+		`N 43 54 16.000 - E 12 54 60.000`.
+		Insert the Second Detection...
+		`N 43 54 17.000 - E 12 54 40.000`.
+		Proceed [yes./no.]?
+		yes.
+		First Detection in Decimal Format ---> 
+		uncaught exception: error(wrong_latters_in,['E',12,54,60.0],verify_coordinate_body/2)
+	\end{spverbatim}
+
 \subsection*{Test Prolog 9}
+	\begin{spverbatim}
+		Detections Properties Calculator V1.0
+		Waring: The Detections must be in D.M.G format and inserted into the program like: `N 40 45 36.000 - E 73 59 2.400`.
+		Insert the First Detection...
+		`N 43 54 16.000 - E 12 54 30.000`.
+		Insert the Second Detection...
+		`N 43 54 16.000 - E 12 54 40.000`.
+		Proceed [yes./no.]?
+		yes.
+		First Detection in Decimal Format ---> 43.904,12.908
+		Second Detection in Decimal Format ---> 43.904,12.911
+		Distance between First & Second Detections ---> 0.22Km
+		Positive direction between First & Second Detections ---> 90.00°
+		Negative direction between First & Second Detections ---> 270.00°
+	\end{spverbatim}
+
 \subsection*{Test Prolog 10}
+	\begin{spverbatim}
+		Detections Properties Calculator V1.0
+		Waring: The Detections must be in D.M.G format and inserted into the program like: `N 40 45 36.000 - E 73 59 2.400`.
+		Insert the First Detection...
+		`N 40 45 36.000 - W 73 59 02.400`.
+		Insert the Second Detection...
+		`N 38 53 24.000 - W 77 01 55.200`.
+		Proceed [yes./no.]?
+		yes.
+		First Detection in Decimal Format ---> 40.760,-73.984
+		Second Detection in Decimal Format ---> 38.890,-77.032
+		Distance between First & Second Detections ---> 333.21Km
+		Positive direction between First & Second Detections ---> 51.38°
+		Negative direction between First & Second Detections ---> 231.38°
+	\end{spverbatim}
+	\includegraphics[width=0.9\textwidth]{Prolog_Tests/10-Calculation_of_Distant_Coordinates_Check}
 \newpage
 
 \section{Considerazioni Finali}
@@ -179,7 +464,8 @@ I passi dell'algoritmo sono diversi a seconda del tipo d'operazione:
 
 Il linguaggio Haskell e il programma Prolog non condividono gli stessi strumenti per gestione della struttura dati lista, infatti il Prolog deficita di strumenti come : Index, drop, init e take. Presenti invece nel linguaggio Haskell.\\
 Per fare in modo che i due programmi condividessero delle funzioni/predicati quanto più simili possibile, sono stati implementati gli strumenti di cui il Prolog deficita.\\
-Inoltre nel programma Prolog a differenza del programma Haskell è necessario verificare esplicitamente che ogni argomento in input sia istanziato e che rispetti il tipo richiesto. mentre nel programma Haskell il controllo viene effettuato automaticamente dal sistema di tipi. 
+Nel programma Prolog a differenza del programma Haskell è necessario verificare esplicitamente che ogni argomento in input sia istanziato e che rispetti il tipo richiesto. mentre nel programma Haskell il controllo viene effettuato automaticamente dal sistema di tipi.\\
+Inoltre nel programma Prolog a differenza del programma Haskell l'inserimento di una stringa contenente degli spazi comporta che quest'ultima sia compresa tra apici oppure tra il simbolo dell'apostrofo, in questo modo l'inserimento viene considerato come un unico oggetto per il quale i carattere di spazio non rappresentano più un problema d'interpretazione.
 
 \underline{File sorgente \textbf{nome\_file.hs} esteso con l'azione iniziale:}
 \lstset{language=Haskell}
