@@ -466,6 +466,7 @@ Il linguaggio Haskell e il programma Prolog non condividono gli stessi strumenti
 Per fare in modo che i due programmi condividessero delle funzioni/predicati quanto più simili possibile, sono stati implementati gli strumenti di cui il Prolog deficita.\\
 Nel programma Prolog a differenza del programma Haskell è necessario verificare esplicitamente che ogni argomento in input sia istanziato e che rispetti il tipo richiesto. mentre nel programma Haskell il controllo viene effettuato automaticamente dal sistema di tipi.\\
 Inoltre nel programma Prolog a differenza del programma Haskell l'inserimento di una stringa contenente degli spazi comporta che quest'ultima sia compresa tra apici oppure tra il simbolo dell'apostrofo, in questo modo l'inserimento viene considerato come un unico oggetto per il quale i carattere di spazio non rappresentano più un problema d'interpretazione.
+Per quanto riguarda la stampa a video dei risultati delle varie operazioni, nel programma Haskell è stato necessario implementare delle funzioni per l'approssimazione dei numeri ad un decimale, mentre nel caso del programma Prolog è già presente un predicato che svolge questa funzione.
 
 \underline{File sorgente \textbf{nome\_file.hs} esteso con l'azione iniziale:}
 \lstset{language=Haskell}

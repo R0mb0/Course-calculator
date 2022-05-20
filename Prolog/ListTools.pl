@@ -22,7 +22,7 @@ index(N, [_|T], E) :-
 /* Like the head Function in Haskell. 
  * Input: A List.
  * Output: The First Element of List.*/
-head([],_) :-
+head([], _) :-
     throw(error(empty_input_list, head/2)).
 head([H], H).
 head([H|_], H).
@@ -30,7 +30,7 @@ head([H|_], H).
 /* Like the tail Function in Haskell. 
  * Input: A List.
  * Output: A List without the first element.*/
-tail([],_) :-
+tail([], _) :-
     throw(error(empty_input_list, tail/2)).
 tail([T], T).
 tail([_|T], T).
