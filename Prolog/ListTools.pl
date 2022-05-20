@@ -36,7 +36,7 @@ tail([T], T).
 tail([_|T], T).
 
 /* Like the drop Function in Haskell. 
- * Input: A Integer number, a List.
+ * Input: An Integer number, a List.
  * Output: A List without the number of elements specified from the head.*/
 drop(_, [], _) :-
     throw(error(empty_input_list, drop/3)).
@@ -84,7 +84,7 @@ init(List, Final_list) :-
     ).
     
 /* Remove Ns Elements From the Input List.
- * Input: A Integer number, a List.
+ * Input: An Integer number, a List.
  * Output: A List without the number of elements specified from the tail.*/
 remove_from_tail(_, [], _) :-
     throw(error(empty_input_list, remove_from_tail/3)).
@@ -119,7 +119,7 @@ remove_from_tail(N, List, Final_list) :-
     ).
 
 /* Like the take Function in Haskell. 
- * Input: A Integer number, a List.
+ * Input: An Integer number, a List.
  * Output: A List with only the number of elements specified from the head.*/
 take(_, [], _) :-
     throw(error(empty_input_list, take/3)).

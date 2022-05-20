@@ -37,7 +37,7 @@ phi detA detB
                  latA = head detA * pi / 180
                  latB = head detB * pi / 180
 
-{-Verify if Delta Longitude must be Nomralized.
+{-Verify if Delta Longitude must be Normalized.
 * Input: A Double Containing the Delta Longitude value.
 * Output: A Double Containing the Correct Delta Longitude value.-}
 verLon :: Double -> Double 

@@ -129,9 +129,9 @@ split(List, Final_list) :-
         throw(error(wrong_input_list, List, split/2))
     ).    
 
-/* Tranform the Input String Containign the Latitude part into a Latitude List, [Sign, Degrees, Primes, Latters].
+/* Transform the Input String Containing the Latitude part into a Latitude List, [Sign, Degrees, Primes, Latters].
  * Input: A List.
- * Output: A List containing the latide.*/
+ * Output: A List containing the latitude.*/
 get_latitude([], _) :-
     throw(error(empty_input_list, get_latitude/2)).
 get_latitude(List, Final_list) :-
@@ -157,7 +157,7 @@ get_latitude(List, Final_list) :-
         throw(error(wrong_input_list, List, get_latitude/2))
     ).
 
-/* Tranform the Input String Containign the Longitude part into a Longitude List, [Sign, Degrees, Primes, Latters].
+/* Transform the Input String Containing the Longitude part into a Longitude List, [Sign, Degrees, Primes, Latters].
  * Input: A List.
  * Output: A List containing the longitude.*/
 get_longitude([], _) :-
@@ -188,7 +188,7 @@ get_longitude(List, Final_list) :-
 
 /* Verify if the Coordinate Body is Right,
    (E.g. in the latitude case the body is the entire coordinate without the sign),
-   This predicate is linked with get_point/2 in way to not write duplicate code.
+   This predicate is linked with get_point/2 to not write duplicate code.
  * Input: A List containing a latitude/longitude.
  * Output: A Boolean that is 1 If the Body is Right, 0 Otherwise.*/
 verify_coordinate_body([], _) :-
@@ -221,9 +221,9 @@ verify_coordinate_body(List, Return_bool) :-
         throw(error(wrong_input_list, List, verify_coordinate_body/2))
     ).
 
-/* Covert the Sign of the Coordinate Into a Number For the Decimal Conversion the Coordinate.
+/* Convert the Sign of the Coordinate Into a Number For the Decimal Conversion the Coordinate.
  * Input: A Letter.
- * Output: A Integer number.*/
+ * Output: An Integer number.*/
 check_sign(Letter, Return_num) :-
     (nonvar(Letter) ->
        (Letter == 'S' ->
@@ -239,9 +239,9 @@ check_sign(Letter, Return_num) :-
         throw(error(no_input_letter, check_sign/2))
     ).
 
-/* Covert a Coordinate (in D.M.G form) into Decimal form.
+/* Convert a Coordinate (in D.M.G form) into Decimal form.
  * Input: A List containing a coordinate.
- * Output: A Integer number containing the coordinate in decimal form.*/
+ * Output: An Integer number containing the coordinate in decimal form.*/
 convert_to_decimal([], _) :-
     throw(error(empty_input_list, convert_to_decimal/2)).
 convert_to_decimal(List, Return_num) :-
@@ -274,7 +274,7 @@ merge_coordinates(Num1, Num2, Final_list) :-
         throw(error(wrong_input_first_number, Num1, merge_coordinates/3))
     ).
 
-/* Covert a Detection (in D.M.G form) into Decimal form.
+/* Convert a Detection (in D.M.G form) into Decimal form.
  * Input: A List containing a detection.
  * Output: A List containing the detection in decimal form.*/
 get_point([], _) :-

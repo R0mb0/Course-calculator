@@ -12,8 +12,8 @@ split = drop 17
 
 {-Get the Latitude Tupla from the Detection string.
 * Input: A Detection String.
-* Outout: A Tupla Containing the Latitude in D.M.G format,
-   (Sign, Degrees, Primes Latters).-}
+* Output: A Tupla Containing the Latitude in D.M.G format,
+   (Sign, Degrees, Primes, Latters).-}
 getLatitude :: String -> (Char, Int, Int, Float)
 getLatitude [] = error "Null Argument"
 getLatitude st
@@ -22,8 +22,8 @@ getLatitude st
 
 {-Get the Longitude Tupla from the Detection string.
 * Input: A Detection String.
-* Outout: A Tupla Containing the Longitude in D.M.G format,
-   (Sign, Degrees, Primes Latters).-}
+* Output: A Tupla Containing the Longitude in D.M.G format,
+   (Sign, Degrees, Primes, Latters).-}
 getLongitude :: String -> (Char, Int, Int, Float)
 getLongitude [] = error "Null Argument"
 getLongitude st

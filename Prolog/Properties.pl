@@ -2,7 +2,7 @@
 
 /* Calculate the Distance Between two Detections in Decimal form.
  * Input: Two Lists containing detections in decimal form.
- * Output: A Integer number that represent the distance (in Km) between the two detections.*/
+ * Output: An Integer number that represent the distance (in Km) between the two detections.*/
 distance([], _, _) :-
     throw(error(empty_first_input_list, distance/3)).
 distance(_, [], _) :-
@@ -54,7 +54,7 @@ distance(List1, List2, Rn) :-
 
 /* Calculate the Direction Between two Detections in Decimal form.
  * Input: Two Lists containing detections in decimal form.
- * Output: A Integer number that represent the direction (in degrees) between the two detections.*/
+ * Output: An Integer number that represent the direction (in degrees) between the two detections.*/
 direction([], _, _) :-
     throw(error(empty_first_input_list, direction/3)).
 direction(_, [], _) :-
@@ -122,7 +122,7 @@ direction(List1, List2, Return_num) :-
     
 /* Calculate the Inverse Direction Between two Detections in Decimal form.
  * Input: Two Lists containing detections in decimal form.
- * Output: A Integer number that represent the inverse direction (in degrees) between the two detections.*/
+ * Output: An Integer number that represent the inverse direction (in degrees) between the two detections.*/
 inverse_direction([], _, _) :-
     throw(error(empty_first_input_list, inverse_direction/3)).
 inverse_direction(_, [], _) :-
