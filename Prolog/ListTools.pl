@@ -1,7 +1,7 @@
-/***** List Tools Module *****/
+/***** List Tools Module. *****/
 
 /* Like the index Function in Haskell. 
- * Input: A integer Index, a List.
+ * Input: An integer Index, a List.
  * Output: The Element of the List at the Index Specified.*/
 index(_, [], _) :-
     throw(error(empty_input_list, index/3)).
@@ -141,4 +141,4 @@ take(N, List, Final_list) :-
         throw(error(wrong_input_number, N, take/3))
     ).
     
-/***** End Module *****/
+/***** End Module. *****/

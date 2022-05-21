@@ -1,4 +1,4 @@
-/***** Properties Module *****/
+/***** Properties Module. *****/
 
 /* Calculate the Distance Between two Detections in Decimal form.
  * Input: Two Lists containing detections in decimal form.
@@ -139,4 +139,4 @@ inverse_direction(List1, List2, Return_num) :-
         throw(error(wrong_first_input_list, List1, inverse_direction/3))
     ).
     
-/***** End Module *****/
+/***** End Module. *****/

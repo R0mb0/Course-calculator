@@ -1,4 +1,4 @@
-/***** Detection Module *****/
+/***** Detection Module. *****/
 
 /* Verify if the Input String Has the Right Lenght.
  * Input: A List.
@@ -22,7 +22,7 @@ verify_lenght(List, Return_bool) :-
     ).
 
 /* Verify if the Degrees of Detection Are Real.
- * Input: A Integer Number.
+ * Input: An Integer Number.
  * Output: A Boolean that is 1 If the Degrees Are Real, 0 Otherwise.*/
 verify_degrees(Num, Return_bool) :-
    (integer(Num) ->
@@ -40,7 +40,7 @@ verify_degrees(Num, Return_bool) :-
     ).
 
 /* Verify if the Primes of Detection Are Real.
- * Input: A Integer Number.
+ * Input: An Integer Number.
  * Output: A Boolean that is 1 If the Primes Are Real, 0 Otherwise.*/
 verify_primes(Num, Return_bool) :-
     (integer(Num) -> 
@@ -58,7 +58,7 @@ verify_primes(Num, Return_bool) :-
     ).
 
 /* Verify if the Latters of Detection Are Real.
- * Input: A Integer or Float Number.
+ * Input: An Integer or Float Number.
  * Output: A Boolean that is 1 If the Latters Are Real, 0 Otherwise.*/
 verify_latters(Num, Return_bool) :-
     (number(Num) ->
@@ -304,4 +304,4 @@ get_point(List, Final_list) :-
         throw(error(wrong_input_list, List, get_point/2))
     ).
     
-/***** End Module *****/
+/***** End Module. *****/
