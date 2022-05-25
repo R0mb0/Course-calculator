@@ -8,10 +8,7 @@ import Tools
 printInfo :: String -> String -> IO ()
 printInfo [] [_] = error "The First Argument Is Null"
 printInfo [_] [] = error "The Second Argument Is Null"
-printInfo detA detB
-                   | length detA < 31 || length detA > 31 = error ("Invalid Argument: " ++ detA)
-                   | length detB < 31 || length detB > 31 = error ("Invalid Argument: " ++ detB)
-                   |otherwise = do
+printInfo detA detB = do
     putStr "First Detection in Decimal Format ---> "
     putStrLn (show (round3dp (head (getPoint detA)))++ "," ++ show (round3dp (getPoint detA !! 1)))
     putStr "Second Detection in Decimal Format ---> "

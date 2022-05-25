@@ -10,6 +10,26 @@ import GHC.Num
 split :: String -> String
 split = drop 17 
 
+verifyLenght :: String -> Bool
+verifyLenght [] = error "Null Argument"
+verifyLenght st
+               | length st < 32 || length st > 32 = False
+               | otherwise = True
+
+verifyFormat :: String -> Bool
+verifyFormat [] = error "Null Argument"
+verifyFormat st
+               | not (verifyLenght st) = False
+               | st !! 1 /= ' ' = False
+               | st !! 4 /= ' ' = False
+               | st !! 7 /= ' ' = False
+               | st !! 14 /= ' ' = False
+               | st !! 16 /= ' ' = False
+               | st !! 18 /= ' ' = False
+               | st !! 22 /= ' ' = False
+               | st !! 25 /= ' ' = False
+               | otherwise = True
+
 {-Get the Latitude Tupla from the Detection string.
 * Input: A Detection String.
 * Output: A Tupla Containing the Latitude in D.M.G format,
@@ -17,7 +37,7 @@ split = drop 17
 getLatitude :: String -> (Char, Int, Int, Float)
 getLatitude [] = error "Null Argument"
 getLatitude st
-              | length st < 31 || length st > 31 = error ("Invalid Argument: " ++ st)
+              | not (verifyFormat st) = error ("Invalid Argument: " ++ st)
               | otherwise = (head st, read (take 2 (drop 2 st)) :: Int, read (drop 5 (take 7 st)) :: Int, read (drop 8 (take 14 st)) :: Float)
 
 {-Get the Longitude Tupla from the Detection string.
@@ -27,45 +47,67 @@ getLatitude st
 getLongitude :: String -> (Char, Int, Int, Float)
 getLongitude [] = error "Null Argument"
 getLongitude st
-               | length st < 31 || length st > 31 = error ("Invalid Argument: " ++ st)
-               | otherwise = (head (split st), read (take 2 (drop 2 (split st))) :: Int, read (drop 5 (take 7 (split st))) :: Int, read (drop 8 (take 14 (split st))) :: Float)
+               | not (verifyFormat st) = error ("Invalid Argument: " ++ st)
+               | otherwise = (head (split st), read (take 3 (drop 2 (split st))) :: Int, read (drop 6 (take 8 (split st))) :: Int, read (drop 9 (take 15 (split st))) :: Float)
 
 {-** Verify if Latitude & Longitude are Real. **-}
+
+verifyLatDeg :: (Char, Int, Int, Float) -> Bool 
+verifyLatDeg (s, x, y, z)
+                         | x < 0 || x > 89 = error ("Wrong Degree in: " ++ pt)
+                         | otherwise = True
+                         where
+                              pt = " " ++ show s ++ " " ++ show x ++ " " ++ show y++ " " ++ show z
+
+verifyLongDeg :: (Char, Int, Int, Float) -> Bool 
+verifyLongDeg (s, x, y, z)
+                          | x < 0 || x > 179 = error ("Wrong Degree in: " ++ pt)
+                          | otherwise = True
+                          where
+                               pt = " " ++ show s ++ " " ++ show x ++ " " ++ show y++ " " ++ show z
 
 {-Verify the Detection Latitude/Longitude Tupla Body.
  * Input: A Latitude or Longitude Tupla.
  * Output: True if the Degrees, Primes & Latters are Real. False otherwise.-}
-verDetBody :: (Char, Int, Int, Float) -> Bool
-verDetBody (s, x, y, z)
-                       | x < 0 || x > 89 = error ("Wrong Degrees in: " ++ pt)
-                       | y < 0 || y > 59 = error ("Wrong Primes in: " ++ pt)
-                       | z < 0 || z > 59 = error ("Wrong Latters in: " ++ pt)
-                       | otherwise = True 
-                       where
-                           pt = " " ++ show s ++ " " ++ show x ++ " " ++ show y++ " " ++ show z
+verifyDetBody :: (Char, Int, Int, Float) -> Bool
+verifyDetBody (s, x, y, z)
+                          | y < 0 || y > 59 = error ("Wrong Primes in: " ++ pt)
+                          | z < 0 || z > 59 = error ("Wrong Latters in: " ++ pt)
+                          | otherwise = True 
+                          where
+                              pt = " " ++ show s ++ " " ++ show x ++ " " ++ show y++ " " ++ show z
+
+verifyLatSign :: (Char, Int, Int, Float) -> Bool 
+verifyLatSign (s, x, y, z)
+                          | s == 'N' || s == 'S' = True
+                          | otherwise = error ("Wrong Sign in: " ++ pt)
+                          where 
+                              pt = " " ++ show s ++ " " ++ show x ++ " " ++ show y++ " " ++ show z
+
+
+verifyLongSign :: (Char, Int, Int, Float) -> Bool 
+verifyLongSign (s, x, y, z)
+                           | s == 'E' || s == 'W' = True
+                           | otherwise = error ("Wrong Sign in: " ++ pt)
+                           where 
+                               pt = " " ++ show s ++ " " ++ show x ++ " " ++ show y++ " " ++ show z
 
 {-Verify Latitude Sign.
 * Input: A Latitude Tupla.
 * Output: True if the Sign is Real. False otherwise.-}
 verifyLat :: (Char, Int, Int, Float) -> Bool 
 verifyLat (s, x, y, z)  
-                      | verDetBody (s,x,y,z) && s == 'N' = True
-                      | s == 'S' = True 
-                      | otherwise = error ("Wrong Sign in: " ++ pt) 
-                      where 
-                          pt = " " ++ show s ++ " " ++ show x ++ " " ++ show y++ " " ++ show z
+                      | verifyLatDeg (s,x,y,z) && verifyDetBody (s,x,y,z) && verifyLatSign (s,x,y,z) = True
+                      | otherwise = False
 
 {-Verify Longitude Sign.
 * Input: A Longitude Tupla.
 * Output: True if the Sign is Real. False otherwise.-}
-verifyLon :: (Char, Int, Int, Float) -> Bool 
-verifyLon (s, x, y, z)  
-                      | verDetBody (s,x,y,z) && s == 'E' = True
-                      | s == 'W' = True 
-                      | otherwise = error ("Wrong Sign in: " ++ pt) 
-                      where 
-                          pt = " " ++ show s ++ " " ++ show x ++ " " ++ show y++ " " ++ show z
-     
+verifyLong :: (Char, Int, Int, Float) -> Bool 
+verifyLong (s, x, y, z)  
+                       | verifyLongDeg (s,x,y,z) && verifyDetBody (s,x,y,z) && verifyLongSign (s,x,y,z) = True
+                       | otherwise = False
+                     
 {-Convert the Latitude/Longitude in D.M.G format to Decimal format.
 * Input: A Latitude or Longitude Tupla.
 * Output: A Double Number Containing the Latitude/Longitude in Decimal format.-}
@@ -85,9 +127,6 @@ merge lat long = [lat, long]
 * Output: A List of Doubles Containing the Latitude & the Longitude in Decimal format.-}
 getPoint :: String -> [Double]
 getPoint [] = error "Null Argument"
-getPoint st
-           | length st < 31 || length st > 31 = error ("Invalid Argument: " ++ st)
-           | otherwise = 
-                         if verifyLat (getLatitude st) && verifyLon (getLongitude st) 
-                         then merge (convertToDecimal (getLatitude st)) (convertToDecimal (getLongitude st))
-                         else []
+getPoint st = if verifyLat (getLatitude st) && verifyLong (getLongitude st) 
+              then merge (convertToDecimal (getLatitude st)) (convertToDecimal (getLongitude st))
+              else []
