@@ -31,8 +31,8 @@ phi [_] [] = error "The Second Argument Is Null"
 phi detA detB 
              | length detA > 2 = error "The First Argument Has Too Much Elements"
              | length detB > 2 = error "The Second Argument Has Too Much Elements"
-             |head detA == head detB = pi / 180 * 0.000000001
-             |otherwise = log (tan (latB / 2 + pi / 4) / tan (latA / 2 + pi / 4))
+             | head detA == head detB = pi / 180 * 0.000000001
+             | otherwise = log (tan (latB / 2 + pi / 4) / tan (latA / 2 + pi / 4))
              where
                  latA = head detA * pi / 180
                  latB = head detB * pi / 180

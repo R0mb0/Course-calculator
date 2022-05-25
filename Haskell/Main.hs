@@ -27,7 +27,7 @@ printInfo detA detB
 main :: IO ()
 main = do
     putStrLn "Detections Properties Calculator V1.0 \nWarning: The Detections must be in D.M.G \
-    \format and inserted into the program like: N 40 45 36.000 - E 73 59 2.400"
+    \format and inserted into the program like: N 40 45 36.000 - E 073 59 2.400"
     putStrLn "Insert the First Detection..."
     detA <- getLine
     putStrLn "Insert the Second Detection..."
