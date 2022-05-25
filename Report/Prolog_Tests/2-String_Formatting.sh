@@ -7,4 +7,4 @@ Insert the Second Detection...
 Proceed [yes./no.]?
 yes.
 First Detection in Decimal Format ---> 
-uncaught exception: error(invalid_argument,'N 43 54 16.000 - E 012 54 30',getLatitude/2)
+uncaught exception: error(invalid_argument,'N 43 54 16.000 - E 012 54 30',verify_format/2)
