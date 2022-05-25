@@ -4,18 +4,24 @@ import GHC.Num
 
 {-**** Defining the Functions to Work with Detections. ****-}
             
-{- Get the Longitude string part from the Detection string.
+{-Get the Longitude string part from the Detection string.
 * Input: A Detection String.
 * Output: A String without the Latitude string part.-}
 split :: String -> String
 split = drop 17 
 
+{-Verify if the Detection string Has the Right Lenght.
+* Input: A Detection String.
+* Output: A Boolean that is 1 If the Detection string Has the Right Lenght, 0 Otherwise.-}
 verifyLenght :: String -> Bool
 verifyLenght [] = error "Null Argument"
 verifyLenght st
                | length st < 32 || length st > 32 = False
                | otherwise = True
 
+{-Verify if the Detection string Has the Right Format.
+* Input: A Detection String.
+* Output: A Boolean that is 1 If the Detection string is in the Right Format, 0 Otherwise.-}
 verifyFormat :: String -> Bool
 verifyFormat [] = error "Null Argument"
 verifyFormat st
@@ -52,6 +58,9 @@ getLongitude st
 
 {-** Verify if Latitude & Longitude are Real. **-}
 
+{-Verify if the Latitude Degrees are Real.
+ * Input: A Latitude Tupla.
+ * Output: True if the Latitude Degrees are Real. False otherwise.-}
 verifyLatDeg :: (Char, Int, Int, Float) -> Bool 
 verifyLatDeg (s, x, y, z)
                          | x < 0 || x > 89 = error ("Wrong Degree in: " ++ pt)
@@ -59,6 +68,9 @@ verifyLatDeg (s, x, y, z)
                          where
                               pt = " " ++ show s ++ " " ++ show x ++ " " ++ show y++ " " ++ show z
 
+{-Verify if the Longitude Degrees are Real.
+ * Input: A Longitude Tupla.
+ * Output: A Boolean that is True if the Longitude Degrees are Real. False otherwise.-}
 verifyLongDeg :: (Char, Int, Int, Float) -> Bool 
 verifyLongDeg (s, x, y, z)
                           | x < 0 || x > 179 = error ("Wrong Degree in: " ++ pt)
@@ -66,9 +78,10 @@ verifyLongDeg (s, x, y, z)
                           where
                                pt = " " ++ show s ++ " " ++ show x ++ " " ++ show y++ " " ++ show z
 
-{-Verify the Detection Latitude/Longitude Tupla Body.
+{-Verify the Latitude/Longitude Tupla Body,
+   (In this case the degrees of the body aren't valutated).
  * Input: A Latitude or Longitude Tupla.
- * Output: True if the Degrees, Primes & Latters are Real. False otherwise.-}
+ * Output: A Boolean that is True if the Primes & Latters are Real. False otherwise.-}
 verifyDetBody :: (Char, Int, Int, Float) -> Bool
 verifyDetBody (s, x, y, z)
                           | y < 0 || y > 59 = error ("Wrong Primes in: " ++ pt)
@@ -77,6 +90,9 @@ verifyDetBody (s, x, y, z)
                           where
                               pt = " " ++ show s ++ " " ++ show x ++ " " ++ show y++ " " ++ show z
 
+{-Verify if the Latitude Sign is correct.
+ * Input: A Latitude Tupla.
+ * Output: A Boolean that is True if the Latitude Sign is correct. False otherwise.-}
 verifyLatSign :: (Char, Int, Int, Float) -> Bool 
 verifyLatSign (s, x, y, z)
                           | s == 'N' || s == 'S' = True
@@ -84,7 +100,9 @@ verifyLatSign (s, x, y, z)
                           where 
                               pt = " " ++ show s ++ " " ++ show x ++ " " ++ show y++ " " ++ show z
 
-
+{-Verify if the Longitude Sign is correct.
+ * Input: A Longitude Tupla.
+ * Output: A Boolean that is True if the Longitude Sign is correct. False otherwise.-}
 verifyLongSign :: (Char, Int, Int, Float) -> Bool 
 verifyLongSign (s, x, y, z)
                            | s == 'E' || s == 'W' = True
@@ -92,20 +110,20 @@ verifyLongSign (s, x, y, z)
                            where 
                                pt = " " ++ show s ++ " " ++ show x ++ " " ++ show y++ " " ++ show z
 
-{-Verify Latitude Sign.
+{- Verify the Latitude Coordinate.
 * Input: A Latitude Tupla.
-* Output: True if the Sign is Real. False otherwise.-}
+* Output: A Boolean that is True if the Coordinate is Real. False otherwise.-}
 verifyLat :: (Char, Int, Int, Float) -> Bool 
 verifyLat (s, x, y, z)  
-                      | verifyLatDeg (s,x,y,z) && verifyDetBody (s,x,y,z) && verifyLatSign (s,x,y,z) = True
+                      | verifyDetBody (s,x,y,z) && verifyLatDeg (s,x,y,z) && verifyLatSign (s,x,y,z) = True
                       | otherwise = False
 
-{-Verify Longitude Sign.
+{- Verify the Longitude Coordinate.
 * Input: A Longitude Tupla.
-* Output: True if the Sign is Real. False otherwise.-}
+* Output: A Boolean that is True if the Coordinate is Real. False otherwise.-}
 verifyLong :: (Char, Int, Int, Float) -> Bool 
 verifyLong (s, x, y, z)  
-                       | verifyLongDeg (s,x,y,z) && verifyDetBody (s,x,y,z) && verifyLongSign (s,x,y,z) = True
+                       | verifyDetBody (s,x,y,z) && verifyLongDeg (s,x,y,z) && verifyLongSign (s,x,y,z) = True
                        | otherwise = False
                      
 {-Convert the Latitude/Longitude in D.M.G format to Decimal format.
