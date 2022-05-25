@@ -146,11 +146,37 @@ import GHC.Num
 
 {-**** Defining the Functions to Work with Detections. ****-}
             
-{- Get the Longitude string part from the Detection string.
+{-Get the Longitude string part from the Detection string.
 * Input: A Detection String.
 * Output: A String without the Latitude string part.-}
 split :: String -> String
 split = drop 17 
+
+{-Verify if the Detection string Has the Right Lenght.
+* Input: A Detection String.
+* Output: A Boolean that is 1 If the Detection string Has the Right Lenght, 0 Otherwise.-}
+verifyLenght :: String -> Bool
+verifyLenght [] = error "Null Argument"
+verifyLenght st
+               | length st < 32 || length st > 32 = False
+               | otherwise = True
+
+{-Verify if the Detection string is in the Right Format.
+* Input: A Detection String.
+* Output: A Boolean that is 1 If the Detection string is in the Right Format, 0 Otherwise.-}
+verifyFormat :: String -> Bool
+verifyFormat [] = error "Null Argument"
+verifyFormat st
+               | not (verifyLenght st) = False
+               | st !! 1 /= ' ' = False
+               | st !! 4 /= ' ' = False
+               | st !! 7 /= ' ' = False
+               | st !! 14 /= ' ' = False
+               | st !! 16 /= ' ' = False
+               | st !! 18 /= ' ' = False
+               | st !! 22 /= ' ' = False
+               | st !! 25 /= ' ' = False
+               | otherwise = True
 
 {-Get the Latitude Tupla from the Detection string.
 * Input: A Detection String.
@@ -159,7 +185,7 @@ split = drop 17
 getLatitude :: String -> (Char, Int, Int, Float)
 getLatitude [] = error "Null Argument"
 getLatitude st
-              | length st < 31 || length st > 31 = error ("Invalid Argument: " ++ st)
+              | not (verifyFormat st) = error ("Invalid Argument: " ++ st)
               | otherwise = (head st, read (take 2 (drop 2 st)) :: Int, read (drop 5 (take 7 st)) :: Int, read (drop 8 (take 14 st)) :: Float)
 
 {-Get the Longitude Tupla from the Detection string.
@@ -169,45 +195,79 @@ getLatitude st
 getLongitude :: String -> (Char, Int, Int, Float)
 getLongitude [] = error "Null Argument"
 getLongitude st
-               | length st < 31 || length st > 31 = error ("Invalid Argument: " ++ st)
-               | otherwise = (head (split st), read (take 2 (drop 2 (split st))) :: Int, read (drop 5 (take 7 (split st))) :: Int, read (drop 8 (take 14 (split st))) :: Float)
+               | not (verifyFormat st) = error ("Invalid Argument: " ++ st)
+               | otherwise = (head (split st), read (take 3 (drop 2 (split st))) :: Int, read (drop 6 (take 8 (split st))) :: Int, read (drop 9 (take 15 (split st))) :: Float)
 
 {-** Verify if Latitude & Longitude are Real. **-}
 
-{-Verify the Detection Latitude/Longitude Tupla Body.
- * Input: A Latitude or Longitude Tupla.
- * Output: True if the Degrees, Primes & Latters are Real. False otherwise.-}
-verDetBody :: (Char, Int, Int, Float) -> Bool
-verDetBody (s, x, y, z)
-                       | x < 0 || x > 89 = error ("Wrong Degrees in: " ++ pt)
-                       | y < 0 || y > 59 = error ("Wrong Primes in: " ++ pt)
-                       | z < 0 || z > 59 = error ("Wrong Latters in: " ++ pt)
-                       | otherwise = True 
-                       where
-                           pt = " " ++ show s ++ " " ++ show x ++ " " ++ show y++ " " ++ show z
+{-Verify if the Latitude Degrees are Real.
+ * Input: A Latitude Tupla.
+ * Output: True if the Latitude Degrees are Real. False otherwise.-}
+verifyLatDeg :: (Char, Int, Int, Float) -> Bool 
+verifyLatDeg (s, x, y, z)
+                         | x < 0 || x > 89 = error ("Wrong Degree in: " ++ pt)
+                         | otherwise = True
+                         where
+                              pt = " " ++ show s ++ " " ++ show x ++ " " ++ show y++ " " ++ show z
 
-{-Verify Latitude Sign.
+{-Verify if the Longitude Degrees are Real.
+ * Input: A Longitude Tupla.
+ * Output: A Boolean that is True if the Longitude Degrees are Real. False otherwise.-}
+verifyLongDeg :: (Char, Int, Int, Float) -> Bool 
+verifyLongDeg (s, x, y, z)
+                          | x < 0 || x > 179 = error ("Wrong Degree in: " ++ pt)
+                          | otherwise = True
+                          where
+                               pt = " " ++ show s ++ " " ++ show x ++ " " ++ show y++ " " ++ show z
+
+{-Verify the Latitude/Longitude Tupla Body,
+   (In this case the degrees of the body aren't valutated).
+ * Input: A Latitude or Longitude Tupla.
+ * Output: A Boolean that is True if the Primes & Latters are Real. False otherwise.-}
+verifyDetBody :: (Char, Int, Int, Float) -> Bool
+verifyDetBody (s, x, y, z)
+                          | y < 0 || y > 59 = error ("Wrong Primes in: " ++ pt)
+                          | z < 0 || z > 59 = error ("Wrong Latters in: " ++ pt)
+                          | otherwise = True 
+                          where
+                              pt = " " ++ show s ++ " " ++ show x ++ " " ++ show y++ " " ++ show z
+
+{-Verify if the Latitude Sign is Right.
+ * Input: A Latitude Tupla.
+ * Output: A Boolean that is True if the Latitude Sign is Right. False otherwise.-}
+verifyLatSign :: (Char, Int, Int, Float) -> Bool 
+verifyLatSign (s, x, y, z)
+                          | s == 'N' || s == 'S' = True
+                          | otherwise = error ("Wrong Sign in: " ++ pt)
+                          where 
+                              pt = " " ++ show s ++ " " ++ show x ++ " " ++ show y++ " " ++ show z
+
+{-Verify if the Longitude Sign is Right.
+ * Input: A Longitude Tupla.
+ * Output: A Boolean that is True if the Longitude Sign is Right. False otherwise.-}
+verifyLongSign :: (Char, Int, Int, Float) -> Bool 
+verifyLongSign (s, x, y, z)
+                           | s == 'E' || s == 'W' = True
+                           | otherwise = error ("Wrong Sign in: " ++ pt)
+                           where 
+                               pt = " " ++ show s ++ " " ++ show x ++ " " ++ show y++ " " ++ show z
+
+{- Verify the Latitude Coordinate.
 * Input: A Latitude Tupla.
-* Output: True if the Sign is Real. False otherwise.-}
+* Output: A Boolean that is True if the Coordinate is Real. False otherwise.-}
 verifyLat :: (Char, Int, Int, Float) -> Bool 
 verifyLat (s, x, y, z)  
-                      | verDetBody (s,x,y,z) && s == 'N' = True
-                      | s == 'S' = True 
-                      | otherwise = error ("Wrong Sign in: " ++ pt) 
-                      where 
-                          pt = " " ++ show s ++ " " ++ show x ++ " " ++ show y++ " " ++ show z
+                      | verifyDetBody (s,x,y,z) && verifyLatDeg (s,x,y,z) && verifyLatSign (s,x,y,z) = True
+                      | otherwise = False
 
-{-Verify Longitude Sign.
+{- Verify the Longitude Coordinate.
 * Input: A Longitude Tupla.
-* Output: True if the Sign is Real. False otherwise.-}
-verifyLon :: (Char, Int, Int, Float) -> Bool 
-verifyLon (s, x, y, z)  
-                      | verDetBody (s,x,y,z) && s == 'E' = True
-                      | s == 'W' = True 
-                      | otherwise = error ("Wrong Sign in: " ++ pt) 
-                      where 
-                          pt = " " ++ show s ++ " " ++ show x ++ " " ++ show y++ " " ++ show z
-     
+* Output: A Boolean that is True if the Coordinate is Real. False otherwise.-}
+verifyLong :: (Char, Int, Int, Float) -> Bool 
+verifyLong (s, x, y, z)  
+                       | verifyDetBody (s,x,y,z) && verifyLongDeg (s,x,y,z) && verifyLongSign (s,x,y,z) = True
+                       | otherwise = False
+                     
 {-Convert the Latitude/Longitude in D.M.G format to Decimal format.
 * Input: A Latitude or Longitude Tupla.
 * Output: A Double Number Containing the Latitude/Longitude in Decimal format.-}
@@ -227,12 +287,9 @@ merge lat long = [lat, long]
 * Output: A List of Doubles Containing the Latitude & the Longitude in Decimal format.-}
 getPoint :: String -> [Double]
 getPoint [] = error "Null Argument"
-getPoint st
-           | length st < 31 || length st > 31 = error ("Invalid Argument: " ++ st)
-           | otherwise = 
-                         if verifyLat (getLatitude st) && verifyLon (getLongitude st) 
-                         then merge (convertToDecimal (getLatitude st)) (convertToDecimal (getLongitude st))
-                         else []
+getPoint st = if verifyLat (getLatitude st) && verifyLong (getLongitude st) 
+              then merge (convertToDecimal (getLatitude st)) (convertToDecimal (getLongitude st))
+              else []
 \end{lstlisting}
 \underline{File sorgente \textbf{Properties.hs:}}
 \lstset{language=Haskell}
@@ -270,8 +327,8 @@ phi [_] [] = error "The Second Argument Is Null"
 phi detA detB 
              | length detA > 2 = error "The First Argument Has Too Much Elements"
              | length detB > 2 = error "The Second Argument Has Too Much Elements"
-             |head detA == head detB = pi / 180 * 0.000000001
-             |otherwise = log (tan (latB / 2 + pi / 4) / tan (latA / 2 + pi / 4))
+             | head detA == head detB = pi / 180 * 0.000000001
+             | otherwise = log (tan (latB / 2 + pi / 4) / tan (latA / 2 + pi / 4))
              where
                  latA = head detA * pi / 180
                  latB = head detB * pi / 180
@@ -323,7 +380,7 @@ invDirection detA detB
 \underline{File sorgente \textbf{Detection.pl:}}
 \lstset{language=Prolog}
 \begin{lstlisting}
-	/***** Detection Module. *****/
+/***** Detection Module. *****/
 
 /* Verify if the Input String Has the Right Lenght.
  * Input: A List.
@@ -333,10 +390,10 @@ verify_lenght([], _) :-
 verify_lenght(List, Return_bool) :-
     (list(List) -> 
         length(List, N),
-        (N < 31 -> 
+        (N < 32 -> 
             Return_bool = 0
         ;
-            (N > 31 -> 
+            (N > 32 -> 
                 Return_bool = 0
             ;
                 Return_bool = 1
@@ -346,10 +403,68 @@ verify_lenght(List, Return_bool) :-
         throw(error(wrong_input_list, List, verify_lenght/2))
     ).
 
-/* Verify if the Degrees of Detection Are Real.
+/* Verify if the Input String is in the Right Format.
+ * Input: A List.
+ * Output: A Boolean that is 1 If the Input String is in the Right Format, 0 Otherwise.*/
+verify_format([], _) :-
+    throw(error(empty_input_list, verify_format/2)).
+verify_format(List, Return_bool) :-
+    (list(List) -> 
+        verify_lenght(List, N),
+        (N == 1 -> 
+            index(1, List, A),
+            index(4, List, B),
+            index(7, List, C),
+            index(14, List, D),
+            index(16, List, E),
+            index(18, List, F),
+            index(22, List, G),
+            index(25, List, H),
+            (A == ' ' -> 
+                (B == ' ' -> 
+                    (C == ' ' -> 
+                        (D == ' ' -> 
+                            (E == ' ' -> 
+                                (F == ' ' -> 
+                                    (G == ' ' -> 
+                                        (H == ' ' -> 
+                                            Return_bool = 1 
+                                        ;
+                                            Return_bool = 0 
+                                        )
+                                    ;
+                                        Return_bool = 0 
+                                    )
+                                ;
+                                    Return_bool = 0 
+                                )
+                            ;
+                                Return_bool = 0 
+                            )
+                        ;
+                            Return_bool = 0 
+                        )
+                    ;
+                        Return_bool = 0 
+                    )
+                ;
+                    Return_bool = 0 
+                )
+            ;
+                Return_bool = 0 
+            )
+        ;
+            atom_chars(Print, List),
+            throw(error(invalid_argument, Print, verify_format/2))
+        )
+    ;
+        throw(error(wrong_input_list, List, verify_format/2))
+    ).
+
+/* Verify if the Latitude Degrees Are Real.
  * Input: An Integer Number.
  * Output: A Boolean that is 1 If the Degrees Are Real, 0 Otherwise.*/
-verify_degrees(Num, Return_bool) :-
+verify_lat_degrees(Num, Return_bool) :-
    (integer(Num) ->
         (Num < 0 -> 
             Return_bool = 0
@@ -361,7 +476,25 @@ verify_degrees(Num, Return_bool) :-
             )
         )
     ;
-        throw(error(wrong_input_number, Num, verify_degrees/2))
+        throw(error(wrong_input_number, Num, verify_lat_degrees/2))
+    ).
+
+/* Verify if the Longitude Degrees Are Real.
+ * Input: An Integer Number.
+ * Output: A Boolean that is 1 If the Degrees Are Real, 0 Otherwise.*/
+verify_long_degrees(Num, Return_bool) :-
+   (integer(Num) ->
+        (Num < 0 -> 
+            Return_bool = 0
+        ;
+            (Num > 179 -> 
+                Return_bool = 0
+            ;
+                Return_bool = 1
+            )
+        )
+    ;
+        throw(error(wrong_input_number, Num, verify_long_degrees/2))
     ).
 
 /* Verify if the Primes of Detection Are Real.
@@ -400,10 +533,10 @@ verify_latters(Num, Return_bool) :-
         throw(error(wrong_input_number, Num, verify_primes/2))
     ).
 
-/* Verify if the Latitude Sign of Detection is Right.
+/* Verify if the Latitude Sign is Right.
  * Input: A Letter.
- * Output: A Boolean that is 1 If the Letter Is Right, 0 Otherwise.*/
-verify_latitude(Letter, Return_bool) :-
+ * Output: A Boolean that is 1 If the Letter is Right, 0 Otherwise.*/
+verify_lat_sign(Letter, Return_bool) :-
     (nonvar(Letter) -> 
         (Letter == 'N' -> 
             Return_bool = 1
@@ -420,8 +553,8 @@ verify_latitude(Letter, Return_bool) :-
 
 /* Verify if the Longitude Sign of Detection is Right.
  * Input: A Letter.
- * Output: A Boolean that is 1 If the Letter Is Right, 0 Otherwise.*/
-verify_longitude(Letter, Return_bool) :-
+ * Output: A Boolean that is 1 If the Letter is Right, 0 Otherwise.*/
+verify_long_sign(Letter, Return_bool) :-
     (nonvar(Letter) -> 
         (Letter == 'E' -> 
             Return_bool = 1
@@ -461,7 +594,7 @@ get_latitude([], _) :-
     throw(error(empty_input_list, get_latitude/2)).
 get_latitude(List, Final_list) :-
     (list(List) -> 
-        verify_lenght(List, N),
+        verify_format(List, N),
         ( N == 0 ->
             atom_chars(Print, List),
             throw(error(invalid_argument, Print, getLatitude/2))
@@ -489,7 +622,7 @@ get_longitude([], _) :-
     throw(error(empty_input_list, get_longitude/2)).
 get_longitude(List, Final_list) :-
     (list(List) -> 
-        verify_lenght(List, N),
+        verify_format(List, N),
         ( N == 0 ->
             atom_chars(Print, List),
             throw(error(invalid_argument, Print, getLongitude/2))
@@ -497,13 +630,13 @@ get_longitude(List, Final_list) :-
             split(List, List1),
             head(List1, Sign),
             drop(2, List1, A),
-            take(2, A, B), 
+            take(3, A, B), 
             number_chars(Degrees, B),
-            take(7, List1, C),
-            drop(5, C, D),
+            take(8, List1, C),
+            drop(6, C, D),
             number_chars(Primes, D),
-            take(14, List1, E),
-            drop(8, E, F),
+            take(15, List1, E),
+            drop(9, E, F),
             number_chars(Latters, F),
             Final_list = [Sign, Degrees, Primes, Latters]
         )
@@ -512,7 +645,7 @@ get_longitude(List, Final_list) :-
     ).
 
 /* Verify if the Coordinate Body is Right,
-   (E.g. in the latitude case the body is the entire coordinate without the sign),
+   (E.g. in the latitude case the body is the entire coordinate without the sign & degrees),
    This predicate is linked with get_point/2 to not write duplicate code.
  * Input: A List containing a latitude/longitude.
  * Output: A Boolean that is 1 If the Body is Right, 0 Otherwise.*/
@@ -520,26 +653,19 @@ verify_coordinate_body([], _) :-
     throw(error(empty_input_list, verify_coordinate_body/2)).
 verify_coordinate_body(List, Return_bool) :-
     (list(List) -> 
-        index(1, List, Degrees),
-        verify_degrees(Degrees, B),
-        (B == 0 -> 
+        index(2, List, Primes),
+        verify_primes(Primes, B1),
+        (B1 == 0 ->
             Return_bool = 0,
-            throw(error(wrong_degrees_in, List, verify_coordinate_body/2))
+            throw(error(wrong_primes_in, List, verify_coordinate_body/2))
         ;
-            index(2, List, Primes),
-            verify_primes(Primes, B1),
-            (B1 == 0 ->
+            index(3, List, Latters),
+            verify_latters(Latters, B2),
+            (B2 == 0 -> 
                 Return_bool = 0,
-                throw(error(wrong_primes_in, List, verify_coordinate_body/2))
+                throw(error(wrong_latters_in, List, verify_coordinate_body/2))
             ;
-                index(3, List, Latters),
-                verify_latters(Latters, B2),
-                (B2 == 0 -> 
-                    Return_bool = 0,
-                    throw(error(wrong_latters_in, List, verify_coordinate_body/2))
-                ;
-                    Return_bool = 1
-                )
+                Return_bool = 1
             )
         )
     ;
@@ -608,22 +734,34 @@ get_point(List, Final_list) :-
     (list(List) -> 
         get_latitude(List, Latitude),
         index(0, Latitude, Sign1),
-        verify_latitude(Sign1, B1),
+        verify_lat_sign(Sign1, B1),
+        index(1, Latitude, Deg1),
+        verify_lat_degrees(Deg1, B2),
         verify_coordinate_body(Latitude, _),
         get_longitude(List, Longitude),
         index(0, Longitude, Sign2),
-        verify_longitude(Sign2, B2),
+        verify_long_sign(Sign2, B3),
+        index(1, Longitude, Deg2),
+        verify_long_degrees(Deg2, B4),
         verify_coordinate_body(Longitude, _),
         (B1 == 0 ->
             throw(error(wrong_sign_in, Latitude, get_point/2))
         ;
-            (B2 == 0 ->
-                throw(error(wrong_sign_in, Longitude, get_point/2))
-            ;
-                convert_to_decimal(Latitude, Dlatitude),
-                convert_to_decimal(Longitude, Dlongitude),
-                merge_coordinates(Dlatitude, Dlongitude, Final_list)
-            )
+        	(B2 == 0 -> 
+        		throw(error(wrong_degrees_in, Latitude, get_point/2))
+        	;
+        		(B3 == 0 ->
+                	throw(error(wrong_sign_in, Longitude, get_point/2))
+            	;
+            		(B4 == 0 ->
+            			throw(error(wrong_degrees_in, Longitude, get_point/2))
+            		;
+            			convert_to_decimal(Latitude, Dlatitude),
+                		convert_to_decimal(Longitude, Dlongitude),
+                		merge_coordinates(Dlatitude, Dlongitude, Final_list)
+            		)
+            	)
+        	)
         )
     ;
         throw(error(wrong_input_list, List, get_point/2))
@@ -634,7 +772,7 @@ get_point(List, Final_list) :-
 \underline{File sorgente \textbf{Properties.pl:}}
 \lstset{language=Prolog}
 \begin{lstlisting}
-	/***** Properties Module. *****/
+/***** Properties Module. *****/
 
 /* Calculate the Distance Between two Detections in Decimal form.
  * Input: Two Lists containing detections in decimal form.
@@ -783,132 +921,132 @@ inverse_direction(List1, List2, Return_num) :-
 \subsection*{Test Haskell 1}
 	\begin{spverbatim}
 		Detections Properties Calculator V1.0 
-		Warning: The Detections must be in D.M.G format and inserted into the program like: N 40 45 36.000 - E 73 59 2.400
+		Warning: The Detections must be in D.M.G format and inserted into the program like: N 40 45 36.000 - E 073 59 2.400
 		Insert the First Detection...
-		43 54 16.000  E 12 54 30.000
+		43 54 16.000  E 012 54 30.000
 		Insert the Second Detection...
-		N 43 54 17.000 - E 12 54 40.000
+		N 43 54 17.000 - E 012 54 40.000
 		Proceed [yes/no]?
 		yes
-		*** Exception: Invalid Argument: 43 54 16.000  E 12 54 30.000
+		First Detection in Decimal Format ---> *** Exception: Invalid Argument: 43 54 16.000  E 012 54 30.000
 		CallStack (from HasCallStack):
-		error, called at Main.hs:12:61 in main:Main
+		error, called at ./Detection.hs:40:41 in main:Detection
 	\end{spverbatim}
 
 \subsection*{Test Haskell 2}
 	\begin{spverbatim}
 		Detections Properties Calculator V1.0 
-		Warning: The Detections must be in D.M.G format and inserted into the program like: N 40 45 36.000 - E 73 59 2.400
+		Warning: The Detections must be in D.M.G format and inserted into the program like: N 40 45 36.000 - E 073 59 2.400
 		Insert the First Detection...
-		N 43 54 16.000 - E 12 54 30
+		N 43 54 16.000 - E 012 54 30
 		Insert the Second Detection...
-		N 43 54 17.000 - E 12 54 40.000
+		N 43 54 17.000 - E 012 54 40.000
 		Proceed [yes/no]?
 		yes
-		*** Exception: Invalid Argument: N 43 54 16.000 - E 12 54 30
+		First Detection in Decimal Format ---> *** Exception: Invalid Argument: N 43 54 16.000 - E 012 54 30
 		CallStack (from HasCallStack):
-		error, called at Main.hs:12:61 in main:Main
+		error, called at ./Detection.hs:40:41 in main:Detection
 	\end{spverbatim}
 
 \subsection*{Test Haskell 3}
 	\begin{spverbatim}
 		Detections Properties Calculator V1.0 
-		Warning: The Detections must be in D.M.G format and inserted into the program like: N 40 45 36.000 - E 73 59 2.400
+		Warning: The Detections must be in D.M.G format and inserted into the program like: N 40 45 36.000 - E 073 59 2.400
 		Insert the First Detection...
-		T 43 54 16.000 - E 12 54 30.000
+		T 43 54 16.000 - E 012 54 30.000
 		Insert the Second Detection...
-		N 43 54 17.000 - E 12 54 40.000
+		N 43 54 17.000 - E 012 54 40.000
 		Proceed [yes/no]?
 		yes
 		First Detection in Decimal Format ---> *** Exception: Wrong Sign in:  'T' 43 54 16.0
 		CallStack (from HasCallStack):
-		error, called at ./Detection.hs:54:37 in main:Detection	
+		error, called at ./Detection.hs:83:41 in main:Detection
 	\end{spverbatim}
 
 \subsection*{Test Haskell 4}
 	\begin{spverbatim}
 		Detections Properties Calculator V1.0 
-		Warning: The Detections must be in D.M.G format and inserted into the program like: N 40 45 36.000 - E 73 59 2.400
+		Warning: The Detections must be in D.M.G format and inserted into the program like: N 40 45 36.000 - E 073 59 2.400
 		Insert the First Detection...
-		N 43 54 16.000 - T 12 54 30.000
+		N 43 54 16.000 - T 012 54 30.000
 		Insert the Second Detection...
-		N 43 54 17.000 - E 12 54 40.000
+		N 43 54 17.000 - E 012 54 40.000
 		Proceed [yes/no]?
 		yes
 		First Detection in Decimal Format ---> *** Exception: Wrong Sign in:  'T' 12 54 30.0
 		CallStack (from HasCallStack):
-		error, called at ./Detection.hs:65:37 in main:Detection
+		error, called at ./Detection.hs:91:42 in main:Detection
 	\end{spverbatim}
 
 \subsection*{Test Haskell 5}
 	\begin{spverbatim}
 		Detections Properties Calculator V1.0 
-		Warning: The Detections must be in D.M.G format and inserted into the program like: N 40 45 36.000 - E 73 59 2.400
+		Warning: The Detections must be in D.M.G format and inserted into the program like: N 40 45 36.000 - E 073 59 2.400
 		Insert the First Detection...
-		E 43 54 16.000 - N 12 54 30.000
+		E 43 54 16.000 - N 012 54 30.000
 		Insert the Second Detection...
-		N 43 54 17.000 - E 12 54 40.000
+		N 43 54 17.000 - E 012 54 40.000
 		Proceed [yes/no]?
 		yes
 		First Detection in Decimal Format ---> *** Exception: Wrong Sign in:  'E' 43 54 16.0
 		CallStack (from HasCallStack):
-		error, called at ./Detection.hs:54:37 in main:Detection
+		error, called at ./Detection.hs:83:41 in main:Detection
 	\end{spverbatim}
 
 \subsection*{Test Haskell 6}
 	\begin{spverbatim}
 		Detections Properties Calculator V1.0 
-		Warning: The Detections must be in D.M.G format and inserted into the program like: N 40 45 36.000 - E 73 59 2.400
+		Warning: The Detections must be in D.M.G format and inserted into the program like: N 40 45 36.000 - E 073 59 2.400
 		Insert the First Detection...
-		N 90 54 16.000 - E 12 54 30.000
+		N 90 54 16.000 - E 012 54 30.000
 		Insert the Second Detection...
-		N 43 54 17.000 - E 12 54 40.000
+		N 43 54 17.000 - E 012 54 40.000
 		Proceed [yes/no]?
 		yes
-		First Detection in Decimal Format ---> *** Exception: Wrong Degrees in:  'N' 90 54 16.0
+		First Detection in Decimal Format ---> *** Exception: Wrong Degree in:  'N' 90 54 16.0
 		CallStack (from HasCallStack):
-		error, called at ./Detection.hs:40:44 in main:Detection
+		error, called at ./Detection.hs:57:46 in main:Detection
 	\end{spverbatim}
 
 \subsection*{Test Haskell 7}
 	\begin{spverbatim}
 		Detections Properties Calculator V1.0 
-		Warning: The Detections must be in D.M.G format and inserted into the program like: N 40 45 36.000 - E 73 59 2.400
+		Warning: The Detections must be in D.M.G format and inserted into the program like: N 40 45 36.000 - E 073 59 2.400
 		Insert the First Detection...
-		N 43 54 17.000 - E 12 54 40.000
+		N 43 54 17.000 - E 012 54 40.000
 		Insert the Second Detection...
-		N 43 -4 16.000 - E 12 54 30.000
+		N 43 -4 16.000 - E 012 54 30.000
 		Proceed [yes/no]?
 		yes
 		First Detection in Decimal Format ---> 43.905,12.911
 		Second Detection in Decimal Format ---> *** Exception: Wrong Primes in:  'N' 43 -4 16.0
 		CallStack (from HasCallStack):
-		error, called at ./Detection.hs:41:44 in main:Detection
+		error, called at ./Detection.hs:74:47 in main:Detection
 	\end{spverbatim}
 
 \subsection*{Test Haskell 8}
 	\begin{spverbatim}
 		Detections Properties Calculator V1.0 
-		Warning: The Detections must be in D.M.G format and inserted into the program like: N 40 45 36.000 - E 73 59 2.400
+		Warning: The Detections must be in D.M.G format and inserted into the program like: N 40 45 36.000 - E 073 59 2.400
 		Insert the First Detection...
-		N 43 54 16.000 - E 12 54 60.000
+		N 43 54 16.000 - E 012 54 60.000
 		Insert the Second Detection...
-		N 43 54 17.000 - E 12 54 40.000
+		N 43 54 17.000 - E 012 54 40.000
 		Proceed [yes/no]?
 		yes
 		First Detection in Decimal Format ---> *** Exception: Wrong Latters in:  'E' 12 54 60.0
 		CallStack (from HasCallStack):
-		error, called at ./Detection.hs:42:44 in main:Detection
+		error, called at ./Detection.hs:75:47 in main:Detection
 	\end{spverbatim}
 
 \subsection*{Test Haskell 9}
 	\begin{spverbatim}
 		Detections Properties Calculator V1.0 
-		Warning: The Detections must be in D.M.G format and inserted into the program like: N 40 45 36.000 - E 73 59 2.400
+		Warning: The Detections must be in D.M.G format and inserted into the program like: N 40 45 36.000 - E 073 59 2.400
 		Insert the First Detection...
-		N 43 54 16.000 - E 12 54 30.000
+		N 43 54 16.000 - E 012 54 30.000
 		Insert the Second Detection...
-		N 43 54 16.000 - E 12 54 40.000
+		N 43 54 16.000 - E 012 54 40.000
 		Proceed [yes/no]?
 		yes
 		First Detection in Decimal Format ---> 43.904,12.908
@@ -921,11 +1059,11 @@ inverse_direction(List1, List2, Return_num) :-
 \subsection*{Test Haskell 10}
 	\begin{spverbatim}
 		Detections Properties Calculator V1.0 
-		Warning: The Detections must be in D.M.G format and inserted into the program like: N 40 45 36.000 - E 73 59 2.400
+		Warning: The Detections must be in D.M.G format and inserted into the program like: N 40 45 36.000 - E 073 59 2.400
 		Insert the First Detection...
-		N 40 45 36.000 - W 73 59 02.400
+		N 40 45 36.000 - W 073 59 02.400
 		Insert the Second Detection...
-		N 38 53 24.000 - W 77 01 55.200
+		N 38 53 24.000 - W 077 01 55.200
 		Proceed [yes/no]?
 		yes
 		First Detection in Decimal Format ---> 40.76,-73.984
@@ -941,39 +1079,39 @@ inverse_direction(List1, List2, Return_num) :-
 \subsection*{Test Prolog 1}
 	\begin{spverbatim}
 		Detections Properties Calculator V1.0
-		Warning: The Detections must be in D.M.G format and inserted into the program like: `N 40 45 36.000 - E 73 59 2.400`.
+		Warning: The Detections must be in D.M.G format and inserted into the program like: `N 40 45 36.000 - E 073 59 2.400`.
 		Insert the First Detection...
-		`43 54 16.000  E 12 54 30.000`.
+		`43 54 16.000  E 012 54 30.000`.
 		Insert the Second Detection...
-		`N 43 54 17.000 - E 12 54 40.000`.
+		`N 43 54 17.000 - E 012 54 40.000`.
 		Proceed [yes./no.]?
 		yes.
 		First Detection in Decimal Format ---> 
-		uncaught exception: error(invalid_argument,'43 54 16.000  E 12 54 30.000',getLatitude/2)
+		uncaught exception: error(invalid_argument,'43 54 16.000  E 012 54 30.000',verify_format/2)
 	\end{spverbatim}
 
 \subsection*{Test Prolog 2}
 	\begin{spverbatim}
 		Detections Properties Calculator V1.0
-		Warning: The Detections must be in D.M.G format and inserted into the program like: `N 40 45 36.000 - E 73 59 2.400`.
+		Warning: The Detections must be in D.M.G format and inserted into the program like: `N 40 45 36.000 - E 073 59 2.400`.
 		Insert the First Detection...
-		`N 43 54 16.000 - E 12 54 30`.
+		`N 43 54 16.000 - E 012 54 30`.
 		Insert the Second Detection...
-		`N 43 54 17.000 - E 12 54 40.000`.
+		`N 43 54 17.000 - E 012 54 40.000`.
 		Proceed [yes./no.]?
 		yes.
 		First Detection in Decimal Format ---> 
-		uncaught exception: error(invalid_argument,'N 43 54 16.000 - E 12 54 30',getLatitude/2)
+		uncaught exception: error(invalid_argument,'N 43 54 16.000 - E 012 54 30',verify_format/2)
 	\end{spverbatim}
 
 \subsection*{Test Prolog 3}
 	\begin{spverbatim}
 		Detections Properties Calculator V1.0
-		Warning: The Detections must be in D.M.G format and inserted into the program like: `N 40 45 36.000 - E 73 59 2.400`.
+		Warning: The Detections must be in D.M.G format and inserted into the program like: `N 40 45 36.000 - E 073 59 2.400`.
 		Insert the First Detection...
-		`T 43 54 16.000 - E 12 54 30.000`.
+		`T 43 54 16.000 - E 012 54 30.000`.
 		Insert the Second Detection...
-		`N 43 54 17.000 - E 12 54 40.000`.
+		`N 43 54 17.000 - E 012 54 40.000`.
 		Proceed [yes./no.]?
 		yes.
 		First Detection in Decimal Format ---> 
@@ -983,11 +1121,11 @@ inverse_direction(List1, List2, Return_num) :-
 \subsection*{Test Prolog 4}
 	\begin{spverbatim}
 		Detections Properties Calculator V1.0
-		Warning: The Detections must be in D.M.G format and inserted into the program like: `N 40 45 36.000 - E 73 59 2.400`.
+		Warning: The Detections must be in D.M.G format and inserted into the program like: `N 40 45 36.000 - E 073 59 2.400`.
 		Insert the First Detection...
-		`N 43 54 16.000 - T 12 54 30.000`.
+		`N 43 54 16.000 - T 012 54 30.000`.
 		Insert the Second Detection...
-		`N 43 54 17.000 - E 12 54 40.000`.
+		`N 43 54 17.000 - E 012 54 40.000`.
 		Proceed [yes./no.]?
 		yes.
 		First Detection in Decimal Format ---> 
@@ -997,11 +1135,11 @@ inverse_direction(List1, List2, Return_num) :-
 \subsection*{Test Prolog 5}
 	\begin{spverbatim}
 		Detections Properties Calculator V1.0
-		Warning: The Detections must be in D.M.G format and inserted into the program like: `N 40 45 36.000 - E 73 59 2.400`.
+		Warning: The Detections must be in D.M.G format and inserted into the program like: `N 40 45 36.000 - E 073 59 2.400`.
 		Insert the First Detection...
-		`E 43 54 16.000 - N 12 54 30.000`.
+		`E 43 54 16.000 - N 012 54 30.000`.
 		Insert the Second Detection...
-		`N 43 54 17.000 - E 12 54 40.000`.
+		`N 43 54 17.000 - E 012 54 40.000`.
 		Proceed [yes./no.]?
 		yes.
 		First Detection in Decimal Format ---> 
@@ -1011,25 +1149,25 @@ inverse_direction(List1, List2, Return_num) :-
 \subsection*{Test Prolog 6}
 	\begin{spverbatim}
 		Detections Properties Calculator V1.0
-		Warning: The Detections must be in D.M.G format and inserted into the program like: `N 40 45 36.000 - E 73 59 2.400`.
+		Warning: The Detections must be in D.M.G format and inserted into the program like: `N 40 45 36.000 - E 073 59 2.400`.
 		Insert the First Detection...
-		`N 90 54 16.000 - E 12 54 30.000`.
+		`N 90 54 16.000 - E 012 54 30.000`.
 		Insert the Second Detection...
-		`N 43 54 17.000 - E 12 54 40.000`.
+		`N 43 54 17.000 - E 012 54 40.000`.
 		Proceed [yes./no.]?
 		yes.
 		First Detection in Decimal Format ---> 
-		uncaught exception: error(wrong_degrees_in,['N',90,54,16.0],verify_coordinate_body/2)
+		uncaught exception: error(wrong_degrees_in,['N',90,54,16.0],get_point/2)
 	\end{spverbatim}
 
 \subsection*{Test Prolog 7}
 	\begin{spverbatim}
 		Detections Properties Calculator V1.0
-		Warning: The Detections must be in D.M.G format and inserted into the program like: `N 40 45 36.000 - E 73 59 2.400`.
+		Warning: The Detections must be in D.M.G format and inserted into the program like: `N 40 45 36.000 - E 073 59 2.400`.
 		Insert the First Detection...
-		`N 43 54 17.000 - E 12 54 40.000`.
+		`N 43 54 17.000 - E 012 54 40.000`.
 		Insert the Second Detection...
-		`N 43 -4 16.000 - E 12 54 30.000`.
+		`N 43 -4 16.000 - E 012 54 30.000`.
 		Proceed [yes./no.]?
 		yes.
 		First Detection in Decimal Format ---> 43.905,12.911
@@ -1040,11 +1178,11 @@ inverse_direction(List1, List2, Return_num) :-
 \subsection*{Test Prolog 8}
 	\begin{spverbatim}
 		Detections Properties Calculator V1.0
-		Warning: The Detections must be in D.M.G format and inserted into the program like: `N 40 45 36.000 - E 73 59 2.400`.
+		Warning: The Detections must be in D.M.G format and inserted into the program like: `N 40 45 36.000 - E 073 59 2.400`.
 		Insert the First Detection...
-		`N 43 54 16.000 - E 12 54 60.000`.
+		`N 43 54 16.000 - E 012 54 60.000`.
 		Insert the Second Detection...
-		`N 43 54 17.000 - E 12 54 40.000`.
+		`N 43 54 17.000 - E 012 54 40.000`.
 		Proceed [yes./no.]?
 		yes.
 		First Detection in Decimal Format ---> 
@@ -1054,11 +1192,11 @@ inverse_direction(List1, List2, Return_num) :-
 \subsection*{Test Prolog 9}
 	\begin{spverbatim}
 		Detections Properties Calculator V1.0
-		Warning: The Detections must be in D.M.G format and inserted into the program like: `N 40 45 36.000 - E 73 59 2.400`.
+		Warning: The Detections must be in D.M.G format and inserted into the program like: `N 40 45 36.000 - E 073 59 2.400`.
 		Insert the First Detection...
-		`N 43 54 16.000 - E 12 54 30.000`.
+		`N 43 54 16.000 - E 012 54 30.000`.
 		Insert the Second Detection...
-		`N 43 54 16.000 - E 12 54 40.000`.
+		`N 43 54 16.000 - E 012 54 40.000`.
 		Proceed [yes./no.]?
 		yes.
 		First Detection in Decimal Format ---> 43.904,12.908
@@ -1071,11 +1209,11 @@ inverse_direction(List1, List2, Return_num) :-
 \subsection*{Test Prolog 10}
 	\begin{spverbatim}
 		Detections Properties Calculator V1.0
-		Warning: The Detections must be in D.M.G format and inserted into the program like: `N 40 45 36.000 - E 73 59 2.400`.
+		Warning: The Detections must be in D.M.G format and inserted into the program like: `N 40 45 36.000 - E 073 59 2.400`.
 		Insert the First Detection...
-		`N 40 45 36.000 - W 73 59 02.400`.
+		`N 40 45 36.000 - W 073 59 02.400`.
 		Insert the Second Detection...
-		`N 38 53 24.000 - W 77 01 55.200`.
+		`N 38 53 24.000 - W 077 01 55.200`.
 		Proceed [yes./no.]?
 		yes.
 		First Detection in Decimal Format ---> 40.760,-73.984
@@ -1097,7 +1235,7 @@ Per fare in modo che i due programmi condividessero delle funzioni/predicati qua
 \underline{File sorgente \textbf{ListTools.pl:}}
 \lstset{language=Prolog}
 \begin{lstlisting}
-	/***** List Tools Module. *****/
+/***** List Tools Module. *****/
 
 /* Like the index Function in Haskell. 
  * Input: An integer Index, a List.
