@@ -21,32 +21,32 @@ verify_lenght(List, Return_bool) :-
         throw(error(wrong_input_list, List, verify_lenght/2))
     ).
 
-    verify_format([], _) :-
-        throw(error(empty_input_list, verify_format/2)).
-    verify_format(List, Return_bool) :-
-        (list(List) -> 
-            verify_lenght(List, N),
-            (N == 1 -> 
-                index(1, List, A),
-                index(4, List, B),
-                index(7, List, C),
-                index(14, List, D),
-                index(16, List, E),
-                index(18, List, F),
-                index(22, List, G),
-                index(25, List, H),
-                (A == ' ' -> 
-                    (B == ' ' -> 
-                        (C == ' ' -> 
-                            (D == ' ' -> 
-                                (E == ' ' -> 
-                                    (F == ' ' -> 
-                                        (G == ' ' -> 
-                                            (H == ' ' -> 
-                                                Return_bool = 1 
-                                            ;
-                                                Return_bool = 0 
-                                            )
+/* Verify if the Input String is in the Right Format.
+ * Input: A List.
+ * Output: A Boolean that is 1 If the Input String is in the Right Format, 0 Otherwise.*/
+verify_format([], _) :-
+    throw(error(empty_input_list, verify_format/2)).
+verify_format(List, Return_bool) :-
+    (list(List) -> 
+        verify_lenght(List, N),
+        (N == 1 -> 
+            index(1, List, A),
+            index(4, List, B),
+            index(7, List, C),
+            index(14, List, D),
+            index(16, List, E),
+            index(18, List, F),
+            index(22, List, G),
+            index(25, List, H),
+            (A == ' ' -> 
+                (B == ' ' -> 
+                    (C == ' ' -> 
+                        (D == ' ' -> 
+                            (E == ' ' -> 
+                                (F == ' ' -> 
+                                    (G == ' ' -> 
+                                        (H == ' ' -> 
+                                            Return_bool = 1 
                                         ;
                                             Return_bool = 0 
                                         )
@@ -69,14 +69,17 @@ verify_lenght(List, Return_bool) :-
                     Return_bool = 0 
                 )
             ;
-                atom_chars(Print, List),
-                throw(error(invalid_argument, Print, verify_format/2))
+                Return_bool = 0 
             )
         ;
-            throw(error(wrong_input_list, List, verify_format/2))
-        ).
+            atom_chars(Print, List),
+            throw(error(invalid_argument, Print, verify_format/2))
+        )
+    ;
+        throw(error(wrong_input_list, List, verify_format/2))
+    ).
 
-/* Verify if the Latitude Degrees of Detection Are Real.
+/* Verify if the Latitude Degrees Are Real.
  * Input: An Integer Number.
  * Output: A Boolean that is 1 If the Degrees Are Real, 0 Otherwise.*/
 verify_lat_degrees(Num, Return_bool) :-
@@ -94,7 +97,7 @@ verify_lat_degrees(Num, Return_bool) :-
         throw(error(wrong_input_number, Num, verify_lat_degrees/2))
     ).
 
-/* Verify if the Longitude Degrees of Detection Are Real.
+/* Verify if the Longitude Degrees Are Real.
  * Input: An Integer Number.
  * Output: A Boolean that is 1 If the Degrees Are Real, 0 Otherwise.*/
 verify_long_degrees(Num, Return_bool) :-
@@ -148,9 +151,9 @@ verify_latters(Num, Return_bool) :-
         throw(error(wrong_input_number, Num, verify_primes/2))
     ).
 
-/* Verify if the Latitude Sign of Detection is Right.
+/* Verify if the Latitude Sign is Right.
  * Input: A Letter.
- * Output: A Boolean that is 1 If the Letter Is Right, 0 Otherwise.*/
+ * Output: A Boolean that is 1 If the Letter is Right, 0 Otherwise.*/
 verify_lat_sign(Letter, Return_bool) :-
     (nonvar(Letter) -> 
         (Letter == 'N' -> 
@@ -168,7 +171,7 @@ verify_lat_sign(Letter, Return_bool) :-
 
 /* Verify if the Longitude Sign of Detection is Right.
  * Input: A Letter.
- * Output: A Boolean that is 1 If the Letter Is Right, 0 Otherwise.*/
+ * Output: A Boolean that is 1 If the Letter is Right, 0 Otherwise.*/
 verify_long_sign(Letter, Return_bool) :-
     (nonvar(Letter) -> 
         (Letter == 'E' -> 

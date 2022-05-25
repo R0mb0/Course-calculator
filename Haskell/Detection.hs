@@ -19,7 +19,7 @@ verifyLenght st
                | length st < 32 || length st > 32 = False
                | otherwise = True
 
-{-Verify if the Detection string Has the Right Format.
+{-Verify if the Detection string is in the Right Format.
 * Input: A Detection String.
 * Output: A Boolean that is 1 If the Detection string is in the Right Format, 0 Otherwise.-}
 verifyFormat :: String -> Bool
@@ -90,9 +90,9 @@ verifyDetBody (s, x, y, z)
                           where
                               pt = " " ++ show s ++ " " ++ show x ++ " " ++ show y++ " " ++ show z
 
-{-Verify if the Latitude Sign is correct.
+{-Verify if the Latitude Sign is Right.
  * Input: A Latitude Tupla.
- * Output: A Boolean that is True if the Latitude Sign is correct. False otherwise.-}
+ * Output: A Boolean that is True if the Latitude Sign is Right. False otherwise.-}
 verifyLatSign :: (Char, Int, Int, Float) -> Bool 
 verifyLatSign (s, x, y, z)
                           | s == 'N' || s == 'S' = True
@@ -100,9 +100,9 @@ verifyLatSign (s, x, y, z)
                           where 
                               pt = " " ++ show s ++ " " ++ show x ++ " " ++ show y++ " " ++ show z
 
-{-Verify if the Longitude Sign is correct.
+{-Verify if the Longitude Sign is Right.
  * Input: A Longitude Tupla.
- * Output: A Boolean that is True if the Longitude Sign is correct. False otherwise.-}
+ * Output: A Boolean that is True if the Longitude Sign is Right. False otherwise.-}
 verifyLongSign :: (Char, Int, Int, Float) -> Bool 
 verifyLongSign (s, x, y, z)
                            | s == 'E' || s == 'W' = True
