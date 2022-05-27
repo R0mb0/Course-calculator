@@ -5,6 +5,7 @@
 \usepackage{amsmath}
 \usepackage{graphicx}
 \usepackage{spverbatim}
+\usepackage{hyperref}
 
 %IMPORT CODE
 %\usepackage{minted}
@@ -1073,6 +1074,7 @@ inverse_direction(List1, List2, Return_num) :-
 		Negative direction between First & Second Detections ---> 231.38°
 	\end{spverbatim}
 	\bigskip
+	Immagine presa dal sito \href{https://www.sunearthtools.com/it/tools/distance.php}{"SunEarthTools.com"}. per la verifica dei risultati riportati dal programma:\\
 	\includegraphics[width=0.9\textwidth]{Haskell_Tests/10-Calculation_of_Distant_Coordinates_Check}
 	
 \newpage
@@ -1223,6 +1225,7 @@ inverse_direction(List1, List2, Return_num) :-
 		Negative direction between First & Second Detections ---> 231.38°
 	\end{spverbatim}
 	\bigskip
+	Immagine presa dal sito \href{https://www.sunearthtools.com/it/tools/distance.php}{"SunEarthTools.com"}. per la verifica dei risultati riportati dal programma:\\
 	\includegraphics[width=0.9\textwidth]{Prolog_Tests/10-Calculation_of_Distant_Coordinates_Check}
 \newpage
 
@@ -1381,9 +1384,7 @@ take(N, List, Final_list) :-
 /***** End Module. *****/
 \end{lstlisting}
 
-Nel programma Prolog a differenza del programma Haskell è necessario verificare esplicitamente che ogni argomento in input sia istanziato e che rispetti il tipo di dato richiesto. Nel programma Haskell invece il controllo viene effettuato automaticamente dal sistema di tipi.\\
-Inoltre nel programma Prolog a differenza del programma Haskell l'inserimento di una stringa contenente degli spazi comporta che quest'ultima sia compresa tra apici oppure tra il simbolo dell'apostrofo, in questo modo l'inserimento viene considerato come un unico oggetto in modo che i caratteri di spazio non rappresentano più un problema d'interpretazione.
-Per quanto riguarda la stampa a video dei risultati delle varie operazioni, nel programma Haskell è stato necessario implementare delle funzioni per l'approssimazione dei numeri ad un decimale, mentre non lo è stato nel caso del programma Prolog in quanto già presente un predicato che svolge questa funzione.\\
+Nel programma Haskell per stampare a video i risultati delle operazioni approssimate a dei decimali specifici, è stato necessario implementare delle funzioni per l'approssimazione dei numeri ad un certo decimale, mentre nel caso del programma Prolog è già presente un predicato che approssima i numeri al decimale richiesto.\\
 \bigskip
 \underline{File sorgente \textbf{Tools.hs:}}
 \lstset{language=Haskell}
@@ -1403,4 +1404,8 @@ round2dp :: Double -> Double
 round2dp x = fromIntegral (round $ x * 1e2) / 1e2
 \end{lstlisting}
 
+Nel programma Prolog a differenza del programma Haskell è necessario verificare esplicitamente che ogni argomento in input sia istanziato e che rispetti il tipo di dato richiesto. Nel programma Haskell invece il controllo viene effettuato automaticamente dal sistema di tipi.\\
+Inoltre nel programma Prolog a differenza del programma Haskell l'inserimento di una stringa contenente degli spazi comporta che quest'ultima sia compresa tra apici oppure tra il simbolo dell'apostrofo, in questo modo l'inserimento viene considerato come un unico oggetto in modo che i caratteri di spazio non rappresentano più un problema d'interpretazione.
+Il programma Haskell è stato diviso in moduli utilizzando la sintassi messa a disposizione dal linguaggio, mentre il programma Prolog è stato diviso in più file che vengono caricati utilizzando il predicato "consult", siccome il linguaggio Prolog non mette a disposizione una sintassi per la dichiarazione dei moduli.
+Sia nel caso del programma Haskell che del programma Prolog è stata effettuata la verifica della correttezza dei risultati restituiti utilizzando la piattaforma \href{https://www.sunearthtools.com/it/tools/distance.php}{"SunEarthTools.com"}.
 \end{document}
