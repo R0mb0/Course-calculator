@@ -110,7 +110,7 @@ verifyLongSign (s, x, y, z)
                            where 
                                pt = " " ++ show s ++ " " ++ show x ++ " " ++ show y++ " " ++ show z
 
-{- Verify the Latitude Coordinate.
+{-Verify the Latitude Coordinate.
 * Input: A Latitude Tupla.
 * Output: A Boolean that is True if the Coordinate is Real. False otherwise.-}
 verifyLat :: (Char, Int, Int, Float) -> Bool 
@@ -118,7 +118,7 @@ verifyLat (s, x, y, z)
                       | verifyDetBody (s,x,y,z) && verifyLatDeg (s,x,y,z) && verifyLatSign (s,x,y,z) = True
                       | otherwise = False
 
-{- Verify the Longitude Coordinate.
+{-Verify the Longitude Coordinate.
 * Input: A Longitude Tupla.
 * Output: A Boolean that is True if the Coordinate is Real. False otherwise.-}
 verifyLong :: (Char, Int, Int, Float) -> Bool 

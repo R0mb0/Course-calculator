@@ -1,6 +1,6 @@
 /***** Main & Main Util Module. *****/
 
-/* Main. */
+/*Main.*/
 main :-
     consult('ListTools.pl'),
     consult('Detection.pl'),

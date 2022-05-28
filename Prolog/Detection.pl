@@ -1,6 +1,6 @@
 /***** Detection Module. *****/
 
-/* Verify if the Input String Has the Right Lenght.
+/*Verify if the Input String Has the Right Lenght.
  * Input: A List.
  * Output: A Boolean that is 1 If the Input String Has the Right Lenght, 0 Otherwise.*/
 verify_lenght([], _) :-
@@ -21,7 +21,7 @@ verify_lenght(List, Return_bool) :-
         throw(error(wrong_input_list, List, verify_lenght/2))
     ).
 
-/* Verify if the Input String is in the Right Format.
+/*Verify if the Input String is in the Right Format.
  * Input: A List.
  * Output: A Boolean that is 1 If the Input String is in the Right Format, 0 Otherwise.*/
 verify_format([], _) :-
@@ -79,7 +79,7 @@ verify_format(List, Return_bool) :-
         throw(error(wrong_input_list, List, verify_format/2))
     ).
 
-/* Verify if the Latitude Degrees Are Real.
+/*Verify if the Latitude Degrees Are Real.
  * Input: An Integer Number.
  * Output: A Boolean that is 1 If the Degrees Are Real, 0 Otherwise.*/
 verify_lat_degrees(Num, Return_bool) :-
@@ -97,7 +97,7 @@ verify_lat_degrees(Num, Return_bool) :-
         throw(error(wrong_input_number, Num, verify_lat_degrees/2))
     ).
 
-/* Verify if the Longitude Degrees Are Real.
+/*Verify if the Longitude Degrees Are Real.
  * Input: An Integer Number.
  * Output: A Boolean that is 1 If the Degrees Are Real, 0 Otherwise.*/
 verify_long_degrees(Num, Return_bool) :-
@@ -115,7 +115,7 @@ verify_long_degrees(Num, Return_bool) :-
         throw(error(wrong_input_number, Num, verify_long_degrees/2))
     ).
 
-/* Verify if the Primes of Detection Are Real.
+/*Verify if the Primes of Detection Are Real.
  * Input: An Integer Number.
  * Output: A Boolean that is 1 If the Primes Are Real, 0 Otherwise.*/
 verify_primes(Num, Return_bool) :-
@@ -133,7 +133,7 @@ verify_primes(Num, Return_bool) :-
         throw(error(wrong_input_number, Num, verify_primes/2))
     ).
 
-/* Verify if the Latters of Detection Are Real.
+/*Verify if the Latters of Detection Are Real.
  * Input: An Integer or Float Number.
  * Output: A Boolean that is 1 If the Latters Are Real, 0 Otherwise.*/
 verify_latters(Num, Return_bool) :-
@@ -151,7 +151,7 @@ verify_latters(Num, Return_bool) :-
         throw(error(wrong_input_number, Num, verify_primes/2))
     ).
 
-/* Verify if the Latitude Sign is Right.
+/*Verify if the Latitude Sign is Right.
  * Input: A Letter.
  * Output: A Boolean that is 1 If the Letter is Right, 0 Otherwise.*/
 verify_lat_sign(Letter, Return_bool) :-
@@ -169,7 +169,7 @@ verify_lat_sign(Letter, Return_bool) :-
         throw(error(no_input_letter, verify_latitude/2))
     ).
 
-/* Verify if the Longitude Sign of Detection is Right.
+/*Verify if the Longitude Sign of Detection is Right.
  * Input: A Letter.
  * Output: A Boolean that is 1 If the Letter is Right, 0 Otherwise.*/
 verify_long_sign(Letter, Return_bool) :-
@@ -187,7 +187,7 @@ verify_long_sign(Letter, Return_bool) :-
         throw(error(wrong_input_list, verify_longitude/2))
     ).
 
-/* Remove the Latitude string Part From the Detection string, Return the Longitude string Part.
+/*Remove the Latitude string Part From the Detection string, Return the Longitude string Part.
  * Input: A List.
  * Output: A List containing the longitude string part.*/
 split([], _) :-
@@ -205,7 +205,7 @@ split(List, Final_list) :-
         throw(error(wrong_input_list, List, split/2))
     ).    
 
-/* Transform the Input String Containing the Latitude part into a Latitude List, [Sign, Degrees, Primes, Latters].
+/*Transform the Input String Containing the Latitude part into a Latitude List, [Sign, Degrees, Primes, Latters].
  * Input: A List.
  * Output: A List containing the latitude.*/
 get_latitude([], _) :-
@@ -233,7 +233,7 @@ get_latitude(List, Final_list) :-
         throw(error(wrong_input_list, List, get_latitude/2))
     ).
 
-/* Transform the Input String Containing the Longitude part into a Longitude List, [Sign, Degrees, Primes, Latters].
+/*Transform the Input String Containing the Longitude part into a Longitude List, [Sign, Degrees, Primes, Latters].
  * Input: A List.
  * Output: A List containing the longitude.*/
 get_longitude([], _) :-
@@ -262,7 +262,7 @@ get_longitude(List, Final_list) :-
         throw(error(wrong_input_list, List, get_longitude/2))
     ).
 
-/* Verify if the Coordinate Body is Right,
+/*Verify if the Coordinate Body is Right,
    (E.g. in the latitude case the body is the entire coordinate without the sign & degrees),
    This predicate is linked with get_point/2 to not write duplicate code.
  * Input: A List containing a latitude/longitude.
@@ -290,7 +290,7 @@ verify_coordinate_body(List, Return_bool) :-
         throw(error(wrong_input_list, List, verify_coordinate_body/2))
     ).
 
-/* Convert the Sign of the Coordinate Into a Number For the Decimal Conversion the Coordinate.
+/*Convert the Sign of the Coordinate Into a Number For the Decimal Conversion the Coordinate.
  * Input: A Letter.
  * Output: An Integer number.*/
 check_sign(Letter, Return_num) :-
@@ -308,7 +308,7 @@ check_sign(Letter, Return_num) :-
         throw(error(no_input_letter, check_sign/2))
     ).
 
-/* Convert a Coordinate (in D.M.G form) into Decimal form.
+/*Convert a Coordinate (in D.M.G form) into Decimal form.
  * Input: A List containing a coordinate.
  * Output: An Integer number containing the coordinate in decimal form.*/
 convert_to_decimal([], _) :-
@@ -329,7 +329,7 @@ convert_to_decimal(List, Return_num) :-
         throw(error(wrong_input_list, List, convert_to_decimal/2))
     ).
     
-/* Merge Two Numbers into a List that contain both.
+/*Merge Two Numbers into a List that contain both.
  * Input: Two Integer/Float numbers.
  * Output: A List containing both the input numbers.*/
 merge_coordinates(Num1, Num2, Final_list) :-
@@ -343,7 +343,7 @@ merge_coordinates(Num1, Num2, Final_list) :-
         throw(error(wrong_input_first_number, Num1, merge_coordinates/3))
     ).
 
-/* Convert a Detection (in D.M.G form) into Decimal form.
+/*Convert a Detection (in D.M.G form) into Decimal form.
  * Input: A List containing a detection.
  * Output: A List containing the detection in decimal form.*/
 get_point([], _) :-

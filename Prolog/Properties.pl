@@ -1,6 +1,6 @@
 /***** Properties Module. *****/
 
-/* Calculate the Distance Between two Detections in Decimal form.
+/*Calculate the Distance Between two Detections in Decimal form.
  * Input: Two Lists containing detections in decimal form.
  * Output: An Integer number that represent the distance (in Km) between the two detections.*/
 distance([], _, _) :-
@@ -52,7 +52,7 @@ distance(List1, List2, Rn) :-
         throw(error(wrong_first_input_list, List1, distance/3))
     ).
 
-/* Calculate the Direction Between two Detections in Decimal form.
+/*Calculate the Direction Between two Detections in Decimal form.
  * Input: Two Lists containing detections in decimal form.
  * Output: An Integer number that represent the direction (in degrees) between the two detections.*/
 direction([], _, _) :-
@@ -120,7 +120,7 @@ direction(List1, List2, Return_num) :-
         throw(error(wrong_first_input_list, List1, direction/3))
     ).
     
-/* Calculate the Inverse Direction Between two Detections in Decimal form.
+/*Calculate the Inverse Direction Between two Detections in Decimal form.
  * Input: Two Lists containing detections in decimal form.
  * Output: An Integer number that represent the inverse direction (in degrees) between the two detections.*/
 inverse_direction([], _, _) :-

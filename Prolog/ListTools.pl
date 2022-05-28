@@ -1,6 +1,6 @@
 /***** List Tools Module. *****/
 
-/* Like the index Function in Haskell. 
+/*Like the index Function in Haskell. 
  * Input: An integer Index, a List.
  * Output: The Element of the List at the Index Specified.*/
 index(_, [], _) :-
@@ -19,7 +19,7 @@ index(N, [_|T], E) :-
         throw(error(not_integer_index, N, index/3))
     ).
 
-/* Like the head Function in Haskell. 
+/*Like the head Function in Haskell. 
  * Input: A List.
  * Output: The First Element of List.*/
 head([], _) :-
@@ -27,7 +27,7 @@ head([], _) :-
 head([H], H).
 head([H|_], H).
 
-/* Like the tail Function in Haskell. 
+/*Like the tail Function in Haskell. 
  * Input: A List.
  * Output: A List without the first element.*/
 tail([], _) :-
@@ -35,7 +35,7 @@ tail([], _) :-
 tail([T], T).
 tail([_|T], T).
 
-/* Like the drop Function in Haskell. 
+/*Like the drop Function in Haskell. 
  * Input: An Integer number, a List.
  * Output: A List without the number of elements specified from the head.*/
 drop(_, [], _) :-
@@ -69,7 +69,7 @@ drop(N, List, Final_list) :-
         throw(error(wrong_input_number, N, drop/3))
     ).
 
-/* Like the init Function in Haskell. 
+/*Like the init Function in Haskell. 
  * Input: A List.
  * Output: A List without the last element.*/
 init([], _) :-
@@ -83,7 +83,7 @@ init(List, Final_list) :-
         throw(error(wrong_input_list, List, init/2))
     ).
     
-/* Remove Ns Elements From the Input List.
+/*Remove Ns Elements From the Input List.
  * Input: An Integer number, a List.
  * Output: A List without the number of elements specified from the tail.*/
 remove_from_tail(_, [], _) :-
@@ -118,7 +118,7 @@ remove_from_tail(N, List, Final_list) :-
         throw(error(wrong_input_number, N, remove_from_tail/3))
     ).
 
-/* Like the take Function in Haskell. 
+/*Like the take Function in Haskell. 
  * Input: An Integer number, a List.
  * Output: A List with only the number of elements specified from the head.*/
 take(_, [], _) :-
