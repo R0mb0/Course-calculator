@@ -253,7 +253,7 @@ verifyLongSign (s, x, y, z)
                            where 
                                pt = " " ++ show s ++ " " ++ show x ++ " " ++ show y++ " " ++ show z
 
-{- Verify the Latitude Coordinate.
+{-Verify the Latitude Coordinate.
 * Input: A Latitude Tupla.
 * Output: A Boolean that is True if the Coordinate is Real. False otherwise.-}
 verifyLat :: (Char, Int, Int, Float) -> Bool 
@@ -261,7 +261,7 @@ verifyLat (s, x, y, z)
                       | verifyDetBody (s,x,y,z) && verifyLatDeg (s,x,y,z) && verifyLatSign (s,x,y,z) = True
                       | otherwise = False
 
-{- Verify the Longitude Coordinate.
+{-Verify the Longitude Coordinate.
 * Input: A Longitude Tupla.
 * Output: A Boolean that is True if the Coordinate is Real. False otherwise.-}
 verifyLong :: (Char, Int, Int, Float) -> Bool 
@@ -383,7 +383,7 @@ invDirection detA detB
 \begin{lstlisting}
 /***** Detection Module. *****/
 
-/* Verify if the Input String Has the Right Lenght.
+/*Verify if the Input String Has the Right Lenght.
  * Input: A List.
  * Output: A Boolean that is 1 If the Input String Has the Right Lenght, 0 Otherwise.*/
 verify_lenght([], _) :-
@@ -404,7 +404,7 @@ verify_lenght(List, Return_bool) :-
         throw(error(wrong_input_list, List, verify_lenght/2))
     ).
 
-/* Verify if the Input String is in the Right Format.
+/*Verify if the Input String is in the Right Format.
  * Input: A List.
  * Output: A Boolean that is 1 If the Input String is in the Right Format, 0 Otherwise.*/
 verify_format([], _) :-
@@ -462,7 +462,7 @@ verify_format(List, Return_bool) :-
         throw(error(wrong_input_list, List, verify_format/2))
     ).
 
-/* Verify if the Latitude Degrees Are Real.
+/*Verify if the Latitude Degrees Are Real.
  * Input: An Integer Number.
  * Output: A Boolean that is 1 If the Degrees Are Real, 0 Otherwise.*/
 verify_lat_degrees(Num, Return_bool) :-
@@ -480,7 +480,7 @@ verify_lat_degrees(Num, Return_bool) :-
         throw(error(wrong_input_number, Num, verify_lat_degrees/2))
     ).
 
-/* Verify if the Longitude Degrees Are Real.
+/*Verify if the Longitude Degrees Are Real.
  * Input: An Integer Number.
  * Output: A Boolean that is 1 If the Degrees Are Real, 0 Otherwise.*/
 verify_long_degrees(Num, Return_bool) :-
@@ -498,7 +498,7 @@ verify_long_degrees(Num, Return_bool) :-
         throw(error(wrong_input_number, Num, verify_long_degrees/2))
     ).
 
-/* Verify if the Primes of Detection Are Real.
+/*Verify if the Primes of Detection Are Real.
  * Input: An Integer Number.
  * Output: A Boolean that is 1 If the Primes Are Real, 0 Otherwise.*/
 verify_primes(Num, Return_bool) :-
@@ -516,7 +516,7 @@ verify_primes(Num, Return_bool) :-
         throw(error(wrong_input_number, Num, verify_primes/2))
     ).
 
-/* Verify if the Latters of Detection Are Real.
+/*Verify if the Latters of Detection Are Real.
  * Input: An Integer or Float Number.
  * Output: A Boolean that is 1 If the Latters Are Real, 0 Otherwise.*/
 verify_latters(Num, Return_bool) :-
@@ -534,7 +534,7 @@ verify_latters(Num, Return_bool) :-
         throw(error(wrong_input_number, Num, verify_primes/2))
     ).
 
-/* Verify if the Latitude Sign is Right.
+/*Verify if the Latitude Sign is Right.
  * Input: A Letter.
  * Output: A Boolean that is 1 If the Letter is Right, 0 Otherwise.*/
 verify_lat_sign(Letter, Return_bool) :-
@@ -552,7 +552,7 @@ verify_lat_sign(Letter, Return_bool) :-
         throw(error(no_input_letter, verify_latitude/2))
     ).
 
-/* Verify if the Longitude Sign of Detection is Right.
+/*Verify if the Longitude Sign of Detection is Right.
  * Input: A Letter.
  * Output: A Boolean that is 1 If the Letter is Right, 0 Otherwise.*/
 verify_long_sign(Letter, Return_bool) :-
@@ -570,7 +570,7 @@ verify_long_sign(Letter, Return_bool) :-
         throw(error(wrong_input_list, verify_longitude/2))
     ).
 
-/* Remove the Latitude string Part From the Detection string, Return the Longitude string Part.
+/*Remove the Latitude string Part From the Detection string, Return the Longitude string Part.
  * Input: A List.
  * Output: A List containing the longitude string part.*/
 split([], _) :-
@@ -588,7 +588,7 @@ split(List, Final_list) :-
         throw(error(wrong_input_list, List, split/2))
     ).    
 
-/* Transform the Input String Containing the Latitude part into a Latitude List, [Sign, Degrees, Primes, Latters].
+/*Transform the Input String Containing the Latitude part into a Latitude List, [Sign, Degrees, Primes, Latters].
  * Input: A List.
  * Output: A List containing the latitude.*/
 get_latitude([], _) :-
@@ -616,7 +616,7 @@ get_latitude(List, Final_list) :-
         throw(error(wrong_input_list, List, get_latitude/2))
     ).
 
-/* Transform the Input String Containing the Longitude part into a Longitude List, [Sign, Degrees, Primes, Latters].
+/*Transform the Input String Containing the Longitude part into a Longitude List, [Sign, Degrees, Primes, Latters].
  * Input: A List.
  * Output: A List containing the longitude.*/
 get_longitude([], _) :-
@@ -645,7 +645,7 @@ get_longitude(List, Final_list) :-
         throw(error(wrong_input_list, List, get_longitude/2))
     ).
 
-/* Verify if the Coordinate Body is Right,
+/*Verify if the Coordinate Body is Right,
    (E.g. in the latitude case the body is the entire coordinate without the sign & degrees),
    This predicate is linked with get_point/2 to not write duplicate code.
  * Input: A List containing a latitude/longitude.
@@ -673,7 +673,7 @@ verify_coordinate_body(List, Return_bool) :-
         throw(error(wrong_input_list, List, verify_coordinate_body/2))
     ).
 
-/* Convert the Sign of the Coordinate Into a Number For the Decimal Conversion the Coordinate.
+/*Convert the Sign of the Coordinate Into a Number For the Decimal Conversion the Coordinate.
  * Input: A Letter.
  * Output: An Integer number.*/
 check_sign(Letter, Return_num) :-
@@ -691,7 +691,7 @@ check_sign(Letter, Return_num) :-
         throw(error(no_input_letter, check_sign/2))
     ).
 
-/* Convert a Coordinate (in D.M.G form) into Decimal form.
+/*Convert a Coordinate (in D.M.G form) into Decimal form.
  * Input: A List containing a coordinate.
  * Output: An Integer number containing the coordinate in decimal form.*/
 convert_to_decimal([], _) :-
@@ -712,7 +712,7 @@ convert_to_decimal(List, Return_num) :-
         throw(error(wrong_input_list, List, convert_to_decimal/2))
     ).
     
-/* Merge Two Numbers into a List that contain both.
+/*Merge Two Numbers into a List that contain both.
  * Input: Two Integer/Float numbers.
  * Output: A List containing both the input numbers.*/
 merge_coordinates(Num1, Num2, Final_list) :-
@@ -726,7 +726,7 @@ merge_coordinates(Num1, Num2, Final_list) :-
         throw(error(wrong_input_first_number, Num1, merge_coordinates/3))
     ).
 
-/* Convert a Detection (in D.M.G form) into Decimal form.
+/*Convert a Detection (in D.M.G form) into Decimal form.
  * Input: A List containing a detection.
  * Output: A List containing the detection in decimal form.*/
 get_point([], _) :-
@@ -775,7 +775,7 @@ get_point(List, Final_list) :-
 \begin{lstlisting}
 /***** Properties Module. *****/
 
-/* Calculate the Distance Between two Detections in Decimal form.
+/*Calculate the Distance Between two Detections in Decimal form.
  * Input: Two Lists containing detections in decimal form.
  * Output: An Integer number that represent the distance (in Km) between the two detections.*/
 distance([], _, _) :-
@@ -827,7 +827,7 @@ distance(List1, List2, Rn) :-
         throw(error(wrong_first_input_list, List1, distance/3))
     ).
 
-/* Calculate the Direction Between two Detections in Decimal form.
+/*Calculate the Direction Between two Detections in Decimal form.
  * Input: Two Lists containing detections in decimal form.
  * Output: An Integer number that represent the direction (in degrees) between the two detections.*/
 direction([], _, _) :-
@@ -895,7 +895,7 @@ direction(List1, List2, Return_num) :-
         throw(error(wrong_first_input_list, List1, direction/3))
     ).
     
-/* Calculate the Inverse Direction Between two Detections in Decimal form.
+/*Calculate the Inverse Direction Between two Detections in Decimal form.
  * Input: Two Lists containing detections in decimal form.
  * Output: An Integer number that represent the inverse direction (in degrees) between the two detections.*/
 inverse_direction([], _, _) :-
@@ -1240,7 +1240,7 @@ Per fare in modo che i due programmi condividessero delle funzioni/predicati qua
 \begin{lstlisting}
 /***** List Tools Module. *****/
 
-/* Like the index Function in Haskell. 
+/*Like the index Function in Haskell. 
  * Input: An integer Index, a List.
  * Output: The Element of the List at the Index Specified.*/
 index(_, [], _) :-
@@ -1259,7 +1259,7 @@ index(N, [_|T], E) :-
         throw(error(not_integer_index, N, index/3))
     ).
 
-/* Like the head Function in Haskell. 
+/*Like the head Function in Haskell. 
  * Input: A List.
  * Output: The First Element of List.*/
 head([], _) :-
@@ -1267,7 +1267,7 @@ head([], _) :-
 head([H], H).
 head([H|_], H).
 
-/* Like the tail Function in Haskell. 
+/*Like the tail Function in Haskell. 
  * Input: A List.
  * Output: A List without the first element.*/
 tail([], _) :-
@@ -1275,7 +1275,7 @@ tail([], _) :-
 tail([T], T).
 tail([_|T], T).
 
-/* Like the drop Function in Haskell. 
+/*Like the drop Function in Haskell. 
  * Input: An Integer number, a List.
  * Output: A List without the number of elements specified from the head.*/
 drop(_, [], _) :-
@@ -1309,7 +1309,7 @@ drop(N, List, Final_list) :-
         throw(error(wrong_input_number, N, drop/3))
     ).
 
-/* Like the init Function in Haskell. 
+/*Like the init Function in Haskell. 
  * Input: A List.
  * Output: A List without the last element.*/
 init([], _) :-
@@ -1323,7 +1323,7 @@ init(List, Final_list) :-
         throw(error(wrong_input_list, List, init/2))
     ).
     
-/* Remove Ns Elements From the Input List.
+/*Remove Ns Elements From the Input List.
  * Input: An Integer number, a List.
  * Output: A List without the number of elements specified from the tail.*/
 remove_from_tail(_, [], _) :-
@@ -1358,7 +1358,7 @@ remove_from_tail(N, List, Final_list) :-
         throw(error(wrong_input_number, N, remove_from_tail/3))
     ).
 
-/* Like the take Function in Haskell. 
+/*Like the take Function in Haskell. 
  * Input: An Integer number, a List.
  * Output: A List with only the number of elements specified from the head.*/
 take(_, [], _) :-
