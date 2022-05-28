@@ -1,6 +1,6 @@
 module Tools where
 
-{-Function to Round a Number to 5 Decimals After the Comma.
+{-Function to Round a Number to 3 Decimals After the Comma.
 * Input: A Dobule Number.
 * Output: A Double Number Containing the Input Number Rounded.-}
 round3dp :: Double -> Double
