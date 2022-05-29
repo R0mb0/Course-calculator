@@ -49,9 +49,10 @@
 	
 	%\tableofcontents
 	%\newpage
+\newpage
 
 \section{Specifica del Problema}
-Scrivere un programma Haskell e un programma Prolog che, dato l'inserimento di due rilevamenti satellitari in formato di coordinata unica nella quale la latitudine e la longitudine sono rappresentate in formato D.M.G internazionale, effettuano le seguenti operazioni: controllo della validità dei rilevamenti inseriti dall'utente, calcolare e riportare (sempre in formato di coordinata unica) per ogni rilevamento la corrispettiva latitudine e longitudine in formato decimale, calcolare e riportare la distanza in chilometri compresa tra i due rilevamenti satellitari, calcolare e riportare l'angolo di rotta espresso in gradi (sia diretto che inverso) che unisce i due rilevamenti inseriti.
+Scrivere un programma Haskell e un programma Prolog che, dato l'inserimento di due rilevamenti satellitari in formato di coordinata unica nella quale la latitudine e la longitudine sono rappresentate in formato D.M.G internazionale, effettuano le seguenti operazioni: controllare la validità dei rilevamenti inseriti dall'utente, calcolare e riportare (sempre in formato di coordinata unica) per ogni rilevamento la corrispettiva latitudine e longitudine in formato decimale, calcolare e riportare la distanza in chilometri compresa tra i due rilevamenti satellitari, calcolare e riportare l'angolo di rotta espresso in gradi (sia diretto che inverso) che unisce i due rilevamenti inseriti.
 \newline
 \newline
 %\emph{[Confrontare lo svolgimento delle fasi successive con quanto riportato nelle prossime pagine.]}\\
@@ -69,7 +70,7 @@ L'operazione di controllo della validità dei rilevamenti immessi restituisce un
 \subsection{Relazioni Intercorrenti tra i Dati del Problema}
 Dato l'inserimento di due rilevamenti nel formato prima specificato, le operazioni in questione sono definite come segue:
 \begin{itemize}
-	\item Controllo della validità dei rilevamenti; per ogni rilevamento inserito, si verifica che la sua lunghezza sia di trentadue caratteri (considerando anche gli spazi) e nel formato corretto (controllando che gli spazi siano posizionati correttamente tra i valori), altrimenti viene restituito un messaggio d'errore. Successivamente si verifica se la latitudine e la longitudine siano corrette, in particolare si verifica se il "segno" della latitudine sia "N" oppure "S", in caso contrario viene restituito un messaggio d'errore, la stessa cosa vale pure per la longitudine, controllando che il "segno" sia "E" oppure "W". Il "corpo" della latitudine e della longitudine si verifica controllando se i "gradi" della latitudine siano compresi tra il valore zero ed il valore ottantanove (estremi compresi) e se i "gradi" della longitudine siano compresi tra il valore zero ed il valore centosettantanove (estremi compresi). La verifica dei "primi" ed i "secondi" è la stessa sia per la latitudine che per la longitudine, verificando che siano compresi tra il valore zero ed il valore cinquantanove, qualora i valori dei "gradi", dei "primi" o dei "secondi" dovessero risultare sbagliati, verrà restituito un messaggio d'errore relativo al valore rilevato come errato.
+	\item Controllo della validità dei rilevamenti; per ogni rilevamento inserito, si verifica che la sua lunghezza sia quella di un rilevamento standard in formato D.M.G internazionale non abbreviato (ovvero un rilevamento nel quale il numero di cifre che compone un valore rimane costante), si verifica che il suo formato sia corretto (controllando se la posizione degli spazi all'interno della "stringa" rappresentante il rilevamento sia corretta) ed infine si verifica che le coordinate inserite siano reali. 
 	
 	\item Conversione delle coordinate dalla forma D.M.G internazionale alla forma decimale; data una qualsiasi coordinata il passaggio dalla forma D.M.G internazionale alla forma decimale è definito come segue: \\
 	Decimale = (Gradi + ( ((Secondi / 60) + Primi) / 60 ) * (-1) se il Segno è  S o W).
@@ -92,7 +93,7 @@ Dato l'inserimento di due rilevamenti nel formato prima specificato, le operazio
 
 \section{Progettazione dell'Algoritmo}
 \subsection{Scelte di Progetto}
-Il rilevamento immesso dall'utente (nel quale è presente una coppia di coordinate), viene catturato dal terminale sotto forma di "stringa", pertanto il rilevamento è gestibile come una lista di caratteri di tipo "char". Per estrarre le coordinate vengono effettuate delle operazioni arbitrarie volte ad isolare le varie parti d'interesse nella lista, proprio perché queste operazioni sono arbitrarie e non vincolate da un simbolo presente nella lista, si controlla che quest'ultima sia precisamente di trentadue caratteri (considerando anche gli spazi) e nel formato corretto.\\
+Il rilevamento immesso dall'utente è rappresentato sotto forma di "stringa", pertanto il rilevamento è gestibile come una lista di caratteri di tipo "char". Per estrarre le coordinate vengono effettuate delle operazioni arbitrarie volte ad isolare le varie parti d'interesse nella lista, proprio perché queste operazioni sono arbitrarie e non vincolate da un simbolo presente nella lista, si controlla che quest'ultima sia precisamente di trentadue caratteri (considerando anche gli spazi) e nel formato corretto.\\
 Per scelta architetturale si è pensato d'implementare una funzione/predicato che dato un rilevamento in formato D.M.G internazionale restituisce un rilevamento in formato decimale, questo comporta che le coordinate sono gestite singolarmente (ovvero quando la latitudine e la longitudine non sono riunite per formare un rilevamento) solo nel momento in cui dal rilevamento si estraggono la latitudine e la longitudine per poter essere verificate nella correttezza dei valori e successivamente convertite individualmente dal formato D.M.G internazionale a formato decimale, per poi essere riunite nuovamente a formare un rilevamento in formato decimale.\\
  Un'ulteriore decisione architetturale è stata presa nella gestione delle singole coordinate, infatti la latitudine e la longitudine individuate all'interno della lista di caratteri "char" vengono convertite rispettivamente in due "tuple" distinte definite come segue: (Char, Integer, Integer, Float) ovvero (Segno, Gradi, Primi, Secondi), in modo da poter semplificare l'implementazione delle funzioni/predicati atti alla conversione delle coordinate dal formato D.M.G internazionale al formato decimale. Nel caso specifico del Prolog al posto delle "tuple" vengono utilizzate delle liste formate da elementi atomici definite come segue:  [Segno, Gradi, Primi, Secondi].
  
@@ -102,10 +103,10 @@ Per scelta architetturale si è pensato d'implementare una funzione/predicato ch
 	
 	\item Controllo della validità dei rilevamenti:
 	\begin{enumerate}
-		\item Se necessario, la "stringa" contenente il rilevamento inserito dall'utente viene convertita esplicitamente in una lista di caratteri "char".
-		\item Viene valutato se la lista così ottenuta sia composta da trentadue elementi e nel formato corretto verificando che gli spazi siano posizionati nelle  seguenti posizioni della lista: 2, 5, 8, 15, 17, 19, 23, 25. Nel caso in cui la lista non possiede trentadue elementi oppure i caratteri di spazio non sono posizionati correttamente viene restituito un messaggio d'errore.
-		\item La lista viene manipolata per isolare le informazioni relative alla latitudine da inserire nella "tupla"/lista che rappresenta la latitudine in formato D.M.G internazionale.
-		\item La lista iniziale viene nuovamente manipolata per isolare le informazioni relative alla longitudine da inserire nella "tupla"/lista che rappresenta la longitudine in formato D.M.G internazionale.
+		\item La "stringa" contenente il rilevamento inserito dall'utente viene convertita esplicitamente in una lista di caratteri "char".
+		\item Viene valutato se la lista così ottenuta sia composta da trentadue elementi e nel formato corretto verificando che gli spazi siano posizionati nelle  seguenti posizioni della lista: 2, 5, 8, 15, 17, 19, 23, 25. Nel caso in cui la lista non possieda trentadue elementi oppure i caratteri di spazio non siano posizionati correttamente viene restituito un messaggio d'errore.
+		\item La lista viene manipolata per estrarre le informazioni relative alla latitudine da inserire nella "tupla"/lista che rappresenta la latitudine in formato D.M.G internazionale.
+		\item La lista iniziale viene nuovamente manipolata per estrarre le informazioni relative alla longitudine da inserire nella "tupla"/lista che rappresenta la longitudine in formato D.M.G internazionale.
 		\item Si esegue la verifica delle informazioni contenute all'interno della "tupla"/lista rappresentante la latitudine in formato D.M.G internazionale, verificando nel seguente ordine:  la correttezza del "segno" controllando che sia "N" oppure "S", i "gradi" controllando che siano compresi tra il valore zero ed il valore ottantanove (estremi compresi), i "primi" ed i "secondi" controllando che entrambi i valori siano compresi tra il valore zero ed il valore cinquantanove (estremi compresi). Nel caso in cui uno dei quattro controlli dovesse rilevare un errore, viene restituito un messaggio nel quale si descrive il tipo d'errore riscontrato.
 		\item Si esegue la verifica delle informazioni contenute all'interno della "tupla"/lista rappresentante la longitudine in formato D.M.G internazionale, verificando nel seguente ordine:  la correttezza del "segno" controllando che sia "E" oppure "W", i "gradi" controllando che siano compresi tra il valore zero ed il valore centosettantanove (estremi compresi), i "primi" ed i "secondi" controllando che entrambi i valori siano compresi tra il valore zero ed il valore cinquantanove (estremi compresi). Nel caso in cui uno dei quattro controlli dovesse rilevare un errore, viene restituito un messaggio nel quale si descrive il tipo d'errore riscontrato.
 	\end{enumerate}
@@ -119,7 +120,7 @@ Per scelta architetturale si è pensato d'implementare una funzione/predicato ch
 
 	\item Calcolo della distanza compresa tra i due rilevamenti inseriti: 
 	\begin{enumerate}
-		\item Data una coppia di rilevamenti in formato decimale rispettivamente denominati "A" e "B", il calcolo della distanza compresa tra i due rilevamenti viene calcolata applicando la seguente formula: \\$Distanza(A, B) = R * \arccos(\sin(latA * \pi / 180) * \sin(latB * \pi / 180) + \cos(latA * \pi / 180) * \cos(latB * \pi / 180) * \cos((lonA - lonB) * \pi / 180)). $
+		\item Data una coppia di rilevamenti in formato decimale rispettivamente denominati "A" e "B", la distanza compresa tra i due rilevamenti viene calcolata applicando la seguente formula: \\$Distanza(A, B) = R * \arccos(\sin(latA * \pi / 180) * \sin(latB * \pi / 180) + \cos(latA * \pi / 180) * \cos(latB * \pi / 180) * \cos((lonA - lonB) * \pi / 180)). $
 	\end{enumerate}
 
 	\item  Calcolo dell'angolo di rotta diretto e inverso tra i due rilevamenti inseriti:
@@ -1074,7 +1075,7 @@ inverse_direction(List1, List2, Return_num) :-
 		Negative direction between First & Second Detections ---> 231.38°
 	\end{spverbatim}
 	\bigskip
-	Immagine presa dal sito \href{https://www.sunearthtools.com/it/tools/distance.php}{"SunEarthTools.com"}. per la verifica dei risultati riportati dal programma:\\
+	Immagine presa dal sito \href{https://www.sunearthtools.com/it/tools/distance.php}{"SunEarthTools.com"}, per la verifica dei risultati riportati dal programma:\\
 	\includegraphics[width=0.9\textwidth]{Haskell_Tests/10-Calculation_of_Distant_Coordinates_Check}
 	
 \newpage
@@ -1225,7 +1226,7 @@ inverse_direction(List1, List2, Return_num) :-
 		Negative direction between First & Second Detections ---> 231.38°
 	\end{spverbatim}
 	\bigskip
-	Immagine presa dal sito \href{https://www.sunearthtools.com/it/tools/distance.php}{"SunEarthTools.com"}. per la verifica dei risultati riportati dal programma:\\
+	Immagine presa dal sito \href{https://www.sunearthtools.com/it/tools/distance.php}{"SunEarthTools.com"}, per la verifica dei risultati riportati dal programma:\\
 	\includegraphics[width=0.9\textwidth]{Prolog_Tests/10-Calculation_of_Distant_Coordinates_Check}
 \newpage
 
@@ -1406,6 +1407,6 @@ round2dp x = fromIntegral (round $ x * 1e2) / 1e2
 
 Nel programma Prolog a differenza del programma Haskell è necessario verificare esplicitamente che ogni argomento in input sia istanziato e che rispetti il tipo di dato richiesto. Nel programma Haskell invece il controllo viene effettuato automaticamente dal sistema di tipi.\\
 Inoltre nel programma Prolog a differenza del programma Haskell l'inserimento di una stringa contenente degli spazi comporta che quest'ultima sia compresa tra apici oppure tra il simbolo dell'apostrofo, in modo che l'inserimento venga considerato come un "dato atomico",  facendo sì che i caratteri di spazio non rappresentino più un problema d'interpretazione.
-Il programma Haskell è stato diviso in moduli utilizzando la sintassi messa a disposizione dal linguaggio, mentre il programma Prolog è stato diviso in più file che vengono caricati utilizzando il predicato "consult", siccome il linguaggio Prolog non mette a disposizione una sintassi per la dichiarazione dei moduli.
+Il programma Haskell è stato diviso in moduli utilizzando la sintassi messa a disposizione dal linguaggio, mentre il programma Prolog è stato diviso in più file che vengono caricati utilizzando il predicato "consult", siccome il linguaggio Prolog non mette a disposizione una sintassi per la dichiarazione dei moduli.\\
 Sia nel caso del programma Haskell che del programma Prolog è stata effettuata la verifica della correttezza dei risultati restituiti utilizzando la piattaforma \href{https://www.sunearthtools.com/it/tools/distance.php}{"SunEarthTools.com"}.
 \end{document}
