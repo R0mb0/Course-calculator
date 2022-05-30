@@ -2,19 +2,19 @@
 
 /*Verify if the Input String Has the Right Lenght.
  * Input: A List.
- * Output: A Boolean that is 1 If the Input String Has the Right Lenght, 0 Otherwise.*/
+ * Output: A Boolean that is "true" If the Input String Has the Right Lenght, "false" Otherwise.*/
 verify_lenght([], _) :-
     throw(error(empty_input_list, verify_lenght/2)).
 verify_lenght(List, Return_bool) :-
     (list(List) -> 
         length(List, N),
         (N < 32 -> 
-            Return_bool = 0
+            Return_bool = false
         ;
             (N > 32 -> 
-                Return_bool = 0
+                Return_bool = false
             ;
-                Return_bool = 1
+                Return_bool = true
             )
         )  
     ;
@@ -23,13 +23,13 @@ verify_lenght(List, Return_bool) :-
 
 /*Verify if the Input String is in the Right Format.
  * Input: A List.
- * Output: A Boolean that is 1 If the Input String is in the Right Format, 0 Otherwise.*/
+ * Output: A Boolean that is "true" If the Input String is in the Right Format, "false" Otherwise.*/
 verify_format([], _) :-
     throw(error(empty_input_list, verify_format/2)).
 verify_format(List, Return_bool) :-
     (list(List) -> 
-        verify_lenght(List, N),
-        (N == 1 -> 
+        verify_lenght(List, Bool),
+        (Bool == true -> 
             index(1, List, A),
             index(4, List, B),
             index(7, List, C),
@@ -46,30 +46,30 @@ verify_format(List, Return_bool) :-
                                 (F == ' ' -> 
                                     (G == ' ' -> 
                                         (H == ' ' -> 
-                                            Return_bool = 1 
+                                            Return_bool = true 
                                         ;
-                                            Return_bool = 0 
+                                            Return_bool = false 
                                         )
                                     ;
-                                        Return_bool = 0 
+                                        Return_bool = false 
                                     )
                                 ;
-                                    Return_bool = 0 
+                                    Return_bool = false 
                                 )
                             ;
-                                Return_bool = 0 
+                                Return_bool = false 
                             )
                         ;
-                            Return_bool = 0 
+                            Return_bool = false 
                         )
                     ;
-                        Return_bool = 0 
+                        Return_bool = false 
                     )
                 ;
-                    Return_bool = 0 
+                    Return_bool = false 
                 )
             ;
-                Return_bool = 0 
+                Return_bool = false 
             )
         ;
             atom_chars(Print, List),
@@ -81,16 +81,16 @@ verify_format(List, Return_bool) :-
 
 /*Verify if the Latitude Degrees Are Real.
  * Input: An Integer Number.
- * Output: A Boolean that is 1 If the Degrees Are Real, 0 Otherwise.*/
+ * Output: A Boolean that is "true" If the Degrees Are Real, "false" Otherwise.*/
 verify_lat_degrees(Num, Return_bool) :-
    (integer(Num) ->
         (Num < 0 -> 
-            Return_bool = 0
+            Return_bool = false
         ;
             (Num > 89 -> 
-                Return_bool = 0
+                Return_bool = false
             ;
-                Return_bool = 1
+                Return_bool = true
             )
         )
     ;
@@ -99,16 +99,16 @@ verify_lat_degrees(Num, Return_bool) :-
 
 /*Verify if the Longitude Degrees Are Real.
  * Input: An Integer Number.
- * Output: A Boolean that is 1 If the Degrees Are Real, 0 Otherwise.*/
+ * Output: A Boolean that is "true" If the Degrees Are Real, "false" Otherwise.*/
 verify_long_degrees(Num, Return_bool) :-
    (integer(Num) ->
         (Num < 0 -> 
-            Return_bool = 0
+            Return_bool = false
         ;
             (Num > 179 -> 
-                Return_bool = 0
+                Return_bool = false
             ;
-                Return_bool = 1
+                Return_bool = true
             )
         )
     ;
@@ -117,16 +117,16 @@ verify_long_degrees(Num, Return_bool) :-
 
 /*Verify if the Primes of Detection Are Real.
  * Input: An Integer Number.
- * Output: A Boolean that is 1 If the Primes Are Real, 0 Otherwise.*/
+ * Output: A Boolean that is "true" If the Primes Are Real, "false" Otherwise.*/
 verify_primes(Num, Return_bool) :-
     (integer(Num) -> 
         (Num < 0 -> 
-            Return_bool = 0
+            Return_bool = false
         ;
             (Num > 59 -> 
-                Return_bool = 0
+                Return_bool = false
             ;
-                Return_bool = 1
+                Return_bool = true
             )
         )  
     ;
@@ -135,56 +135,56 @@ verify_primes(Num, Return_bool) :-
 
 /*Verify if the Latters of Detection Are Real.
  * Input: An Integer or Float Number.
- * Output: A Boolean that is 1 If the Latters Are Real, 0 Otherwise.*/
+ * Output: A Boolean that is "true" If the Latters Are Real, "false" Otherwise.*/
 verify_latters(Num, Return_bool) :-
     (number(Num) ->
         (Num < 0 -> 
-            Return_bool = 0
+            Return_bool = false
         ;
             (Num > 59 -> 
-                Return_bool = 0
+                Return_bool = false
             ;
-                Return_bool = 1
+                Return_bool = true
             )
         )
     ;
-        throw(error(wrong_input_number, Num, verify_primes/2))
+        throw(error(wrong_input_number, Num, verify_latters/2))
     ).
 
 /*Verify if the Latitude Sign is Right.
- * Input: A Letter.
- * Output: A Boolean that is 1 If the Letter is Right, 0 Otherwise.*/
-verify_lat_sign(Letter, Return_bool) :-
-    (nonvar(Letter) -> 
-        (Letter == 'N' -> 
-            Return_bool = 1
+ * Input: A Character.
+ * Output: A Boolean that is "true" If the Character is Right, "false" Otherwise.*/
+verify_lat_sign(Character, Return_bool) :-
+    (nonvar(Character) -> 
+        (Character == 'N' -> 
+            Return_bool = true
         ;
-            (Letter == 'S' -> 
-                Return_bool = 1
+            (Character == 'S' -> 
+                Return_bool = true
             ;
-                Return_bool = 0
+                Return_bool = false
             )
         )
     ;
-        throw(error(no_input_letter, verify_latitude/2))
+        throw(error(no_input_character, verify_lat_sign/2))
     ).
 
 /*Verify if the Longitude Sign of Detection is Right.
- * Input: A Letter.
- * Output: A Boolean that is 1 If the Letter is Right, 0 Otherwise.*/
-verify_long_sign(Letter, Return_bool) :-
-    (nonvar(Letter) -> 
-        (Letter == 'E' -> 
-            Return_bool = 1
+ * Input: A Character.
+ * Output: A Boolean that is "true" If the Character is Right, "false" Otherwise.*/
+verify_long_sign(Character, Return_bool) :-
+    (nonvar(Character) -> 
+        (Character == 'E' -> 
+            Return_bool = true
         ;
-            (Letter == 'W' -> 
-                Return_bool = 1
+            (Character == 'W' -> 
+                Return_bool = true
             ;
-                Return_bool = 0
+                Return_bool = false
             )
         )
     ;
-        throw(error(wrong_input_list, verify_longitude/2))
+        throw(error(no_input_character, verify_long_sign/2))
     ).
 
 /*Remove the Latitude string Part From the Detection string, Return the Longitude string Part.
@@ -212,8 +212,8 @@ get_latitude([], _) :-
     throw(error(empty_input_list, get_latitude/2)).
 get_latitude(List, Final_list) :-
     (list(List) -> 
-        verify_format(List, N),
-        ( N == 0 ->
+        verify_format(List, Bool),
+        (Bool == false ->
             atom_chars(Print, List),
             throw(error(invalid_argument, Print, getLatitude/2))
         ;
@@ -240,10 +240,10 @@ get_longitude([], _) :-
     throw(error(empty_input_list, get_longitude/2)).
 get_longitude(List, Final_list) :-
     (list(List) -> 
-        verify_format(List, N),
-        ( N == 0 ->
+        verify_format(List, Bool),
+        (Bool == false ->
             atom_chars(Print, List),
-            throw(error(invalid_argument, Print, getLongitude/2))
+            throw(error(invalid_argument, Print, get_longitude/2))
         ;
             split(List, List1),
             head(List1, Sign),
@@ -263,27 +263,25 @@ get_longitude(List, Final_list) :-
     ).
 
 /*Verify if the Coordinate Body is Right,
-   (E.g. in the latitude case the body is the entire coordinate without the sign & degrees),
+   (In this case the body is the entire coordinate without the sign & degrees),
    This predicate is linked with get_point/2 to not write duplicate code.
  * Input: A List containing a latitude/longitude.
- * Output: A Boolean that is 1 If the Body is Right, 0 Otherwise.*/
+ * Output: A Boolean that is "true" If the Body is Right, "false" Otherwise.*/
 verify_coordinate_body([], _) :-
     throw(error(empty_input_list, verify_coordinate_body/2)).
 verify_coordinate_body(List, Return_bool) :-
     (list(List) -> 
         index(2, List, Primes),
         verify_primes(Primes, B1),
-        (B1 == 0 ->
-            Return_bool = 0,
+        (B1 == false ->
             throw(error(wrong_primes_in, List, verify_coordinate_body/2))
         ;
             index(3, List, Latters),
             verify_latters(Latters, B2),
-            (B2 == 0 -> 
-                Return_bool = 0,
+            (B2 == false -> 
                 throw(error(wrong_latters_in, List, verify_coordinate_body/2))
             ;
-                Return_bool = 1
+                Return_bool = true
             )
         )
     ;
@@ -291,24 +289,24 @@ verify_coordinate_body(List, Return_bool) :-
     ).
 
 /*Convert the Sign of the Coordinate Into a Number For the Decimal Conversion the Coordinate.
- * Input: A Letter.
+ * Input: A Character.
  * Output: An Integer number.*/
-check_sign(Letter, Return_num) :-
-    (nonvar(Letter) ->
-       (Letter == 'S' ->
+check_sign(Character, Return_num) :-
+    (nonvar(Character) ->
+       (Character == 'S' ->
             Return_num = (-1)
         ; 
-            (Letter == 'W' -> 
+            (Character == 'W' -> 
                 Return_num = (-1)
             ;
                 Return_num = 1
             )
         )
     ;
-        throw(error(no_input_letter, check_sign/2))
+        throw(error(no_input_character, check_sign/2))
     ).
 
-/*Convert a Coordinate (in D.M.G form) into Decimal form.
+/*Convert a Coordinate in D.M.G form into Decimal form.
  * Input: A List containing a coordinate.
  * Output: An Integer number containing the coordinate in decimal form.*/
 convert_to_decimal([], _) :-
@@ -362,16 +360,16 @@ get_point(List, Final_list) :-
         index(1, Longitude, Deg2),
         verify_long_degrees(Deg2, B4),
         verify_coordinate_body(Longitude, _),
-        (B1 == 0 ->
+        (B1 == false ->
             throw(error(wrong_sign_in, Latitude, get_point/2))
         ;
-        	(B2 == 0 -> 
+        	(B2 == false -> 
         		throw(error(wrong_degrees_in, Latitude, get_point/2))
         	;
-        		(B3 == 0 ->
+        		(B3 == false ->
                 	throw(error(wrong_sign_in, Longitude, get_point/2))
             	;
-            		(B4 == 0 ->
+            		(B4 == false ->
             			throw(error(wrong_degrees_in, Longitude, get_point/2))
             		;
             			convert_to_decimal(Latitude, Dlatitude),
