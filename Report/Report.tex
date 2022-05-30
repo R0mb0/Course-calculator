@@ -83,7 +83,7 @@ Dato l'inserimento di due rilevamenti nel formato prima specificato, le operazio
 	$\Delta\Phi = \ln( \tan(latB * \pi / 360 + \pi / 4 ) / \tan(latA * \pi / 360 + \pi / 4 )). $\\
 	$ \Delta Lon = abs(lonA - lonB). $ \\
 	$ Angolo Diretto = atan2((\Delta Lon * \pi / 180), (abs(\Delta\Phi))) / \pi * 180.$\\
-	$ Angolo Inverso = Angolo Diretto+ 180.$\\
+	$ Angolo Inverso = Angolo Diretto + 180.$\\
 	Nel caso in cui le latitudini dei due rilevamenti siano identiche:\\
 	$\Delta\Phi = \pi / 180 * 0.000000001.$\\
 	Nel caso in cui le longitudini dei due rilevamenti siano identiche:\\
@@ -131,7 +131,7 @@ Per scelta architetturale si è pensato d'implementare una funzione/predicato ch
 		\item Si calcola il $\Delta Lon$ dei rilevamenti nel caso in cui le latitudini dei suddetti siano diverse applicando la seguente formula:\\ $ \Delta Lon = abs(lonA - lonB). $\\
 		Nel caso in cui le latitudini dei due rilevamenti siano identiche, il $\Delta Lon$ viene calcolato in questo modo:\\ $\Delta Lon = \pi / 180 * 0.000000001.$
 		\item Si calcola quindi l'angolo di rotta diretto tra i due rilevamenti applicando la seguente formula:\\ $ Angolo Diretto = atan2((\Delta Lon * \pi / 180), (abs(\Delta\Phi))) / \pi * 180.$\\
-		\item L'angolo di rotta inverso tra i due rilevamenti è calcolato applicando la seguente formula: \\ $ Angolo Inverso = Angolo Diretto+ 180.$\\
+		\item L'angolo di rotta inverso tra i due rilevamenti è calcolato applicando la seguente formula: \\ $ Angolo Inverso = Angolo Diretto + 180.$\\
 	\end{enumerate}
 
 \end{enumerate}
