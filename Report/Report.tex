@@ -73,7 +73,7 @@ Dato l'inserimento di due rilevamenti nel formato prima specificato, le operazio
 	\item Controllo della validità dei rilevamenti; per ogni rilevamento inserito, si verifica che la sua lunghezza sia quella di un rilevamento standard in formato D.M.G internazionale non abbreviato (ovvero un rilevamento nel quale il numero di cifre che compone un valore rimane costante), si verifica che il suo formato sia corretto (controllando se la posizione degli spazi all'interno della "stringa" rappresentante il rilevamento sia corretta) ed infine si verifica che le coordinate inserite siano reali. 
 	
 	\item Conversione delle coordinate dalla forma D.M.G internazionale alla forma decimale; data una qualsiasi coordinata il passaggio dalla forma D.M.G internazionale alla forma decimale è definito come segue: \\
-	Decimale = (Gradi + ( ((Secondi / 60) + Primi) / 60 ) * (-1) se il Segno è  S o W).
+	Decimale = (Gradi + (((Secondi / 60) + Primi) / 60) * (-1) se il Segno è  S o W).
 	
 	\item Calcolo della distanza compresa tra i due rilevamenti inseriti;  data una coppia di rilevamenti rispettivamente denominati "A" e "B" la distanza compresa è definita come: \\
 	$Distanza(A, B) = R * \arccos(\sin(latA * \pi / 180) * \sin(latB * \pi / 180) + \cos(latA * \pi / 180) * \cos(latB * \pi / 180) * \cos((lonA - lonB) * \pi / 180)). $\\
@@ -113,8 +113,8 @@ Per scelta architetturale si è pensato d'implementare una funzione/predicato ch
 
 	\item Conversione delle coordinate dalla forma D.M.G internazionale alla forma decimale:
 	\begin{enumerate}
-		\item La "tupla"/lista contenente la latitudine in formato D.M.G internazionale viene convertita in formato decimale applicando la seguente formula: \\Decimale = (Gradi + ( ((Secondi / 60) + Primi) / 60 ) * (-1) se il Segno è  S ). 
-		\item La "tupla"/lista contenente la longitudine in formato D.M.G internazionale viene convertita in formato decimale applicando la seguente formula: \\Decimale = (Gradi + ( ((Secondi / 60) + Primi) / 60 ) * (-1) se il Segno è  W ).
+		\item La "tupla"/lista contenente la latitudine in formato D.M.G internazionale viene convertita in formato decimale applicando la seguente formula: \\Decimale = (Gradi + (((Secondi / 60) + Primi) / 60) * (-1) se il Segno è  S). 
+		\item La "tupla"/lista contenente la longitudine in formato D.M.G internazionale viene convertita in formato decimale applicando la seguente formula: \\Decimale = (Gradi + (((Secondi / 60) + Primi) / 60) * (-1) se il Segno è  W).
 		\item Le coordinate così ottenute vengono riunite all'interno di una "tupla"/lista così definita: (latitudine decimale, longitudine decimale)/[latitudine decimale, longitudine decimale].
 	\end{enumerate}
 
@@ -1233,7 +1233,7 @@ inverse_direction(List1, List2, Return_num) :-
 \section{Considerazioni Finali}
 \raggedright
 
-Il linguaggio Haskell e il programma Prolog non condividono gli stessi strumenti di gestione della struttura dati lista, infatti il Prolog deficita di strumenti come : "index", "drop", "init" e "take", presenti invece nel linguaggio Haskell.\\
+Il linguaggio Haskell e il programma Prolog non condividono gli stessi strumenti di gestione della struttura dati lista, infatti il Prolog deficita di strumenti come: "index", "drop", "init" e "take", presenti invece nel linguaggio Haskell.\\
 Per fare in modo che i due programmi condividessero delle funzioni/predicati quanto più simili possibile, sono stati implementati gli strumenti di cui il Prolog deficita.\\
 \bigskip
 \underline{File sorgente \textbf{ListTools.pl:}}
