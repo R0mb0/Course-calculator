@@ -2,6 +2,14 @@ import Detection
 import Properties
 import Tools
 
+{-Verify If the Two Detections inserted Are Different.
+* Input: Two Strings.
+* Output An Error If the Two Detections inserted Aren't Different, "True" Otherwise.-}
+verifyDetections :: String -> String -> Bool
+verifyDetections detA detB 
+                          | detA == detB = error "Inserted the same detection twice"
+                          | otherwise = True
+
 {-A Function to Print the Course properties.
 * Input: The Strings of the two Detections Required from the Main.
 * Output: Print the Course properties.-}
@@ -24,13 +32,13 @@ printInfo detA detB = do
 main :: IO ()
 main = do
     putStrLn "Detections Properties Calculator V1.0 \nWarning: The Detections must be in D.M.G \
-    \format and inserted into the program like: N 40 45 36.000 - E 073 59 2.400"
+    \format and inserted into the program like: N 40 45 36.000 - E 073 59 02.400"
     putStrLn "Insert the First Detection..."
     detA <- getLine
     putStrLn "Insert the Second Detection..."
     detB <- getLine 
     putStrLn "Proceed [yes/no]?"
     answ <- getLine 
-    if answ  == "yes"
+    if answ  == "yes" && verifyDetections detA detB
         then printInfo detA detB
         else putStrLn "Aborted..."

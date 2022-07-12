@@ -85,7 +85,7 @@ verifyLongDeg (s, x, y, z)
 verifyDetBody :: (Char, Int, Int, Float) -> Bool
 verifyDetBody (s, x, y, z)
                           | y < 0 || y > 59 = error ("Wrong Primes in: " ++ pt)
-                          | z < 0 || z > 59 = error ("Wrong Latters in: " ++ pt)
+                          | z < 0 || z > 59 = error ("Wrong Seconds in: " ++ pt)
                           | otherwise = True 
                           where
                               pt = " " ++ show s ++ " " ++ show x ++ " " ++ show y++ " " ++ show z
