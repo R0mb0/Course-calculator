@@ -9,8 +9,8 @@ distance :: [Double] -> [Double] -> Double
 distance [] [_] = error "The First Argument Is Null"
 distance [_] [] = error "The Second Argument Is Null"
 distance detA detB
-                | length detA > 2 = error "The First Argument Has Too Much Elements"
-                | length detB > 2 = error "The Second Argument Has Too Much Elements"
+                | length detA > 2 = error "The First Argument Has Too Many Elements"
+                | length detB > 2 = error "The Second Argument Has Too Many Elements"
                 | otherwise = 6372.795477598 * acos (sin latA * sin latB + cos latA * cos latB * cos ((lonA - lonB) * pi / 180))
                 where
                     latA = head detA * pi / 180
@@ -29,8 +29,8 @@ phi :: [Double] -> [Double] -> Double
 phi [] [_] = error "The First Argument Is Null"
 phi [_] [] = error "The Second Argument Is Null"
 phi detA detB 
-             | length detA > 2 = error "The First Argument Has Too Much Elements"
-             | length detB > 2 = error "The Second Argument Has Too Much Elements"
+             | length detA > 2 = error "The First Argument Has Too Many Elements"
+             | length detB > 2 = error "The Second Argument Has Too Many Elements"
              | head detA == head detB = pi / 180 * 0.000000001
              | otherwise = log (tan (latB / 2 + pi / 4) / tan (latA / 2 + pi / 4))
              where
@@ -52,8 +52,8 @@ lon :: [Double] -> [Double] -> Double
 lon [] [_] = error "The First Argument Is Null"
 lon [_] [] = error "The Second Argument Is Null"
 lon detA detB
-             | length detA > 2 = error "The First Argument Has Too Much Elements"
-             | length detB > 2 = error "The Second Argument Has Too Much Elements"
+             | length detA > 2 = error "The First Argument Has Too Many Elements"
+             | length detB > 2 = error "The Second Argument Has Too Many Elements"
              | detA !! 1 == detB !! 1 = pi / 180 * 0.000000001
              | otherwise = verLon (abs (detA !! 1 - detB !! 1)) 
 
@@ -64,8 +64,8 @@ direction :: [Double] -> [Double] -> Double
 direction [] [_] = error "The First Argument Is Null"
 direction [_] [] = error "The Second Argument Is Null"
 direction detA detB 
-                   | length detA > 2 = error "The First Argument Has Too Much Elements"
-                   | length detB > 2 = error "The Second Argument Has Too Much Elements"
+                   | length detA > 2 = error "The First Argument Has Too Many Elements"
+                   | length detB > 2 = error "The Second Argument Has Too Many Elements"
                    | otherwise = atan2 (lon detA detB * pi / 180) (abs (phi detA detB)) / pi * 180
 
 {-Calculate the Inverse Direction Angle Between two Coordinates.
@@ -75,6 +75,6 @@ invDirection :: [Double] -> [Double] -> Double
 invDirection [] [_] = error "The First Argument Is Null"
 invDirection [_] [] = error "The Second Argument Is Null"
 invDirection detA detB 
-                      | length detA > 2 = error "The First Argument Has Too Much Elements"
-                      | length detB > 2 = error "The Second Argument Has Too Much Elements"
+                      | length detA > 2 = error "The First Argument Has Too Many Elements"
+                      | length detB > 2 = error "The Second Argument Has Too Many Elements"
                       | otherwise = direction detA detB + 180
