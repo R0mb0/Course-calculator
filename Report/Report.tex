@@ -61,7 +61,7 @@ Scrivere un programma Haskell e un programma Prolog che, dato l'inserimento di d
 \section{Analisi del Problema}
 \subsection{Dati di Ingresso del Problema}
 Per ciascuna delle quattro operazioni, i dati d'ingresso del problema sono rappresentati da due rilevamenti satellitari in formato di coordinata unica nella quale la latitudine e la longitudine sono rappresentate in formato D.M.G internazionale. \\
-Esempio di rilevamento accettato: N 40 45 36.000 - E 073 59 2.400.
+Esempio di rilevamento accettato: N 40 45 36.000 - E 073 59 02.400.
 
 \subsection{Dati di Uscita del Problema}
 Per ogni inserimento di una coppia di rilevamenti nel formato prima specificato i dati d'uscita del problema, rispettivamente alle ultime tre operazioni descritte all'interno della sezione di specifica del problema, sono: il risultato della conversione delle coordinate del primo rilevamento inserito dal formato D.M.G internazionale a quello decimale, il risultato della conversione delle coordinate del secondo rilevamento inserito dal formato D.M.G internazionale a quello decimale, il risultato del calcolo della distanza compresa tra i due rilevamenti inseriti, il risultato del calcolo dell'angolo di rotta diretto che unisce i due rilevamenti, il risultato del calcolo dell'angolo di rotta inverso che unisce i due rilevamenti. 
@@ -921,7 +921,7 @@ inverse_direction(List1, List2, Return_num) :-
 \subsection*{Test Haskell 1}
 	\begin{spverbatim}
 		Detections Properties Calculator V1.0 
-		Warning: The Detections must be in D.M.G format and inserted into the program like: N 40 45 36.000 - E 073 59 2.400
+		Warning: The Detections must be in D.M.G format and inserted into the program like: N 40 45 36.000 - E 073 59 02.400
 		Insert the First Detection...
 		43 54 16.000  E 012 54 30.000
 		Insert the Second Detection...
@@ -936,7 +936,7 @@ inverse_direction(List1, List2, Return_num) :-
 \subsection*{Test Haskell 2}
 	\begin{spverbatim}
 		Detections Properties Calculator V1.0 
-		Warning: The Detections must be in D.M.G format and inserted into the program like: N 40 45 36.000 - E 073 59 2.400
+		Warning: The Detections must be in D.M.G format and inserted into the program like: N 40 45 36.000 - E 073 59 02.400
 		Insert the First Detection...
 		N 43 54 16.000 - E 012 54 30
 		Insert the Second Detection...
@@ -951,7 +951,7 @@ inverse_direction(List1, List2, Return_num) :-
 \subsection*{Test Haskell 3}
 	\begin{spverbatim}
 		Detections Properties Calculator V1.0 
-		Warning: The Detections must be in D.M.G format and inserted into the program like: N 40 45 36.000 - E 073 59 2.400
+		Warning: The Detections must be in D.M.G format and inserted into the program like: N 40 45 36.000 - E 073 59 02.400
 		Insert the First Detection...
 		T 43 54 16.000 - E 012 54 30.000
 		Insert the Second Detection...
@@ -966,7 +966,7 @@ inverse_direction(List1, List2, Return_num) :-
 \subsection*{Test Haskell 4}
 	\begin{spverbatim}
 		Detections Properties Calculator V1.0 
-		Warning: The Detections must be in D.M.G format and inserted into the program like: N 40 45 36.000 - E 073 59 2.400
+		Warning: The Detections must be in D.M.G format and inserted into the program like: N 40 45 36.000 - E 073 59 02.400
 		Insert the First Detection...
 		N 43 54 16.000 - T 012 54 30.000
 		Insert the Second Detection...
@@ -981,7 +981,7 @@ inverse_direction(List1, List2, Return_num) :-
 \subsection*{Test Haskell 5}
 	\begin{spverbatim}
 		Detections Properties Calculator V1.0 
-		Warning: The Detections must be in D.M.G format and inserted into the program like: N 40 45 36.000 - E 073 59 2.400
+		Warning: The Detections must be in D.M.G format and inserted into the program like: N 40 45 36.000 - E 073 59 02.400
 		Insert the First Detection...
 		E 43 54 16.000 - N 012 54 30.000
 		Insert the Second Detection...
@@ -996,7 +996,7 @@ inverse_direction(List1, List2, Return_num) :-
 \subsection*{Test Haskell 6}
 	\begin{spverbatim}
 		Detections Properties Calculator V1.0 
-		Warning: The Detections must be in D.M.G format and inserted into the program like: N 40 45 36.000 - E 073 59 2.400
+		Warning: The Detections must be in D.M.G format and inserted into the program like: N 40 45 36.000 - E 073 59 02.400
 		Insert the First Detection...
 		N 90 54 16.000 - E 012 54 30.000
 		Insert the Second Detection...
@@ -1011,7 +1011,7 @@ inverse_direction(List1, List2, Return_num) :-
 \subsection*{Test Haskell 7}
 	\begin{spverbatim}
 		Detections Properties Calculator V1.0 
-		Warning: The Detections must be in D.M.G format and inserted into the program like: N 40 45 36.000 - E 073 59 2.400
+		Warning: The Detections must be in D.M.G format and inserted into the program like: N 40 45 36.000 - E 073 59 02.400
 		Insert the First Detection...
 		N 43 54 17.000 - E 012 54 40.000
 		Insert the Second Detection...
@@ -1027,7 +1027,7 @@ inverse_direction(List1, List2, Return_num) :-
 \subsection*{Test Haskell 8}
 	\begin{spverbatim}
 		Detections Properties Calculator V1.0 
-		Warning: The Detections must be in D.M.G format and inserted into the program like: N 40 45 36.000 - E 073 59 2.400
+		Warning: The Detections must be in D.M.G format and inserted into the program like: N 40 45 36.000 - E 073 59 02.400
 		Insert the First Detection...
 		N 43 54 16.000 - E 012 54 60.000
 		Insert the Second Detection...
@@ -1042,7 +1042,7 @@ inverse_direction(List1, List2, Return_num) :-
 \subsection*{Test Haskell 9}
 	\begin{spverbatim}
 		Detections Properties Calculator V1.0 
-		Warning: The Detections must be in D.M.G format and inserted into the program like: N 40 45 36.000 - E 073 59 2.400
+		Warning: The Detections must be in D.M.G format and inserted into the program like: N 40 45 36.000 - E 073 59 02.400
 		Insert the First Detection...
 		N 43 54 16.000 - E 012 54 30.000
 		Insert the Second Detection...
@@ -1059,7 +1059,7 @@ inverse_direction(List1, List2, Return_num) :-
 \subsection*{Test Haskell 10}
 	\begin{spverbatim}
 		Detections Properties Calculator V1.0 
-		Warning: The Detections must be in D.M.G format and inserted into the program like: N 40 45 36.000 - E 073 59 2.400
+		Warning: The Detections must be in D.M.G format and inserted into the program like: N 40 45 36.000 - E 073 59 02.400
 		Insert the First Detection...
 		N 40 45 36.000 - W 073 59 02.400
 		Insert the Second Detection...
@@ -1080,7 +1080,7 @@ inverse_direction(List1, List2, Return_num) :-
 \subsection*{Test Prolog 1}
 	\begin{spverbatim}
 		Detections Properties Calculator V1.0
-		Warning: The Detections must be in D.M.G format and inserted into the program like: `N 40 45 36.000 - E 073 59 2.400`.
+		Warning: The Detections must be in D.M.G format and inserted into the program like: `N 40 45 36.000 - E 073 59 02.400`.
 		Insert the First Detection...
 		`43 54 16.000  E 012 54 30.000`.
 		Insert the Second Detection...
@@ -1094,7 +1094,7 @@ inverse_direction(List1, List2, Return_num) :-
 \subsection*{Test Prolog 2}
 	\begin{spverbatim}
 		Detections Properties Calculator V1.0
-		Warning: The Detections must be in D.M.G format and inserted into the program like: `N 40 45 36.000 - E 073 59 2.400`.
+		Warning: The Detections must be in D.M.G format and inserted into the program like: `N 40 45 36.000 - E 073 59 02.400`.
 		Insert the First Detection...
 		`N 43 54 16.000 - E 012 54 30`.
 		Insert the Second Detection...
@@ -1108,7 +1108,7 @@ inverse_direction(List1, List2, Return_num) :-
 \subsection*{Test Prolog 3}
 	\begin{spverbatim}
 		Detections Properties Calculator V1.0
-		Warning: The Detections must be in D.M.G format and inserted into the program like: `N 40 45 36.000 - E 073 59 2.400`.
+		Warning: The Detections must be in D.M.G format and inserted into the program like: `N 40 45 36.000 - E 073 59 02.400`.
 		Insert the First Detection...
 		`T 43 54 16.000 - E 012 54 30.000`.
 		Insert the Second Detection...
@@ -1122,7 +1122,7 @@ inverse_direction(List1, List2, Return_num) :-
 \subsection*{Test Prolog 4}
 	\begin{spverbatim}
 		Detections Properties Calculator V1.0
-		Warning: The Detections must be in D.M.G format and inserted into the program like: `N 40 45 36.000 - E 073 59 2.400`.
+		Warning: The Detections must be in D.M.G format and inserted into the program like: `N 40 45 36.000 - E 073 59 02.400`.
 		Insert the First Detection...
 		`N 43 54 16.000 - T 012 54 30.000`.
 		Insert the Second Detection...
@@ -1136,7 +1136,7 @@ inverse_direction(List1, List2, Return_num) :-
 \subsection*{Test Prolog 5}
 	\begin{spverbatim}
 		Detections Properties Calculator V1.0
-		Warning: The Detections must be in D.M.G format and inserted into the program like: `N 40 45 36.000 - E 073 59 2.400`.
+		Warning: The Detections must be in D.M.G format and inserted into the program like: `N 40 45 36.000 - E 073 59 02.400`.
 		Insert the First Detection...
 		`E 43 54 16.000 - N 012 54 30.000`.
 		Insert the Second Detection...
@@ -1150,7 +1150,7 @@ inverse_direction(List1, List2, Return_num) :-
 \subsection*{Test Prolog 6}
 	\begin{spverbatim}
 		Detections Properties Calculator V1.0
-		Warning: The Detections must be in D.M.G format and inserted into the program like: `N 40 45 36.000 - E 073 59 2.400`.
+		Warning: The Detections must be in D.M.G format and inserted into the program like: `N 40 45 36.000 - E 073 59 02.400`.
 		Insert the First Detection...
 		`N 90 54 16.000 - E 012 54 30.000`.
 		Insert the Second Detection...
@@ -1164,7 +1164,7 @@ inverse_direction(List1, List2, Return_num) :-
 \subsection*{Test Prolog 7}
 	\begin{spverbatim}
 		Detections Properties Calculator V1.0
-		Warning: The Detections must be in D.M.G format and inserted into the program like: `N 40 45 36.000 - E 073 59 2.400`.
+		Warning: The Detections must be in D.M.G format and inserted into the program like: `N 40 45 36.000 - E 073 59 02.400`.
 		Insert the First Detection...
 		`N 43 54 17.000 - E 012 54 40.000`.
 		Insert the Second Detection...
@@ -1179,7 +1179,7 @@ inverse_direction(List1, List2, Return_num) :-
 \subsection*{Test Prolog 8}
 	\begin{spverbatim}
 		Detections Properties Calculator V1.0
-		Warning: The Detections must be in D.M.G format and inserted into the program like: `N 40 45 36.000 - E 073 59 2.400`.
+		Warning: The Detections must be in D.M.G format and inserted into the program like: `N 40 45 36.000 - E 073 59 02.400`.
 		Insert the First Detection...
 		`N 43 54 16.000 - E 012 54 60.000`.
 		Insert the Second Detection...
@@ -1193,7 +1193,7 @@ inverse_direction(List1, List2, Return_num) :-
 \subsection*{Test Prolog 9}
 	\begin{spverbatim}
 		Detections Properties Calculator V1.0
-		Warning: The Detections must be in D.M.G format and inserted into the program like: `N 40 45 36.000 - E 073 59 2.400`.
+		Warning: The Detections must be in D.M.G format and inserted into the program like: `N 40 45 36.000 - E 073 59 02.400`.
 		Insert the First Detection...
 		`N 43 54 16.000 - E 012 54 30.000`.
 		Insert the Second Detection...
@@ -1210,7 +1210,7 @@ inverse_direction(List1, List2, Return_num) :-
 \subsection*{Test Prolog 10}
 	\begin{spverbatim}
 		Detections Properties Calculator V1.0
-		Warning: The Detections must be in D.M.G format and inserted into the program like: `N 40 45 36.000 - E 073 59 2.400`.
+		Warning: The Detections must be in D.M.G format and inserted into the program like: `N 40 45 36.000 - E 073 59 02.400`.
 		Insert the First Detection...
 		`N 40 45 36.000 - W 073 59 02.400`.
 		Insert the Second Detection...
