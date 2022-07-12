@@ -133,10 +133,10 @@ verify_primes(Num, Return_bool) :-
         throw(error(wrong_input_number, Num, verify_primes/2))
     ).
 
-/*Verify if the Latters of Detection Are Real.
+/*Verify if the Seconds of Detection Are Real.
  * Input: An Integer or Float Number.
- * Output: A Boolean that is "true" If the Latters Are Real, "false" Otherwise.*/
-verify_latters(Num, Return_bool) :-
+ * Output: A Boolean that is "true" If the Seconds Are Real, "false" Otherwise.*/
+verify_seconds(Num, Return_bool) :-
     (number(Num) ->
         (Num < 0 -> 
             Return_bool = false
@@ -148,7 +148,7 @@ verify_latters(Num, Return_bool) :-
             )
         )
     ;
-        throw(error(wrong_input_number, Num, verify_latters/2))
+        throw(error(wrong_input_number, Num, verify_seconds/2))
     ).
 
 /*Verify if the Latitude Sign is Right.
@@ -205,7 +205,7 @@ split(List, Final_list) :-
         throw(error(wrong_input_list, List, split/2))
     ).    
 
-/*Transform the Input String Containing the Latitude part into a Latitude List, [Sign, Degrees, Primes, Latters].
+/*Transform the Input String Containing the Latitude part into a Latitude List, [Sign, Degrees, Primes, Seconds].
  * Input: A List.
  * Output: A List containing the latitude.*/
 get_latitude([], _) :-
@@ -226,14 +226,14 @@ get_latitude(List, Final_list) :-
             number_chars(Primes, D),
             take(14, List, E),
             drop(8, E, F),
-            number_chars(Latters, F),
-            Final_list = [Sign, Degrees, Primes, Latters]
+            number_chars(Seconds, F),
+            Final_list = [Sign, Degrees, Primes, Seconds]
         )
     ;
         throw(error(wrong_input_list, List, get_latitude/2))
     ).
 
-/*Transform the Input String Containing the Longitude part into a Longitude List, [Sign, Degrees, Primes, Latters].
+/*Transform the Input String Containing the Longitude part into a Longitude List, [Sign, Degrees, Primes, Seconds].
  * Input: A List.
  * Output: A List containing the longitude.*/
 get_longitude([], _) :-
@@ -255,8 +255,8 @@ get_longitude(List, Final_list) :-
             number_chars(Primes, D),
             take(15, List1, E),
             drop(9, E, F),
-            number_chars(Latters, F),
-            Final_list = [Sign, Degrees, Primes, Latters]
+            number_chars(Seconds, F),
+            Final_list = [Sign, Degrees, Primes, Seconds]
         )
     ;
         throw(error(wrong_input_list, List, get_longitude/2))
@@ -276,10 +276,10 @@ verify_coordinate_body(List, Return_bool) :-
         (B1 == false ->
             throw(error(wrong_primes_in, List, verify_coordinate_body/2))
         ;
-            index(3, List, Latters),
-            verify_latters(Latters, B2),
+            index(3, List, Seconds),
+            verify_seconds(Seconds, B2),
             (B2 == false -> 
-                throw(error(wrong_latters_in, List, verify_coordinate_body/2))
+                throw(error(wrong_seconds_in, List, verify_coordinate_body/2))
             ;
                 Return_bool = true
             )
@@ -317,8 +317,8 @@ convert_to_decimal(List, Return_num) :-
         check_sign(Sign, Sign1),
         index(1, List, Degrees),
         index(2, List, Primes),
-        index(3, List, Latters),
-        A is Latters / 60,
+        index(3, List, Seconds),
+        A is Seconds / 60,
         B is Primes + A,
         C is B / 60,
         D is C + Degrees,
